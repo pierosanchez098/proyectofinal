@@ -32,7 +32,7 @@ public class pantallaUsuario extends JFrame {
         barraMenu.setPreferredSize(new Dimension(1050, 80));
 
         // Icono
-        ImageIcon icono = new ImageIcon("C:\\proyectofinal\\src\\proyectofinal\\casa.png");
+        ImageIcon icono = new ImageIcon("imagenes/casa.png");
         icono = new ImageIcon(icono.getImage().getScaledInstance(56, 56, Image.SCALE_SMOOTH));
         JLabel iconoLabel = new JLabel(icono);
         barraMenu.add(iconoLabel, BorderLayout.WEST);
@@ -70,7 +70,7 @@ public class pantallaUsuario extends JFrame {
         panelInferior.setBackground(new Color(255, 255, 255, 255));
 
         // Icono de usuario en la parte izquierda del panel inferior
-        ImageIcon usuarioIcono = new ImageIcon("C:\\proyectofinal\\src\\proyectofinal\\usuario.png");
+        ImageIcon usuarioIcono = new ImageIcon("imagenes/usuario.png");
         usuarioIcono = new ImageIcon(usuarioIcono.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH));
         JLabel usuarioLabel = new JLabel(usuarioIcono);
         panelInferior.add(usuarioLabel, BorderLayout.WEST);
@@ -154,7 +154,7 @@ public class pantallaUsuario extends JFrame {
 
             resultSet.close();
             preparedStatement.close();
-            conexion.close();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

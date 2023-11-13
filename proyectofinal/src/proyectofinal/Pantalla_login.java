@@ -32,7 +32,7 @@ public class Pantalla_login extends JFrame {
         panelLimon.setBounds(panelX, panelY, panelWidth, panelHeight);
 
         // Imagen (redimensionada)
-        ImageIcon logoImage = new ImageIcon("C:\\proyectofinal\\src\\proyectofinal\\Logo_Book4U_NO_fondo.png");
+        ImageIcon logoImage = new ImageIcon("imagenes/Logo_Book4U_NO_fondo.png");
         Image img = logoImage.getImage();
         Image newImg = img.getScaledInstance(150, 100, Image.SCALE_SMOOTH);
         logoImage = new ImageIcon(newImg);
@@ -118,7 +118,7 @@ public class Pantalla_login extends JFrame {
         setVisible(true);
         add(background);
 
-        ImageIcon icono = new ImageIcon("C:\\proyectofinal\\src\\proyectofinal\\Logo_Book4U_NO_fondo.png");
+        ImageIcon icono = new ImageIcon("imagenes/Logo_Book4U_NO_fondo.png");
         setIconImage(icono.getImage());
         getContentPane().setBackground(new Color(0x0F520F));
 

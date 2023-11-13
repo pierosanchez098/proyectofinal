@@ -27,7 +27,7 @@ public class Pantalla_registro extends JFrame {
         panelLimon.setBounds(panelX, panelY, panelWidth, panelHeight);
 
         // Imagen (redimensionada)
-        ImageIcon logoImage = new ImageIcon("C:\\proyectofinal\\src\\proyectofinal\\Logo_Book4U_NO_fondo.png");
+        ImageIcon logoImage = new ImageIcon("imagenes/Logo_Book4U_NO_fondo.png");
         Image img = logoImage.getImage();
         Image newImg = img.getScaledInstance(150, 100, Image.SCALE_SMOOTH);
         logoImage = new ImageIcon(newImg);
@@ -185,7 +185,7 @@ public class Pantalla_registro extends JFrame {
         setVisible(true);
         add(background);
 
-        ImageIcon appIcon = new ImageIcon("C:\\proyectofinal\\src\\proyectofinal\\Logo_Book4U_NO_fondo.png");
+        ImageIcon appIcon = new ImageIcon("imagenes/Logo_Book4U_NO_fondo.png");
         setIconImage(appIcon.getImage());
         getContentPane().setBackground(new Color(0x0F520F));
         

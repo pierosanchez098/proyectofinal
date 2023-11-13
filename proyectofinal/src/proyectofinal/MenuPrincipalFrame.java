@@ -32,7 +32,7 @@ setMinimumSize(new Dimension (200, 200));//el tamaño minimo
 private void iniciarComponentes() {
 
 JPanel panel1 = new JPanel();
-ImageIcon icon = new ImageIcon("C:\\proyectofinal\\src\\proyectofinal\\Logo_Book4U.jpg");
+ImageIcon icon = new ImageIcon("imagenes/Logo_Book4U.jpg");
 panel1.setBounds(0, 0, 1080, 200);
 panel1.add(new JLabel(icon));
 panel1.setLayout(null);
@@ -40,7 +40,7 @@ panel1.setBackground(new Color(213,232,212,255));
 this.getContentPane().add(panel1);
 
 JLabel etiqueta2 = new JLabel();
-ImageIcon imagen  = new ImageIcon("C:\\proyectofinal\\src\\proyectofinal\\Logo_Book4U.jpg"); 
+ImageIcon imagen  = new ImageIcon("imagenes/Logo_Book4U.jpg"); 
 etiqueta2.setBounds(05, 0, 170, 150);
 etiqueta2.setIcon(new ImageIcon(imagen.getImage().getScaledInstance(170, 150, Image.SCALE_SMOOTH)));
 panel1.add(etiqueta2);
@@ -133,7 +133,7 @@ barBusqueda.setVisible(true);
 
 
 JLabel anuncio1 = new JLabel();
-ImageIcon foto  = new ImageIcon("C:\\proyectofinal\\src\\proyectofinal\\medplaya-hotel-regente.jpg"); 
+ImageIcon foto  = new ImageIcon("imagenes/medplaya-hotel-regente.jpg"); 
 anuncio1.setBounds(5, 300, 170, 150);
 anuncio1.setIcon(new ImageIcon(foto.getImage().getScaledInstance(170, 150, Image.SCALE_SMOOTH)));
 panel2.add(anuncio1);
@@ -149,7 +149,7 @@ panel2.add(Textoanuncio1);
 
 
 JLabel anuncio2 = new JLabel();
-ImageIcon foto2  = new ImageIcon("C:\\proyectofinal\\src\\proyectofinal\\port-benidorm-hotel-spa.jpg"); 
+ImageIcon foto2  = new ImageIcon("imagenes/port-benidorm-hotel-spa.jpg"); 
 anuncio2.setBounds(5, 480, 170, 150);
 anuncio2.setIcon(new ImageIcon(foto2.getImage().getScaledInstance(170, 150, Image.SCALE_SMOOTH)));
 panel2.add(anuncio2);
