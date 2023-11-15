@@ -54,7 +54,7 @@ public class pantallaUsuario extends JFrame {
         barraMenu.add(labelTexto, BorderLayout.CENTER);
 
         // Botï¿½n "Cerrar sesiï¿½n"
-        JButton botonCerrarSesion = new JButton("Cerrar sesión");
+        JButton botonCerrarSesion = new JButton("Cerrar sesiÃ³n");
         barraMenu.add(botonCerrarSesion, BorderLayout.EAST);
         
         botonCerrarSesion.addActionListener(new ActionListener() {
@@ -114,13 +114,13 @@ public class pantallaUsuario extends JFrame {
                             etiqueta.setText("Apellidos:");
                             break;
                         case 2:
-                            etiqueta.setText("Teléfono:");
+                            etiqueta.setText("Telï¿½fono:");
                             break;
                         case 3:
                             etiqueta.setText("DNI:");
                             break;
                         case 4:
-                            etiqueta.setText("Contraseña:");
+                            etiqueta.setText("Contraseï¿½a:");
                             break;
                     }
                     etiqueta.setFont(fuenteEtiqueta);
@@ -171,22 +171,22 @@ public class pantallaUsuario extends JFrame {
         JTextField numCreditos = new JTextField("0");
         numCreditos.setEditable(false);
         numCreditos.setPreferredSize(campoDimension);
-        JLabel numCreditosLabel = new JLabel("Número de créditos actuales:");
+        JLabel numCreditosLabel = new JLabel("Nï¿½mero de crÃ©ditos actuales:");
 
         // Textfield "ï¿½Quieres comprar mï¿½s crï¿½dito?"
         JTextField comprarCreditos = new JTextField();
         comprarCreditos.setPreferredSize(campoDimension);
-        JLabel comprarCreditosLabel = new JLabel("ï¿½Quieres comprar mï¿½s crï¿½dito?");
+        JLabel comprarCreditosLabel = new JLabel("Â¿Quieres comprar mÃ¡s crÃ©dito?");
 
         // Botï¿½n "Comprar crï¿½ditos"
-        JButton botonComprarCreditos = new JButton("Comprar créditos");
+        JButton botonComprarCreditos = new JButton("Comprar crÃ©ditos");
 
         // Boton de gaurdarcambios
         JButton botonGuardarCambios = new JButton("Guardar cambios");
         botonGuardarCambios.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    // Crear una nueva conexión para esta operación
+                    // Crear una nueva conexiï¿½n para esta operaciï¿½n
                 	Connection conexion = book4u.obtenerConexion();
                     
                     for (int i = 0; i < 5; i++) {
@@ -225,7 +225,7 @@ public class pantallaUsuario extends JFrame {
                         }
                     }
                     
-                    conexion.close(); // Cerrar la conexión después de todas las operaciones
+                    conexion.close(); // Cerrar la conexiï¿½n despuï¿½s de todas las operaciones
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
