@@ -176,7 +176,7 @@ public class pantallaUsuario extends JFrame {
         // Textfield "ï¿½Quieres comprar mï¿½s crï¿½dito?"
         JTextField comprarCreditos = new JTextField();
         comprarCreditos.setPreferredSize(campoDimension);
-        JLabel comprarCreditosLabel = new JLabel("ï¿½Quieres comprar mï¿½s crï¿½dito?");
+        JLabel comprarCreditosLabel = new JLabel("¿Quieres comprar más créditos?");
 
         // Botï¿½n "Comprar crï¿½ditos"
         JButton botonComprarCreditos = new JButton("Comprar créditos");
@@ -207,7 +207,7 @@ public class pantallaUsuario extends JFrame {
                                     consulta += "dni = ?";
                                     break;
                                 case 4:
-                                    consulta += "contrasenya = ?";
+                                    consulta += "contraseña = ?";
                                     break;
                             }
                             consulta += " WHERE nombre = ?"; // Usar el nombre de usuario para identificar al usuario

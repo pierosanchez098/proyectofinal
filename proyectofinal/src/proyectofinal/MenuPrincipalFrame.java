@@ -140,9 +140,9 @@ panel2.add(anuncio1);
 anuncio1.setVisible(true);
 
 JLabel Textoanuncio1 = new JLabel();
-Textoanuncio1.setText("Medplaya Hotel Regente 74‚Ç¨");
+Textoanuncio1.setText("Medplaya Hotel Regente 74Ä");
 //Texto1.setForeground(Color.orange);//color teexto
-Textoanuncio1.setBounds(205, 230, 270, 150);
+Textoanuncio1.setBounds(205, 230, 275, 150);
 Textoanuncio1.setFont(new Font("arial",Font.BOLD,20));
 panel2.add(Textoanuncio1);
 
@@ -156,7 +156,7 @@ panel2.add(anuncio2);
 anuncio2.setVisible(true);
 
 JLabel ddescripcnanuncio0 = new JLabel();
-ddescripcnanuncio0.setText("Habitaci√≥n Doble con balc√≥n 2 camas");
+ddescripcnanuncio0.setText("HabitaciÛn Doble con balcon 2 camas");
 //Texto1.setForeground(Color.orange);//color teexto
 ddescripcnanuncio0.setBounds(205, 260, 270, 150);
 ddescripcnanuncio0.setFont(new Font("arial",Font.BOLD,12));
@@ -186,7 +186,7 @@ panel2.add(descripcnanuncio0000);
 /////////////////////////////
 
 JLabel Textoanuncio2 = new JLabel();
-Textoanuncio2.setText("Port Benidorm hotel Spa 73‚Ç¨");
+Textoanuncio2.setText("Port Benidorm hotel Spa 73Ä");
 //Texto1.setForeground(Color.orange);//color teexto
 Textoanuncio2.setBounds(205, 415, 275, 150);
 Textoanuncio2.setFont(new Font("arial",Font.BOLD,20));
