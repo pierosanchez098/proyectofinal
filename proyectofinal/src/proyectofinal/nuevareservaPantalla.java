@@ -3,6 +3,7 @@ package proyectofinal;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -12,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class nuevareservaPantalla extends JFrame {
 
@@ -51,8 +53,18 @@ this.conexion = conexion;
             }
         });
         
+        JLabel labelTexto = new JLabel("Nueva reserva");
+        labelTexto.setFont(new Font(labelTexto.getFont().getName(), Font.PLAIN, 30));
+        labelTexto.setHorizontalAlignment(SwingConstants.CENTER);
+        barraMenu.add(labelTexto, BorderLayout.CENTER);
         
-
+        JPanel panelInferior = new JPanel(new BorderLayout());
+        panelInferior.setBackground(new Color(255, 255, 255, 255));
+        
+        
+        add(barraMenu, BorderLayout.NORTH);
+        add(panelInferior, BorderLayout.CENTER);
+        setVisible(true);
 
 }
 }
