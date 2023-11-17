@@ -52,8 +52,8 @@ panel1.add(etiqueta2);
 JLabel Texto1 = new JLabel();
 Texto1.setText("Pantalla Principal");
 Texto1.setBounds(335, 30, 400, 50);
-Texto1.setFont(new Font("georgia",Font.BOLD,35));
-panel1.add(Texto1);
+Texto1.setFont(new Font(Texto1.getFont().getName(), Font.PLAIN, 30));
+panel1.add(Texto1, BorderLayout.CENTER);
 
 
 JLabel Texto2 = new JLabel();
@@ -73,13 +73,22 @@ Nuevas.setBackground(new Color(213,232,212,255));
 panel1.add(Nuevas);
 Nuevas.setVisible(true);
 
-JButton Reservas=new JButton("Reservas");
+Nuevas.addActionListener(new ActionListener() {
+    public void actionPerformed(ActionEvent e) {
+        nuevareservaPantalla nuevareservaPantalla = new nuevareservaPantalla(nombreUsuario,conexion);
+        nuevareservaPantalla.setVisible(true);
+        dispose();
+    }
+});
+
+JButton Reservas=new JButton("Mis reservas");
 Reservas.setBounds(360, 150, 360, 50);
 Reservas.setBackground(new Color(213,232,212,255));
 //ImageIcon botonimagen = new ImageIcon("Pictures/back5.png");
 //atras.setIcon(new ImageIcon(botonimagen.getImage().getScaledInstance(atras.getWidth(),atras.getHeight(),Image.SCALE_SMOOTH )));
 panel1.add(Reservas);
 Reservas.setVisible(true);
+
 
 JButton History=new JButton("Historial");
 History.setBounds(720, 150, 360, 50);
