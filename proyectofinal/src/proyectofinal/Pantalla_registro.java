@@ -96,7 +96,7 @@ public class Pantalla_registro extends JFrame {
              
                 try {
 
-                	String sql = "INSERT INTO usuario (id_cliente, nombre, apellidos, dni, domicilio, telefono, correo, contrasenya) VALUES (mi_secuencia.NEXTVAL, ?, ?, ?, ?, ?, ?, ?)";
+                	String sql = "INSERT INTO cliente (id_cliente, nombre, apellidos, dni, domicilio, telefono, correo, contrasenya) VALUES (mi_secuencia.NEXTVAL, ?, ?, ?, ?, ?, ?, ?)";
 
                     PreparedStatement preparedStatement = conexion.prepareStatement(sql);
                     preparedStatement.setString(1, nombre);

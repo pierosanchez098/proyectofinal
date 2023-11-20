@@ -91,7 +91,7 @@ public class pantallaUsuario extends JFrame {
         String[] valoresOriginales = new String[5];
 
         try {
-            String consulta = "SELECT nombre, apellidos, telefono, dni, contrasenya FROM usuario WHERE nombre = ?";
+            String consulta = "SELECT nombre, apellidos, telefono, dni, contrasenya FROM cliente WHERE nombre = ?";
             
             PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
             preparedStatement.setString(1, nombreUsuario); // Usar el nombre de usuario actual
@@ -192,7 +192,7 @@ public class pantallaUsuario extends JFrame {
                     for (int i = 0; i < 5; i++) {
                         if (campos[i].isEditable()) {
                             String nuevoValor = campos[i].getText();
-                            String consulta = "UPDATE usuario SET ";
+                            String consulta = "UPDATE cliente SET ";
                             switch (i) {
                                 case 0:
                                     consulta += "nombre = ?";

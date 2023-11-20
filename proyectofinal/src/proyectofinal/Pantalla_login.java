@@ -130,7 +130,7 @@ public class Pantalla_login extends JFrame {
     }
 
     private boolean autenticarUsuario(String nombreUsuario, String clave) {
-        String consulta = "SELECT * FROM usuario WHERE (nombre = ? OR correo = ?) AND contrasenya = ?";
+        String consulta = "SELECT * FROM cliente WHERE (nombre = ? OR correo = ?) AND contrasenya = ?";
 
         try (PreparedStatement sentencia = conexion.prepareStatement(consulta)) {
             sentencia.setString(1, nombreUsuario);
