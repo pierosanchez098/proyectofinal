@@ -51,9 +51,13 @@ public class nuevareservaPantalla extends JFrame {
         labelTexto.setFont(new Font(labelTexto.getFont().getName(), Font.PLAIN, 30));
         labelTexto.setHorizontalAlignment(SwingConstants.CENTER);
         barraMenu.add(labelTexto, BorderLayout.CENTER);
+        
+        
+        Font fuentePersonalizada = new Font("Arial", Font.BOLD, 30); // Puedes ajustar el tamaño y el estilo aquí
 
         // Panel inferior con paneles individuales para cada estancia
-        JPanel panelInferior = new JPanel(new GridLayout(0, 2, 10, 10)); // 0 indica que puede haber cualquier número de filas, 2 indica 2 columnas
+        JPanel panelInferior = new JPanel();
+        panelInferior.setLayout(new BoxLayout(panelInferior, BoxLayout.Y_AXIS));
         panelInferior.setBackground(new Color(255, 255, 255, 255));
 
         // Obtener datos de la tabla "estancia"
@@ -70,15 +74,21 @@ public class nuevareservaPantalla extends JFrame {
                 String ubicacion = resultSet.getString("ubicacion");
                 String disponibilidad = resultSet.getString("disponibilidad");
                 String imagenPath = resultSet.getString("imagen");
+                
 
                 // Crear un panel para cada estancia
-                JPanel estanciaPanel = new JPanel(new GridLayout(7, 1));
+                JPanel estanciaPanel = new JPanel();
+                estanciaPanel.setLayout(new BoxLayout(estanciaPanel, BoxLayout.Y_AXIS));
+                
+                JLabel nombreLabel = createLabel(nombreEstancia);
+                nombreLabel.setFont(fuentePersonalizada); // Aplicar la fuente personalizada al nombre
+                estanciaPanel.add(nombreLabel);
 
                 // Añadir etiquetas con la información de la estancia
-                estanciaPanel.add(createLabel("Nombre: " + nombreEstancia));
+                estanciaPanel.add(nombreLabel);
                 estanciaPanel.add(createLabel("Tipo de Estancia: " + tipoEstancia));
-                estanciaPanel.add(createLabel("Precio por Día: " + precioDia));
-                estanciaPanel.add(createLabel("Valoración: " + valoracion));
+                estanciaPanel.add(createLabel("Precio por Día: " + precioDia + "€"));
+                estanciaPanel.add(createLabel("Valoración: " + valoracion + " estrellas"));
                 estanciaPanel.add(createLabel("Ubicación: " + ubicacion));
                 estanciaPanel.add(createLabel("Disponibilidad: " + disponibilidad));
 
