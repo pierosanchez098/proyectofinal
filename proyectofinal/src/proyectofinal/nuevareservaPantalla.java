@@ -2,12 +2,11 @@ package proyectofinal;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.awt.event.*;
+import java.sql.*;
 import java.net.URL;
+import com.toedter.calendar.*;
+
 
 public class nuevareservaPantalla extends JFrame {
 
@@ -74,23 +73,22 @@ public class nuevareservaPantalla extends JFrame {
                 String ubicacion = resultSet.getString("ubicacion");
                 String disponibilidad = resultSet.getString("disponibilidad");
                 String imagenPath = resultSet.getString("imagen");
-                
 
                 // Crear un panel para cada estancia
-                JPanel estanciaPanel = new JPanel();
-                estanciaPanel.setLayout(new BoxLayout(estanciaPanel, BoxLayout.Y_AXIS));
-                
+                JPanel estanciaPanel = new JPanel(new BorderLayout());
+
+                // Crear un panel para la información de la estancia
+                JPanel infoPanel = new JPanel();
+                infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+
                 JLabel nombreLabel = createLabel(nombreEstancia);
                 nombreLabel.setFont(fuentePersonalizada); // Aplicar la fuente personalizada al nombre
-                estanciaPanel.add(nombreLabel);
-
-                // Añadir etiquetas con la información de la estancia
-                estanciaPanel.add(nombreLabel);
-                estanciaPanel.add(createLabel("Tipo de Estancia: " + tipoEstancia));
-                estanciaPanel.add(createLabel("Precio por Día: " + precioDia + "€"));
-                estanciaPanel.add(createLabel("Valoración: " + valoracion + " estrellas"));
-                estanciaPanel.add(createLabel("Ubicación: " + ubicacion));
-                estanciaPanel.add(createLabel("Disponibilidad: " + disponibilidad));
+                infoPanel.add(nombreLabel);
+                infoPanel.add(createLabel("Tipo de Estancia: " + tipoEstancia));
+                infoPanel.add(createLabel("Precio por Día: " + precioDia + "€"));
+                infoPanel.add(createLabel("Valoración: " + valoracion + " estrellas"));
+                infoPanel.add(createLabel("Ubicación: " + ubicacion));
+                infoPanel.add(createLabel("Disponibilidad: " + disponibilidad));
 
                 // Añadir la imagen al panel
                 JLabel imagenLabel = new JLabel();
@@ -101,7 +99,34 @@ public class nuevareservaPantalla extends JFrame {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                estanciaPanel.add(imagenLabel);
+                infoPanel.add(imagenLabel);
+
+                // Agregar el panel de información al panel de estancia
+                estanciaPanel.add(infoPanel, BorderLayout.CENTER);
+
+                // Añadir el botón "Realizar reserva" a la derecha
+                JButton reservaButton = new JButton("Realizar reserva");
+                
+                reservaButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // Crear un JDateChooser
+                        JDateChooser dateChooser = new JDateChooser();
+                        
+                        // Mostrar un diálogo con el JDateChooser
+                        int result = JOptionPane.showConfirmDialog(null, dateChooser, "Seleccione la fecha", JOptionPane.OK_CANCEL_OPTION);
+
+                        // Si se hace clic en "OK", obtener la fecha seleccionada
+                        if (result == JOptionPane.OK_OPTION) {
+                            java.util.Date selectedDate = dateChooser.getDate();
+                            // Aquí puedes hacer algo con la fecha seleccionada, como guardarla en la base de datos
+                            // o mostrarla en algún lugar de tu aplicación
+                            System.out.println("Fecha seleccionada: " + selectedDate);
+                        }
+                    }
+                });
+                
+                estanciaPanel.add(reservaButton, BorderLayout.EAST);
 
                 // Añadir el panel de estancia al panel inferior
                 panelInferior.add(estanciaPanel);
