@@ -140,7 +140,7 @@ panel2.add(barBusqueda);
 barBusqueda.setVisible(true);
 
 
-
+//Anuncio1
 JLabel anuncio1 = new JLabel();
 ImageIcon foto  = new ImageIcon("imagenes/medplaya-hotel-regente.jpg"); 
 anuncio1.setBounds(5, 300, 170, 150);
@@ -154,15 +154,6 @@ Textoanuncio1.setText("Medplaya Hotel Regente 74€");
 Textoanuncio1.setBounds(205, 230, 275, 150);
 Textoanuncio1.setFont(new Font("arial",Font.BOLD,20));
 panel2.add(Textoanuncio1);
-
-
-
-JLabel anuncio2 = new JLabel();
-ImageIcon foto2  = new ImageIcon("imagenes/port-benidorm-hotel-spa.jpg"); 
-anuncio2.setBounds(5, 480, 170, 150);
-anuncio2.setIcon(new ImageIcon(foto2.getImage().getScaledInstance(170, 150, Image.SCALE_SMOOTH)));
-panel2.add(anuncio2);
-anuncio2.setVisible(true);
 
 JLabel ddescripcnanuncio0 = new JLabel();
 ddescripcnanuncio0.setText("Habitación Doble con balcon 2 camas");
@@ -192,7 +183,22 @@ descripcnanuncio0000.setBounds(205, 304, 270, 150);
 descripcnanuncio0000.setFont(new Font("arial",Font.BOLD,12));
 panel2.add(descripcnanuncio0000);
 
+JButton VerAnuncio1=new JButton("Ver Anuncio");
+VerAnuncio1.setBounds(720, 300, 150, 50);
+VerAnuncio1.setBackground(new Color(213,232,212,255));
+//ImageIcon botonimagen = new ImageIcon("Pictures/back5.png");
+//atras.setIcon(new ImageIcon(botonimagen.getImage().getScaledInstance(atras.getWidth(),atras.getHeight(),Image.SCALE_SMOOTH )));
+panel2.add(VerAnuncio1);
+VerAnuncio1.setVisible(true);
+
 /////////////////////////////
+//Anuncio2
+JLabel anuncio2 = new JLabel();
+ImageIcon foto2  = new ImageIcon("imagenes/port-benidorm-hotel-spa.jpg"); 
+anuncio2.setBounds(5, 480, 170, 150);
+anuncio2.setIcon(new ImageIcon(foto2.getImage().getScaledInstance(170, 150, Image.SCALE_SMOOTH)));
+panel2.add(anuncio2);
+anuncio2.setVisible(true);
 
 JLabel Textoanuncio2 = new JLabel();
 Textoanuncio2.setText("Port Benidorm hotel Spa 73€");
@@ -202,7 +208,7 @@ Textoanuncio2.setFont(new Font("arial",Font.BOLD,20));
 panel2.add(Textoanuncio2);
 
 JLabel ddescripcnanuncio1 = new JLabel();
-ddescripcnanuncio1.setText("HabitaciÃ³n Doble (2 adultos)");
+ddescripcnanuncio1.setText("Habitación Doble (2 adultos)");
 //Texto1.setForeground(Color.orange);//color teexto
 ddescripcnanuncio1.setBounds(205, 440, 270, 150);
 ddescripcnanuncio1.setFont(new Font("arial",Font.BOLD,12));
@@ -221,5 +227,14 @@ descripcnanuncio3.setText("Desayuno incluido");
 descripcnanuncio3.setBounds(205, 467, 270, 150);
 descripcnanuncio3.setFont(new Font("arial",Font.BOLD,12));
 panel2.add(descripcnanuncio3);
+
+JButton VerAnuncio2=new JButton("Ver Anuncio");
+VerAnuncio2.setBounds(720, 480, 150, 50);
+VerAnuncio2.setBackground(new Color(213,232,212,255));
+//ImageIcon botonimagen = new ImageIcon("Pictures/back5.png");
+//atras.setIcon(new ImageIcon(botonimagen.getImage().getScaledInstance(atras.getWidth(),atras.getHeight(),Image.SCALE_SMOOTH )));
+panel2.add(VerAnuncio2);
+VerAnuncio2.setVisible(true);
+
 }
 }
