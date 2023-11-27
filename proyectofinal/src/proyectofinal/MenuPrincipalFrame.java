@@ -191,6 +191,16 @@ VerAnuncio1.setBackground(new Color(213,232,212,255));
 panel2.add(VerAnuncio1);
 VerAnuncio1.setVisible(true);
 
+
+ VerAnuncio1.addActionListener(new ActionListener() {
+public void actionPerformed(ActionEvent arg0) {
+	 dispose();
+	 medplaya_hotel PERFIL = new medplaya_hotel();
+	 PERFIL.setVisible(true);
+}
+
+});
+
 /////////////////////////////
 //Anuncio2
 JLabel anuncio2 = new JLabel();
@@ -235,6 +245,15 @@ VerAnuncio2.setBackground(new Color(213,232,212,255));
 //atras.setIcon(new ImageIcon(botonimagen.getImage().getScaledInstance(atras.getWidth(),atras.getHeight(),Image.SCALE_SMOOTH )));
 panel2.add(VerAnuncio2);
 VerAnuncio2.setVisible(true);
+
+VerAnuncio2.addActionListener(new ActionListener() {
+public void actionPerformed(ActionEvent arg0) {
+	 dispose();
+	 port_benidorm PERFIL = new port_benidorm(nombreUsuario, conexion);
+	 PERFIL.setVisible(true);
+}
+
+});
 
 }
 }
