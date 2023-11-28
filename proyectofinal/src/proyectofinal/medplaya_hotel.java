@@ -1,45 +1,70 @@
 package proyectofinal;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.Connection;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class medplaya_hotel extends JFrame{
 	
-	public medplaya_hotel() {
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(1080, 720); //El tamaño de que de la ventana de la App
-		setTitle("Pantalla Princial");
-		setLocationRelativeTo(null); //permite que la ventana siempre se inicilice en el centro de la pantalla
-		setMinimumSize(new Dimension (200, 200));//el tamaño minimo
+	 private String nombreUsuario;
+
+	  private Connection conexion = book4u.obtenerConexion();
+	
+	  public medplaya_hotel(String nombreUsuario, Connection conexion) {
+			
+			 this.nombreUsuario = nombreUsuario;
+			    this.conexion = conexion;
+			    setSize(1080, 720);
+		        setLocationRelativeTo(null);
+		        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		        // Color de fondo
+		        Color colorDeFondo = new Color(15, 82, 15, 255);
+		       getContentPane().setBackground(colorDeFondo);
+
+		       JPanel panelInferior = new JPanel(new BorderLayout());
+		        panelInferior.setBackground(new Color(255, 255, 255, 255));
+		       
+		     // Panel superior (que cumple la funciï¿½n de una barra de menï¿½)
+		        JPanel barraMenu = new JPanel(new BorderLayout());
+		        barraMenu.setBackground(new Color(213, 232, 212, 255)); // Color verde limï¿½n
+		        barraMenu.setPreferredSize(new Dimension(1050, 80));
+
+		        // Icono
+		        ImageIcon icono = new ImageIcon("imagenes/casa.png");
+		        icono = new ImageIcon(icono.getImage().getScaledInstance(56, 56, Image.SCALE_SMOOTH));
+		        JLabel iconoLabel = new JLabel(icono);
+		        barraMenu.add(iconoLabel, BorderLayout.WEST);
+		        
+		        iconoLabel.addMouseListener(new MouseAdapter() {
+		            @Override
+		            public void mouseClicked(MouseEvent e) {
+		                MenuPrincipalFrame menuPrincipalFrame = new MenuPrincipalFrame(nombreUsuario, conexion);
+		                menuPrincipalFrame.setVisible(true);
+		                dispose(); 
+		            }
+		        });
+		        
+		        JLabel labelTexto = new JLabel("Medplaya Hotel Regente");
+		        labelTexto.setFont(new Font(labelTexto.getFont().getName(), Font.PLAIN, 30));
+		        labelTexto.setHorizontalAlignment(SwingConstants.CENTER);
+		        barraMenu.add(labelTexto, BorderLayout.CENTER);
 		
-			iniciarComponentes();			
-					
-	}
-private void iniciarComponentes() {
-	
-	JPanel panel1 = new JPanel();
-	//ImageIcon icon = new ImageIcon("pictures/Logo_Book4U.jpg");
-	panel1.setBounds(0, 0, 1080, 200);
-	//panel1.add(new JLabel(icon));
-	panel1.setLayout(null);
-	panel1.setBackground(new Color(213,232,212,255));
-	this.getContentPane().add(panel1);
-	
-	
-	JLabel Texto1 = new JLabel();
-	Texto1.setText("Medplaya Hotel");
-	//Texto1.setForeground(Color.orange);//color teexto
-	Texto1.setBounds(335, 30, 400, 50);
-	Texto1.setFont(new Font("georgia",Font.BOLD,35));
-	panel1.add(Texto1);
-	
+		        // Agregar el panel superior y el panel inferior al JFrame
+		        add(barraMenu, BorderLayout.NORTH);
+		        add(panelInferior, BorderLayout.CENTER);
+		        setVisible(true);
 }
 
 }

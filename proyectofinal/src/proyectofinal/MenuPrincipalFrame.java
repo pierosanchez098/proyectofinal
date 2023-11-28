@@ -195,7 +195,7 @@ VerAnuncio1.setVisible(true);
  VerAnuncio1.addActionListener(new ActionListener() {
 public void actionPerformed(ActionEvent arg0) {
 	 dispose();
-	 medplaya_hotel PERFIL = new medplaya_hotel();
+	 medplaya_hotel PERFIL = new medplaya_hotel(nombreUsuario, conexion);
 	 PERFIL.setVisible(true);
 }
 

@@ -10,9 +10,11 @@ import java.awt.event.MouseEvent;
 import java.sql.Connection;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class port_benidorm extends JFrame{
 
@@ -24,34 +26,56 @@ public class port_benidorm extends JFrame{
 		
 		 this.nombreUsuario = nombreUsuario;
 		    this.conexion = conexion;
-		
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(1080, 720); //El tamaño de que de la ventana de la App
-		setTitle("Pantalla Princial");
-		setLocationRelativeTo(null); //permite que la ventana siempre se inicilice en el centro de la pantalla
-		setMinimumSize(new Dimension (200, 200));//el tamaño minimo
-		
-			iniciarComponentes();			
-					
-	}
-private void iniciarComponentes() {
+		    setSize(1080, 720);
+	        setLocationRelativeTo(null);
+	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+	        // Color de fondo
+	        Color colorDeFondo = new Color(15, 82, 15, 255);
+	       getContentPane().setBackground(colorDeFondo);
+
+	       JPanel panelInferior = new JPanel(new BorderLayout());
+	        panelInferior.setBackground(new Color(255, 255, 255, 255));
+	        
+	       /* JButton VerAnuncio2=new JButton("Ver Anuncio");
+	        VerAnuncio2.setBounds(720, 480, 150, 50);
+	        VerAnuncio2.setBackground(new Color(213,232,212,255));
+	        //ImageIcon botonimagen = new ImageIcon("Pictures/back5.png");
+	        //atras.setIcon(new ImageIcon(botonimagen.getImage().getScaledInstance(atras.getWidth(),atras.getHeight(),Image.SCALE_SMOOTH )));
+	        panelInferior.add(VerAnuncio2);
+	        VerAnuncio2.setVisible(true);*/
+	       
+	     // Panel superior (que cumple la funciï¿½n de una barra de menï¿½)
+	        JPanel barraMenu = new JPanel(new BorderLayout());
+	        barraMenu.setBackground(new Color(213, 232, 212, 255)); // Color verde limï¿½n
+	        barraMenu.setPreferredSize(new Dimension(1050, 80));
+
+	        // Icono
+	        ImageIcon icono = new ImageIcon("imagenes/casa.png");
+	        icono = new ImageIcon(icono.getImage().getScaledInstance(56, 56, Image.SCALE_SMOOTH));
+	        JLabel iconoLabel = new JLabel(icono);
+	        barraMenu.add(iconoLabel, BorderLayout.WEST);
+	        
+	        iconoLabel.addMouseListener(new MouseAdapter() {
+	            @Override
+	            public void mouseClicked(MouseEvent e) {
+	                MenuPrincipalFrame menuPrincipalFrame = new MenuPrincipalFrame(nombreUsuario, conexion);
+	                menuPrincipalFrame.setVisible(true);
+	                dispose(); 
+	            }
+	        });
+	        
+	        
+	        
+	        JLabel labelTexto = new JLabel("Port Benidorm Hotel");
+	        labelTexto.setFont(new Font(labelTexto.getFont().getName(), Font.PLAIN, 30));
+	        labelTexto.setHorizontalAlignment(SwingConstants.CENTER);
+	        barraMenu.add(labelTexto, BorderLayout.CENTER);
 	
-	
-	JPanel panel1 = new JPanel();
-	//ImageIcon icon = new ImageIcon("pictures/Logo_Book4U.jpg");
-	panel1.setBounds(0, 0, 1080, 200);
-	//panel1.add(new JLabel(icon));
-	panel1.setLayout(null);
-	panel1.setBackground(new Color(213,232,212,255));
-	this.getContentPane().add(panel1);
-	
-	JLabel Texto1 = new JLabel();
-	Texto1.setText("Port Benidorm Hotel");
-	//Texto1.setForeground(Color.orange);//color teexto
-	Texto1.setBounds(335, 30, 400, 50);
-	Texto1.setFont(new Font("georgia",Font.BOLD,35));
-	panel1.add(Texto1);
-	
+	        // Agregar el panel superior y el panel inferior al JFrame
+	        add(barraMenu, BorderLayout.NORTH);
+	        add(panelInferior, BorderLayout.CENTER);
+	        setVisible(true);
 }
 
 
