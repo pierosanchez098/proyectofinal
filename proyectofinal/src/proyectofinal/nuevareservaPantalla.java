@@ -81,14 +81,14 @@ public class nuevareservaPantalla extends JFrame {
                 JPanel infoPanel = new JPanel();
                 infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 
-                JLabel nombreLabel = createLabel(nombreEstancia);
+                JLabel nombreLabel = CrearLabel(nombreEstancia);
                 nombreLabel.setFont(fuentePersonalizada); // Aplicar la fuente personalizada al nombre
                 infoPanel.add(nombreLabel);
-                infoPanel.add(createLabel("Tipo de Estancia: " + tipoEstancia));
-                infoPanel.add(createLabel("Precio por Día: " + precioDia + "€"));
-                infoPanel.add(createLabel("Valoración: " + valoracion + " estrellas"));
-                infoPanel.add(createLabel("Ubicación: " + ubicacion));
-                infoPanel.add(createLabel("Disponibilidad: " + disponibilidad));
+                infoPanel.add(CrearLabel("Tipo de Estancia: " + tipoEstancia));
+                infoPanel.add(CrearLabel("Precio por Día: " + precioDia + "€"));
+                infoPanel.add(CrearLabel("Valoración: " + valoracion + " estrellas"));
+                infoPanel.add(CrearLabel("Ubicación: " + ubicacion));
+                infoPanel.add(CrearLabel("Disponibilidad: " + disponibilidad));
 
                 // Añadir la imagen al panel
                 JLabel imagenLabel = new JLabel();
@@ -105,28 +105,36 @@ public class nuevareservaPantalla extends JFrame {
                 estanciaPanel.add(infoPanel, BorderLayout.CENTER);
 
                 // Añadir el botón "Realizar reserva" a la derecha
-                JButton reservaButton = new JButton("Realizar reserva");
+                JButton reservaBoton = new JButton("Realizar reserva");
                 
-                reservaButton.addActionListener(new ActionListener() {
+                reservaBoton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        // Crear un JDateChooser
-                        JDateChooser dateChooser = new JDateChooser();
-                        
+                        // Crear un JDateChooser para la fecha de inicio
+                        JDateChooser dateChooserInicio = new JDateChooser();
                         // Mostrar un diálogo con el JDateChooser
-                        int result = JOptionPane.showConfirmDialog(null, dateChooser, "Seleccione la fecha", JOptionPane.OK_CANCEL_OPTION);
+                        int resultInicio = JOptionPane.showConfirmDialog(null, dateChooserInicio, "Seleccione la fecha de inicio", JOptionPane.OK_CANCEL_OPTION);
+                        // Si se hace clic en "OK", obtener la fecha seleccionada de inicio
+                        if (resultInicio == JOptionPane.OK_OPTION) {
+                            java.util.Date fechaInicio = dateChooserInicio.getDate();
+                            System.out.println("Fecha de inicio seleccionada: " + fechaInicio);
+                            // Aquí puedes hacer algo con la fecha de inicio, como guardarla en la base de datos
+                        }
 
-                        // Si se hace clic en "OK", obtener la fecha seleccionada
-                        if (result == JOptionPane.OK_OPTION) {
-                            java.util.Date selectedDate = dateChooser.getDate();
-                            // Aquí puedes hacer algo con la fecha seleccionada, como guardarla en la base de datos
-                            // o mostrarla en algún lugar de tu aplicación
-                            System.out.println("Fecha seleccionada: " + selectedDate);
+                        // Crear un JDateChooser para la fecha de fin
+                        JDateChooser dateChooserFin = new JDateChooser();
+                        // Mostrar un diálogo con el JDateChooser
+                        int resultFin = JOptionPane.showConfirmDialog(null, dateChooserFin, "Seleccione la fecha de fin", JOptionPane.OK_CANCEL_OPTION);
+                        // Si se hace clic en "OK", obtener la fecha seleccionada de fin
+                        if (resultFin == JOptionPane.OK_OPTION) {
+                            java.util.Date fechaFin = dateChooserFin.getDate();
+                            System.out.println("Fecha de fin seleccionada: " + fechaFin);
+                            // Aquí puedes hacer algo con la fecha de fin, como guardarla en la base de datos
                         }
                     }
                 });
                 
-                estanciaPanel.add(reservaButton, BorderLayout.EAST);
+                estanciaPanel.add(reservaBoton, BorderLayout.EAST);
 
                 // Añadir el panel de estancia al panel inferior
                 panelInferior.add(estanciaPanel);
@@ -143,7 +151,7 @@ public class nuevareservaPantalla extends JFrame {
         setVisible(true);
     }
 
-    private JLabel createLabel(String text) {
+    private JLabel CrearLabel(String text) {
         JLabel label = new JLabel(text);
         label.setFont(new Font("Arial", Font.PLAIN, 16));
         return label;
