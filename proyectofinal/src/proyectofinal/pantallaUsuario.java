@@ -167,19 +167,28 @@ public class pantallaUsuario extends JFrame {
         JPanel panelGuardarCambios = new JPanel(new BorderLayout());
         panelGuardarCambios.setBackground(new Color(255, 255, 255));
 
-        // Textfield "Nï¿½mero de crï¿½ditos actuales"
+     // Textfield "Número de créditos actuales"
         JTextField numCreditos = new JTextField("0");
         numCreditos.setEditable(false);
         numCreditos.setPreferredSize(campoDimension);
         JLabel numCreditosLabel = new JLabel("Número de créditos actuales:");
 
-        // Textfield "ï¿½Quieres comprar mï¿½s crï¿½dito?"
+        // Textfield "¿Quieres comprar más crédito?"
         JTextField comprarCreditos = new JTextField();
         comprarCreditos.setPreferredSize(campoDimension);
-        JLabel comprarCreditosLabel = new JLabel("¿Quieres comprar más créditos?");
+        JLabel comprarCreditosLabel = new JLabel("¿Quieres comprar más crédito?");
 
-        // Botï¿½n "Comprar crï¿½ditos"
+     // Botón "Comprar créditos"
         JButton botonComprarCreditos = new JButton("Comprar créditos");
+
+        botonComprarCreditos.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Aquí agregar lógica para dirigirse a la clase Creditos.java
+                Creditos creditos = new Creditos(nombreUsuario, conexion);
+                creditos.setVisible(true);
+                dispose(); // Cierra la ventana actual (pantallaUsuario)
+            }
+        });
 
         // Boton de gaurdarcambios
         JButton botonGuardarCambios = new JButton("Guardar cambios");

@@ -89,6 +89,15 @@ Reservas.setBackground(new Color(213,232,212,255));
 panel1.add(Reservas);
 Reservas.setVisible(true);
 
+Reservas.addActionListener(new ActionListener() {
+    public void actionPerformed(ActionEvent e) {
+        misReservasPantalla misReservasPantalla = new misReservasPantalla(nombreUsuario,conexion);
+        misReservasPantalla.setVisible(true);
+        dispose();
+    }
+});
+
+
 
 JButton History=new JButton("Historial");
 History.setBounds(720, 150, 360, 50);
