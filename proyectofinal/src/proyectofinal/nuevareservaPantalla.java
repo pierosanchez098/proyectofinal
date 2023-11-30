@@ -129,7 +129,7 @@ public class nuevareservaPantalla extends JFrame {
                                     int numeroPersonas = Integer.parseInt(inputPersonas);
 
                                     // Guardar los valores necesarios antes de cerrar el resultSet
-                                    int idCliente = obtenerIdClienteDesdeReserva(1);
+                                    int idCliente = obtenerIdClienteDesdeReserva(2);
                                     double precioEstancia = precioDia; // Aquí ajusta según tu lógica
                                     double precioTotal = precioEstancia * numeroPersonas;
 
