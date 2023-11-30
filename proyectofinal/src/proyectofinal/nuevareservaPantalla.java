@@ -55,7 +55,7 @@ public class nuevareservaPantalla extends JFrame {
         panelInferior.setLayout(new BoxLayout(panelInferior, BoxLayout.Y_AXIS));
         panelInferior.setBackground(new Color(255, 255, 255, 255));
 
-        // Obtener datos de la tabla "estancia"
+     // Obtener datos de la tabla "estancia"
         try {
             String consulta = "SELECT id_estancia, nombre, tipo_estancia, precioxdia, valoracion, ubicacion, disponibilidad, imagen FROM estancia";
             PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
@@ -122,40 +122,46 @@ public class nuevareservaPantalla extends JFrame {
                                 Date fechaFin = new Date(dateChooserFin.getDate().getTime());
                                 System.out.println("Fecha de fin seleccionada: " + fechaFin);
 
-                                String inputPersonas = JOptionPane.showInputDialog(null, "Ingrese el nÃºmero de personas:");
+                                String inputPersonas = JOptionPane.showInputDialog(null, "Ingrese el número de personas:");
 
                                 try {
-                                    // Convertir la entrada a un entero
                                     int numeroPersonas = Integer.parseInt(inputPersonas);
+                                    int idEstancia = resultSet.getInt("id_estancia"); // Obtén el idEstancia de alguna manera
+                                    int idCliente = obtenerIdClienteDesdeReserva(idReservaActual);
 
-                                    // Guardar los valores necesarios antes de cerrar el resultSet
-                                    int idCliente = obtenerIdClienteDesdeReserva(2);
-                                    double precioEstancia = precioDia; // AquÃ­ ajusta segÃºn tu lÃ³gica
-                                    double precioTotal = precioEstancia * numeroPersonas;
+                                    if (!existeCliente(idCliente)) {
+                                        // Manejo de error: El cliente no existe, muestra un mensaje o realiza una acción adecuada
+                                        JOptionPane.showMessageDialog(null, "El cliente no existe. Por favor, seleccione un cliente válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                                    } else {
+                                        double precioEstancia = precioDia; // Ajusta según tu lógica
+                                        double precioTotal = precioEstancia * numeroPersonas;
 
-                                    // Ahora, puedes usar los valores en tu consulta SQL
-                                    String insertReserva = "INSERT INTO reserva (id_reserva, id_cliente, id_estancia, fechai, fechaf, pagado, preciototal, personas, direccion) VALUES (mi_secuencia.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?)";
-                                    PreparedStatement preparedStatement1 = conexion.prepareStatement(insertReserva);
-                                    preparedStatement1.setInt(1, idCliente);
-                                    preparedStatement1.setInt(2, idEstancia);
-                                    preparedStatement1.setDate(3, fechaInicio);
-                                    preparedStatement1.setDate(4, fechaFin);
-                                    preparedStatement1.setString(5, "si"); // Valor predeterminado
-                                    preparedStatement1.setDouble(6, precioTotal);
-                                    preparedStatement1.setInt(7, numeroPersonas);
-                                    preparedStatement1.setString(8, ubicacion); // Reemplaza con el valor real
+                                        // Resto de tu lógica de inserción aquí
+                                        String insertReserva = "INSERT INTO reserva (id_reserva, id_cliente, id_estancia, fechai, fechaf, pagado, preciototal, personas, direccion) VALUES (mi_secuencia.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?)";
+                                        PreparedStatement preparedStatement1 = conexion.prepareStatement(insertReserva);
+                                        preparedStatement1.setInt(1, idCliente);
+                                        preparedStatement1.setInt(2, idEstancia);
+                                        preparedStatement1.setDate(3, fechaInicio);
+                                        preparedStatement1.setDate(4, fechaFin);
+                                        preparedStatement1.setString(5, "si"); // Valor predeterminado
+                                        preparedStatement1.setDouble(6, precioTotal);
+                                        preparedStatement1.setInt(7, numeroPersonas);
+                                        preparedStatement1.setString(8, ubicacion); // Reemplaza con el valor real
 
-                                    preparedStatement1.executeUpdate();
+                                        preparedStatement1.executeUpdate();
 
-                                    // Cierra el PreparedStatement despuÃ©s de su uso
-                                    preparedStatement1.close();
-                                } catch (SQLException ex) {
-                                    ex.printStackTrace();
-                                }
+                                        // Cierra el PreparedStatement después de su uso
+                                        preparedStatement1.close();
+                                    }} catch (SQLException ex) {
+                                        ex.printStackTrace();
+                                    }
                             }
                         }
                     }
-                });
+                }
+                                
+                        
+                            );
 
                 estanciaPanel.add(reservaBoton, BorderLayout.EAST);
 
@@ -165,25 +171,25 @@ public class nuevareservaPantalla extends JFrame {
 
             resultSet.close();
             preparedStatement.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        
         add(barraMenu, BorderLayout.NORTH);
         add(new JScrollPane(panelInferior), BorderLayout.CENTER);
         setVisible(true);
     }
 
-    private int obtenerIdClienteDesdeReserva(int idReserva) {
+    private int obtenerIdClienteDesdeReserva(int idReservaActual) {
         try {
             String consulta = "SELECT id_cliente FROM reserva WHERE id_reserva = ?";
             PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
-            preparedStatement.setInt(1, idReserva);
+            preparedStatement.setInt(1, idReservaActual);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                // Devolver el ID del cliente si se encontrÃ³ la reserva en la base de datos
+                // Obtener el ID del cliente directamente
                 return resultSet.getInt("id_cliente");
             }
 
@@ -193,9 +199,35 @@ public class nuevareservaPantalla extends JFrame {
             e.printStackTrace();
         }
 
-        // Devolver un valor predeterminado o manejar el caso de error segÃºn tus necesidades
+        // Devolver un valor predeterminado o manejar el caso de error según tus necesidades
         return -1; // Por ejemplo, devolver -1 si no se encuentra la reserva
     }
+    
+   
+    
+    private boolean existeCliente(int idCliente) {
+        try {
+            String consulta = "SELECT COUNT(*) FROM cliente WHERE id_cliente = ?";
+            PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+            preparedStatement.setInt(1, idCliente);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+
+            int count = resultSet.getInt(1);
+
+            resultSet.close();
+            preparedStatement.close();
+
+            return count > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Manejo de error: Puedes mostrar un mensaje o realizar otra acción apropiada
+            JOptionPane.showMessageDialog(null, "Error al verificar la existencia del cliente. Por favor, inténtelo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+
 
     private JLabel CrearLabel(String text) {
         JLabel label = new JLabel(text);
