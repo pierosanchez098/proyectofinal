@@ -1,6 +1,5 @@
 package proyectofinal;
 
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -17,18 +16,13 @@ import javax.swing.SwingConstants;
 public class misReservasPantalla extends JFrame {
 
 
-	private String nombreUsuario2;
-	
+	private String nombreUsuario;
 	private Connection conexion = book4u.obtenerConexion();
 
-	private JPanel contentPane;
+	public misReservasPantalla(String nombreUsuario, Connection conexion) {
 
-	public misReservasPantalla(String nombreUsuario2, Connection conexion2) {
-		// TODO Auto-generated constructor stub
-	
-    this.conexion = conexion;
-    this.contentPane = contentPane;
-    this.nombreUsuario = nombreUsuario;
+	this.nombreUsuario = nombreUsuario;
+	this.conexion = conexion;
 
 
 
@@ -36,7 +30,7 @@ setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 setBounds(100, 100, 1080, 720);
 setLocationRelativeTo(null);
 
-contentPane = new JPanel();
+JPanel contentPane = new JPanel();
 contentPane.setBackground(new Color(15, 82, 15));
 contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -54,10 +48,6 @@ panel_1.setBounds(0, 0, 1012, 121);
 panel.add(panel_1);
 panel_1.setLayout(null);
 
-JLabel lblNewLabel = new JLabel("");
-lblNewLabel.setIcon(new ImageIcon(misReservasPantalla.class.getResource("/imagenes/casa 4.png")));
-lblNewLabel.setBounds(40, 21, 70, 77);
-panel_1.add(lblNewLabel);
 
 JLabel lblNewLabel_1 = new JLabel("Mis reservas");
 lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 34));

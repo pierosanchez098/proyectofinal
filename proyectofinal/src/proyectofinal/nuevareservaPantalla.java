@@ -1,12 +1,10 @@
 package proyectofinal;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
-import java.net.URL;
-import com.toedter.calendar.*;
-
+import javax.swing.*;
+import com.toedter.calendar.JDateChooser;
 
 public class nuevareservaPantalla extends JFrame {
 
@@ -16,7 +14,6 @@ public class nuevareservaPantalla extends JFrame {
     public nuevareservaPantalla(String nombreUsuario, Connection conexion) {
         this.nombreUsuario = nombreUsuario;
         this.conexion = conexion;
-
 
         setSize(1080, 720);
         setLocationRelativeTo(null);
@@ -50,9 +47,8 @@ public class nuevareservaPantalla extends JFrame {
         labelTexto.setFont(new Font(labelTexto.getFont().getName(), Font.PLAIN, 30));
         labelTexto.setHorizontalAlignment(SwingConstants.CENTER);
         barraMenu.add(labelTexto, BorderLayout.CENTER);
-        
-        
-        Font fuentePersonalizada = new Font("Arial", Font.BOLD, 30); // Puedes ajustar el tamaÒo y el estilo aquÌ
+
+        Font fuentePersonalizada = new Font("Arial", Font.BOLD, 30);
 
         // Panel inferior con paneles individuales para cada estancia
         JPanel panelInferior = new JPanel();
@@ -61,14 +57,15 @@ public class nuevareservaPantalla extends JFrame {
 
         // Obtener datos de la tabla "estancia"
         try {
-            String consulta = "SELECT nombre, tipo_estancia, precioxdia, valoracion, ubicacion, disponibilidad, imagen FROM estancia";
+            String consulta = "SELECT id_estancia, nombre, tipo_estancia, precioxdia, valoracion, ubicacion, disponibilidad, imagen FROM estancia";
             PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
+                int idEstancia = resultSet.getInt("id_estancia");
                 String nombreEstancia = resultSet.getString("nombre");
                 String tipoEstancia = resultSet.getString("tipo_estancia");
-                String precioDia = resultSet.getString("precioxdia");
+                int precioDia = resultSet.getInt("precioxdia");
                 String valoracion = resultSet.getString("valoracion");
                 String ubicacion = resultSet.getString("ubicacion");
                 String disponibilidad = resultSet.getString("disponibilidad");
@@ -77,20 +74,20 @@ public class nuevareservaPantalla extends JFrame {
                 // Crear un panel para cada estancia
                 JPanel estanciaPanel = new JPanel(new BorderLayout());
 
-                // Crear un panel para la informaciÛn de la estancia
+                // Crear un panel para la informaci√≥n de la estancia
                 JPanel infoPanel = new JPanel();
                 infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 
                 JLabel nombreLabel = CrearLabel(nombreEstancia);
-                nombreLabel.setFont(fuentePersonalizada); // Aplicar la fuente personalizada al nombre
+                nombreLabel.setFont(fuentePersonalizada);
                 infoPanel.add(nombreLabel);
                 infoPanel.add(CrearLabel("Tipo de Estancia: " + tipoEstancia));
-                infoPanel.add(CrearLabel("Precio por DÌa: " + precioDia + "Ä"));
-                infoPanel.add(CrearLabel("ValoraciÛn: " + valoracion + " estrellas"));
-                infoPanel.add(CrearLabel("UbicaciÛn: " + ubicacion));
+                infoPanel.add(CrearLabel("Precio por D√≠a: " + precioDia + "‚Ç¨"));
+                infoPanel.add(CrearLabel("Valoraci√≥n: " + valoracion + " estrellas"));
+                infoPanel.add(CrearLabel("Ubicaci√≥n: " + ubicacion));
                 infoPanel.add(CrearLabel("Disponibilidad: " + disponibilidad));
 
-                // AÒadir la imagen al panel
+                // A√±adir la imagen al panel
                 JLabel imagenLabel = new JLabel();
                 try {
                     ImageIcon icono1 = new ImageIcon(imagenPath);
@@ -101,42 +98,68 @@ public class nuevareservaPantalla extends JFrame {
                 }
                 infoPanel.add(imagenLabel);
 
-                // Agregar el panel de informaciÛn al panel de estancia
+                // Agregar el panel de informaci√≥n al panel de estancia
                 estanciaPanel.add(infoPanel, BorderLayout.CENTER);
 
-                // AÒadir el botÛn "Realizar reserva" a la derecha
+                // A√±adir el bot√≥n "Realizar reserva" a la derecha
                 JButton reservaBoton = new JButton("Realizar reserva");
-                
+
                 reservaBoton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        // Crear un JDateChooser para la fecha de inicio
                         JDateChooser dateChooserInicio = new JDateChooser();
-                        // Mostrar un di·logo con el JDateChooser
-                        int resultInicio = JOptionPane.showConfirmDialog(null, dateChooserInicio, "Seleccione la fecha de inicio", JOptionPane.OK_CANCEL_OPTION);
-                        // Si se hace clic en "OK", obtener la fecha seleccionada de inicio
-                        if (resultInicio == JOptionPane.OK_OPTION) {
-                            java.util.Date fechaInicio = dateChooserInicio.getDate();
-                            System.out.println("Fecha de inicio seleccionada: " + fechaInicio);
-                            // AquÌ puedes hacer algo con la fecha de inicio, como guardarla en la base de datos
-                        }
 
-                        // Crear un JDateChooser para la fecha de fin
-                        JDateChooser dateChooserFin = new JDateChooser();
-                        // Mostrar un di·logo con el JDateChooser
-                        int resultFin = JOptionPane.showConfirmDialog(null, dateChooserFin, "Seleccione la fecha de fin", JOptionPane.OK_CANCEL_OPTION);
-                        // Si se hace clic en "OK", obtener la fecha seleccionada de fin
-                        if (resultFin == JOptionPane.OK_OPTION) {
-                            java.util.Date fechaFin = dateChooserFin.getDate();
-                            System.out.println("Fecha de fin seleccionada: " + fechaFin);
-                            // AquÌ puedes hacer algo con la fecha de fin, como guardarla en la base de datos
+                        int resultInicio = JOptionPane.showConfirmDialog(null, dateChooserInicio, "Seleccione la fecha de inicio", JOptionPane.OK_CANCEL_OPTION);
+
+                        if (resultInicio == JOptionPane.OK_OPTION) {
+                            Date fechaInicio = new Date(dateChooserInicio.getDate().getTime());
+                            System.out.println("Fecha de inicio seleccionada: " + fechaInicio);
+
+                            JDateChooser dateChooserFin = new JDateChooser();
+                            int resultFin = JOptionPane.showConfirmDialog(null, dateChooserFin, "Seleccione la fecha de fin", JOptionPane.OK_CANCEL_OPTION);
+
+                            if (resultFin == JOptionPane.OK_OPTION) {
+                                Date fechaFin = new Date(dateChooserFin.getDate().getTime());
+                                System.out.println("Fecha de fin seleccionada: " + fechaFin);
+
+                                String inputPersonas = JOptionPane.showInputDialog(null, "Ingrese el n√∫mero de personas:");
+
+                                try {
+                                    // Convertir la entrada a un entero
+                                    int numeroPersonas = Integer.parseInt(inputPersonas);
+
+                                    // Guardar los valores necesarios antes de cerrar el resultSet
+                                    int idCliente = obtenerIdClienteDesdeReserva(1);
+                                    double precioEstancia = precioDia; // Aqu√≠ ajusta seg√∫n tu l√≥gica
+                                    double precioTotal = precioEstancia * numeroPersonas;
+
+                                    // Ahora, puedes usar los valores en tu consulta SQL
+                                    String insertReserva = "INSERT INTO reserva (id_reserva, id_cliente, id_estancia, fechai, fechaf, pagado, preciototal, personas, direccion) VALUES (mi_secuencia.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?)";
+                                    PreparedStatement preparedStatement1 = conexion.prepareStatement(insertReserva);
+                                    preparedStatement1.setInt(1, idCliente);
+                                    preparedStatement1.setInt(2, idEstancia);
+                                    preparedStatement1.setDate(3, fechaInicio);
+                                    preparedStatement1.setDate(4, fechaFin);
+                                    preparedStatement1.setString(5, "si"); // Valor predeterminado
+                                    preparedStatement1.setDouble(6, precioTotal);
+                                    preparedStatement1.setInt(7, numeroPersonas);
+                                    preparedStatement1.setString(8, ubicacion); // Reemplaza con el valor real
+
+                                    preparedStatement1.executeUpdate();
+
+                                    // Cierra el PreparedStatement despu√©s de su uso
+                                    preparedStatement1.close();
+                                } catch (SQLException ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
                         }
                     }
                 });
-                
+
                 estanciaPanel.add(reservaBoton, BorderLayout.EAST);
 
-                // AÒadir el panel de estancia al panel inferior
+                // A√±adir el panel de estancia al panel inferior
                 panelInferior.add(estanciaPanel);
             }
 
@@ -151,9 +174,33 @@ public class nuevareservaPantalla extends JFrame {
         setVisible(true);
     }
 
+    private int obtenerIdClienteDesdeReserva(int idReserva) {
+        try {
+            String consulta = "SELECT id_cliente FROM reserva WHERE id_reserva = ?";
+            PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+            preparedStatement.setInt(1, idReserva);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                // Devolver el ID del cliente si se encontr√≥ la reserva en la base de datos
+                return resultSet.getInt("id_cliente");
+            }
+
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // Devolver un valor predeterminado o manejar el caso de error seg√∫n tus necesidades
+        return -1; // Por ejemplo, devolver -1 si no se encuentra la reserva
+    }
+
     private JLabel CrearLabel(String text) {
         JLabel label = new JLabel(text);
         label.setFont(new Font("Arial", Font.PLAIN, 16));
         return label;
     }
 }
+
