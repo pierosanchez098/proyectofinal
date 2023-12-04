@@ -74,7 +74,7 @@ public class nuevareservaPantalla extends JFrame {
                 // Crear un panel para cada estancia
                 JPanel estanciaPanel = new JPanel(new BorderLayout());
 
-                // Crear un panel para la información de la estancia
+                // Crear un panel para la informaciï¿½n de la estancia
                 JPanel infoPanel = new JPanel();
                 infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 
@@ -82,12 +82,12 @@ public class nuevareservaPantalla extends JFrame {
                 nombreLabel.setFont(fuentePersonalizada);
                 infoPanel.add(nombreLabel);
                 infoPanel.add(CrearLabel("Tipo de Estancia: " + tipoEstancia));
-                infoPanel.add(CrearLabel("Precio por Día: " + precioDia + "€"));
-                infoPanel.add(CrearLabel("Valoración: " + valoracion + " estrellas"));
-                infoPanel.add(CrearLabel("Ubicación: " + ubicacion));
+                infoPanel.add(CrearLabel("Precio por Dï¿½a: " + precioDia + "ï¿½"));
+                infoPanel.add(CrearLabel("Valoraciï¿½n: " + valoracion + " estrellas"));
+                infoPanel.add(CrearLabel("Ubicaciï¿½n: " + ubicacion));
                 infoPanel.add(CrearLabel("Disponibilidad: " + disponibilidad));
 
-                // Añadir la imagen al panel
+                // Aï¿½adir la imagen al panel
                 JLabel imagenLabel = new JLabel();
                 try {
                     ImageIcon icono1 = new ImageIcon(imagenPath);
@@ -98,13 +98,13 @@ public class nuevareservaPantalla extends JFrame {
                 }
                 infoPanel.add(imagenLabel);
 
-                // Agregar el panel de información al panel de estancia
+                // Agregar el panel de informaciï¿½n al panel de estancia
                 estanciaPanel.add(infoPanel, BorderLayout.CENTER);
 
-                // Añadir el botón "Realizar reserva" a la derecha
+                // Aï¿½adir el botï¿½n "Realizar reserva" a la derecha
                 JButton reservaBoton = new JButton("Realizar reserva");
 
-                // Obtén el idEstancia antes de crear el ActionListener
+                // Obtï¿½n el idEstancia antes de crear el ActionListener
                 int idEstanciaActual = idEstancia;
 
                 reservaBoton.addActionListener(new ActionListener() {
@@ -125,7 +125,7 @@ public class nuevareservaPantalla extends JFrame {
                                 Date fechaFin = new Date(dateChooserFin.getDate().getTime());
                                 System.out.println("Fecha de fin seleccionada: " + fechaFin);
 
-                                String inputPersonas = JOptionPane.showInputDialog(null, "Ingrese el número de personas:");
+                                String inputPersonas = JOptionPane.showInputDialog(null, "Ingrese el nï¿½mero de personas:");
 
                                 try {
                                     int numeroPersonas = Integer.parseInt(inputPersonas);
@@ -133,14 +133,14 @@ public class nuevareservaPantalla extends JFrame {
                                     int idCliente = obtenerIdClienteDesdeUsuario(nombreUsuario);
 
                                     if (!existeCliente(idCliente)) {
-                                        // Manejo de error: El cliente no existe, muestra un mensaje o realiza una acción adecuada
-                                        JOptionPane.showMessageDialog(null, "El cliente no existe. Por favor, seleccione un cliente válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                                        // Manejo de error: El cliente no existe, muestra un mensaje o realiza una acciï¿½n adecuada
+                                        JOptionPane.showMessageDialog(null, "El cliente no existe. Por favor, seleccione un cliente vï¿½lido.", "Error", JOptionPane.ERROR_MESSAGE);
                                     } else {
-                                        double precioEstancia = precioDia; // Ajusta según tu lógica
+                                        double precioEstancia = precioDia; // Ajusta segï¿½n tu lï¿½gica
                                         double precioTotal = precioEstancia * numeroPersonas;
 
-                                        // Resto de tu lógica de inserción aquí
-                                        String insertReserva = "INSERT INTO reserva (id_reserva, id_cliente, id_estancia, fechai, fechaf, pagado, preciototal, personas, direccion) VALUES (mi_secuencia.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?)";
+                                        // Resto de tu lï¿½gica de inserciï¿½n aquï¿½
+                                        String insertReserva = "INSERT INTO reserva (id_reserva, id_cliente, id_estancia, fechai, fechaf, pagado, preciototal, personas, direccion, nombre, imagen) VALUES (secuenciareserva.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                                         PreparedStatement preparedStatement1 = conexion.prepareStatement(insertReserva);
                                         preparedStatement1.setInt(1, idCliente);
                                         preparedStatement1.setInt(2, idEstanciaActual); // Utiliza el idEstanciaActual obtenido fuera del ActionListener
@@ -150,10 +150,12 @@ public class nuevareservaPantalla extends JFrame {
                                         preparedStatement1.setDouble(6, precioTotal);
                                         preparedStatement1.setInt(7, numeroPersonas);
                                         preparedStatement1.setString(8, ubicacion); // Reemplaza con el valor real
+                                        preparedStatement1.setString(9, nombreEstancia);
+                                        preparedStatement1.setString(10, imagenPath);
 
                                         preparedStatement1.executeUpdate();
 
-                                        // Cierra el PreparedStatement después de su uso
+                                        // Cierra el PreparedStatement despuï¿½s de su uso
                                         preparedStatement1.close();
                                     }
                                 } catch (SQLException ex) {
@@ -166,7 +168,7 @@ public class nuevareservaPantalla extends JFrame {
 
                 estanciaPanel.add(reservaBoton, BorderLayout.EAST);
 
-                // Añadir el panel de estancia al panel inferior
+                // Aï¿½adir el panel de estancia al panel inferior
                 panelInferior.add(estanciaPanel);
             }
 
@@ -204,7 +206,7 @@ public class nuevareservaPantalla extends JFrame {
             e.printStackTrace();
         }
 
-        // Devolver un valor predeterminado o manejar el caso de error según tus necesidades
+        // Devolver un valor predeterminado o manejar el caso de error segï¿½n tus necesidades
         return -1; // Por ejemplo, devolver -1 si no se encuentra el cliente
     }
     
@@ -227,8 +229,8 @@ public class nuevareservaPantalla extends JFrame {
             return count > 0;
         } catch (SQLException e) {
             e.printStackTrace();
-            // Manejo de error: Puedes mostrar un mensaje o realizar otra acción apropiada
-            JOptionPane.showMessageDialog(null, "Error al verificar la existencia del cliente. Por favor, inténtelo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
+            // Manejo de error: Puedes mostrar un mensaje o realizar otra acciï¿½n apropiada
+            JOptionPane.showMessageDialog(null, "Error al verificar la existencia del cliente. Por favor, intï¿½ntelo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }

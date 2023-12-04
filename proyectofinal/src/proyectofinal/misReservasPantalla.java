@@ -3,6 +3,7 @@ package proyectofinal;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import java.awt.BorderLayout;
@@ -10,10 +11,17 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 
 import javax.swing.JLabel;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
@@ -42,14 +50,12 @@ public class misReservasPantalla extends JFrame {
     contentPane.setLayout(new BorderLayout());
 
     JPanel panel = new JPanel();
-    panel.setLayout(null);
+    panel.setLayout(new BorderLayout());
     contentPane.add(panel, BorderLayout.CENTER);
 
     JPanel panel_1 = new JPanel();
     panel_1.setBackground(new Color(214, 232, 212));
-    panel_1.setBounds(0, 0, 1012, 121);
-    panel.add(panel_1);
-    panel_1.setLayout(new FlowLayout(FlowLayout.LEFT)); // Usamos FlowLayout para alinear a la izquierda
+    panel_1.setLayout(new FlowLayout(FlowLayout.CENTER));
 
     ImageIcon icono = new ImageIcon("imagenes/casa.png");
     icono = new ImageIcon(icono.getImage().getScaledInstance(56, 56, Image.SCALE_SMOOTH));
@@ -60,64 +66,178 @@ public class misReservasPantalla extends JFrame {
     lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 34));
     panel_1.add(lblNewLabel_1);
 
-JLabel pie = new JLabel("Reservas en pie:");
-pie.setFont(new Font("Arial", Font.BOLD, 22));
-pie.setBounds(128, 160, 179, 34);
-panel.add(pie);
+    iconoLabel.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            MenuPrincipalFrame menuPrincipalFrame = new MenuPrincipalFrame(nombreUsuario, conexion);
+            menuPrincipalFrame.setVisible(true);
+            dispose();
+        }
+    });
 
-JLabel cifraActualizable = new JLabel("*Cifra actualizable*");
-cifraActualizable.setBounds(825, 243, 91, 52);
-panel.add(cifraActualizable);
+    panel.add(panel_1, BorderLayout.NORTH);
 
-JLabel cifraActualizable_2 = new JLabel("*Cifra actualizable*");
-cifraActualizable_2.setBounds(825, 367, 91, 52);
-panel.add(cifraActualizable_2);
+    JLabel pie = new JLabel("Reservas en pie:");
+    pie.setFont(new Font("Arial", Font.BOLD, 22));
+    panel.add(pie, BorderLayout.WEST);
 
-JLabel cifraActualizable_3 = new JLabel("*Cifra actualizable*");
-cifraActualizable_3.setBounds(825, 507, 91, 52);
-panel.add(cifraActualizable_3);
+    int idCliente = obtenerIdCliente(nombreUsuario);
 
-JButton btnDisponible = new JButton("Disponible");
-btnDisponible.setBackground(new Color(221, 232, 251));
-btnDisponible.setBounds(626, 243, 104, 45);
-panel.add(btnDisponible);
+    // Mostrar las reservas asociadas a ese id_cliente
+    mostrarReservas(idCliente, panel);
+}
 
-JButton btnNoDisponible = new JButton("No disponible");
-btnNoDisponible.setBackground(new Color(255, 0, 0));
-btnNoDisponible.setBounds(626, 374, 104, 45);
-panel.add(btnNoDisponible);
+private int obtenerIdCliente(String nombreUsuario) {
+    try {
+        String consulta = "SELECT id_cliente FROM cliente WHERE nombre = ?";
+        PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+        preparedStatement.setString(1, nombreUsuario);
 
-JButton btnDisponible_2 = new JButton("Disponible\r\n");
-btnDisponible_2.setBackground(new Color(221, 232, 251));
-btnDisponible_2.setBounds(626, 514, 104, 45);
-panel.add(btnDisponible_2);
+        ResultSet resultSet = preparedStatement.executeQuery();
 
-JPanel panel_2 = new JPanel();
-panel_2.setBackground(new Color(15, 82, 15));
-panel_2.setBounds(607, 160, 136, 43);
-panel.add(panel_2);
-panel_2.setLayout(null);
+        if (resultSet.next()) {
+            return resultSet.getInt("id_cliente");
+        }
 
-JLabel lblNewLabel_3 = new JLabel("Disponible para modificar");
-lblNewLabel_3.setForeground(new Color(255, 255, 255));
-lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
-lblNewLabel_3.setBounds(0, 0, 136, 43);
-panel_2.add(lblNewLabel_3);
-lblNewLabel_3.setBackground(new Color(15, 82, 15));
+        resultSet.close();
+        preparedStatement.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
 
-JPanel panel_2_1 = new JPanel();
-panel_2_1.setBackground(new Color(15, 82, 15));
-panel_2_1.setBounds(809, 160, 136, 43);
-panel.add(panel_2_1);
-panel_2_1.setLayout(null);
+    return -1;
+}
 
-JLabel lblNewLabel_4 = new JLabel("Precio");
-lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
-lblNewLabel_4.setForeground(new Color(255, 255, 255));
-lblNewLabel_4.setBackground(new Color(255, 255, 255));
-lblNewLabel_4.setBounds(0, 0, 136, 43);
-panel_2_1.add(lblNewLabel_4);
+private void mostrarReservas(int idCliente, JPanel panel) {
+    try {
+        String consultaReservas = "SELECT id_reserva, nombre, direccion, preciototal, personas, fechai, fechaf, imagen FROM reserva WHERE id_cliente = ?";
+        PreparedStatement preparedStatementReservas = conexion.prepareStatement(consultaReservas);
+        preparedStatementReservas.setInt(1, idCliente);
+
+        ResultSet resultSetReservas = preparedStatementReservas.executeQuery();
+
+        // Crear un panel para las reservas con un layout vertical
+        JPanel reservasPanel = new JPanel();
+        reservasPanel.setLayout(new BoxLayout(reservasPanel, BoxLayout.Y_AXIS));
+
+        // Encabezado "Reservas en pie:"
+        JLabel encabezadoReservas = new JLabel("Disponibilidad:");
+        encabezadoReservas.setFont(new Font("Arial", Font.BOLD, 22));
+        reservasPanel.add(encabezadoReservas);
+
+        while (resultSetReservas.next()) {
+            int idReserva = resultSetReservas.getInt("id_reserva");
+            String nombreReserva = resultSetReservas.getString("nombre");
+            String direccion = resultSetReservas.getString("direccion");
+            int precioTotal = resultSetReservas.getInt("preciototal");
+            int personas = resultSetReservas.getInt("personas");
+            Date fechaInicio = resultSetReservas.getDate("fechai");
+            Date fechaFin = resultSetReservas.getDate("fechaf");
+            String imagenPath = resultSetReservas.getString("imagen");
+
+            // Verificar disponibilidad
+            boolean disponible = verificarDisponibilidad(idReserva);
+
+            // Crear un panel para cada reserva
+            JPanel reservaPanel = new JPanel(new BorderLayout());
+
+            // Crear un panel para la información de la reserva
+            JPanel infoPanel = new JPanel();
+            infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+
+            // Nombre de la estancia en negrita y con fuente más grande
+            JLabel nombreEstanciaLabel = new JLabel("Nombre: " + nombreReserva);
+            nombreEstanciaLabel.setFont(new Font("Arial", Font.BOLD, 18));
+            infoPanel.add(nombreEstanciaLabel);
+
+            infoPanel.add(crearLabel("Dirección: " + direccion));
+            infoPanel.add(crearLabel("Precio Total: " + precioTotal));
+            infoPanel.add(crearLabel("Personas: " + personas));
+            infoPanel.add(crearLabel("Fecha Inicio: " + fechaInicio));
+            infoPanel.add(crearLabel("Fecha Fin: " + fechaFin));
+
+            // Añadir la imagen al panel
+            JLabel imagenLabel = new JLabel();
+            try {
+                ImageIcon iconoReserva = new ImageIcon(imagenPath);
+                iconoReserva = new ImageIcon(iconoReserva.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH));
+                imagenLabel.setIcon(iconoReserva);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            infoPanel.add(imagenLabel);
+
+            // Añadir el panel de información al panel de reserva
+            reservaPanel.add(infoPanel, BorderLayout.CENTER);
+
+            // Añadir botón o label de disponibilidad a la derecha
+            JPanel disponibilidadPanel = new JPanel();
+            disponibilidadPanel.setLayout(new BoxLayout(disponibilidadPanel, BoxLayout.Y_AXIS));
+
+            if (disponible) {
+                JButton btnDisponible = new JButton("Disponible (haz click para modificar)");
+                btnDisponible.addActionListener(e -> {
+                    // Implementa la lógica para modificar la reserva
+                    System.out.println("Modificar reserva con ID: " + idReserva);
+                });
+                disponibilidadPanel.add(btnDisponible);
+            } else {
+                JLabel lblNoDisponible = new JLabel("No disponible");
+                disponibilidadPanel.add(lblNoDisponible);
+            }
+
+            // Añadir el panel de disponibilidad a la derecha
+            reservaPanel.add(disponibilidadPanel, BorderLayout.EAST);
+
+            // Añadir el panel de reserva al panel principal
+            reservasPanel.add(reservaPanel);
+        }
+
+        JScrollPane scrollPane = new JScrollPane(reservasPanel);
+
+        // Agregar el JScrollPane al panel principal
+        panel.add(scrollPane, BorderLayout.CENTER);
+
+        resultSetReservas.close();
+        preparedStatementReservas.close();
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    // Actualizar la interfaz gráfica
+    panel.revalidate();
+    panel.repaint();
+}
+
+private boolean verificarDisponibilidad(int idEstancia) {
+    try {
+        String consultaDisponibilidad = "SELECT disponibilidad FROM estancia WHERE id_estancia = ?";
+        PreparedStatement preparedStatementDisponibilidad = conexion.prepareStatement(consultaDisponibilidad);
+        preparedStatementDisponibilidad.setInt(1, idEstancia);
+
+        ResultSet resultSetDisponibilidad = preparedStatementDisponibilidad.executeQuery();
+
+        if (resultSetDisponibilidad.next()) {
+            String disponibilidad = resultSetDisponibilidad.getString("disponibilidad");
+            return "Si".equalsIgnoreCase(disponibilidad);
+        }
+
+        resultSetDisponibilidad.close();
+        preparedStatementDisponibilidad.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return false;
+}
+
+private JLabel crearLabel(String text) {
+    JLabel label = new JLabel(text);
+    label.setFont(new Font("Arial", Font.PLAIN, 16));
+    return label;
+}
 }
 
 
-}
+
