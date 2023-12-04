@@ -4,10 +4,15 @@ package proyectofinal;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
+
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.Font;
+import java.awt.Image;
 import java.sql.Connection;
 
 import javax.swing.JButton;
@@ -26,33 +31,34 @@ public class misReservasPantalla extends JFrame {
 
 
 
-setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-setBounds(100, 100, 1080, 720);
-setLocationRelativeTo(null);
+	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 1080, 720);
+    setLocationRelativeTo(null);
 
-JPanel contentPane = new JPanel();
-contentPane.setBackground(new Color(15, 82, 15));
-contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    JPanel contentPane = new JPanel();
+    contentPane.setBackground(new Color(15, 82, 15));
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    setContentPane(contentPane);
+    contentPane.setLayout(new BorderLayout());
 
-setContentPane(contentPane);
-contentPane.setLayout(null);
+    JPanel panel = new JPanel();
+    panel.setLayout(null);
+    contentPane.add(panel, BorderLayout.CENTER);
 
-JPanel panel = new JPanel();
-panel.setBounds(26, 31, 1012, 627);
-contentPane.add(panel);
-panel.setLayout(null);
+    JPanel panel_1 = new JPanel();
+    panel_1.setBackground(new Color(214, 232, 212));
+    panel_1.setBounds(0, 0, 1012, 121);
+    panel.add(panel_1);
+    panel_1.setLayout(new FlowLayout(FlowLayout.LEFT)); // Usamos FlowLayout para alinear a la izquierda
 
-JPanel panel_1 = new JPanel();
-panel_1.setBackground(new Color(214, 232, 212));
-panel_1.setBounds(0, 0, 1012, 121);
-panel.add(panel_1);
-panel_1.setLayout(null);
+    ImageIcon icono = new ImageIcon("imagenes/casa.png");
+    icono = new ImageIcon(icono.getImage().getScaledInstance(56, 56, Image.SCALE_SMOOTH));
+    JLabel iconoLabel = new JLabel(icono);
+    panel_1.add(iconoLabel);
 
-
-JLabel lblNewLabel_1 = new JLabel("Mis reservas");
-lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 34));
-lblNewLabel_1.setBounds(410, 43, 210, 49);
-panel_1.add(lblNewLabel_1);
+    JLabel lblNewLabel_1 = new JLabel("Mis reservas");
+    lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 34));
+    panel_1.add(lblNewLabel_1);
 
 JLabel pie = new JLabel("Reservas en pie:");
 pie.setFont(new Font("Arial", Font.BOLD, 22));
