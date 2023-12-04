@@ -127,7 +127,8 @@ public class nuevareservaPantalla extends JFrame {
                                 try {
                                     int numeroPersonas = Integer.parseInt(inputPersonas);
                                     int idEstancia = resultSet.getInt("id_estancia"); // Obtén el idEstancia de alguna manera
-                                    int idCliente = obtenerIdClienteDesdeReserva(idReservaActual);
+                                    int idReservaActual = 0;
+									int idCliente = obtenerIdClienteDesdeReserva(idReservaActual);
 
                                     if (!existeCliente(idCliente)) {
                                         // Manejo de error: El cliente no existe, muestra un mensaje o realiza una acción adecuada

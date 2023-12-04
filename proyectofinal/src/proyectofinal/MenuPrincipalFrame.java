@@ -107,6 +107,17 @@ History.setBackground(new Color(213,232,212,255));
 panel1.add(History);
 History.setVisible(true);
 
+History.addActionListener(new ActionListener() {
+public void actionPerformed(ActionEvent arg0) {
+	 dispose();
+	 historico history = new historico(nombreUsuario, conexion);
+	 history.setVisible(true);
+}
+
+});
+
+
+
 JButton nomUsusario=new JButton(nombreUsuario);
 nomUsusario.setBounds(670, 5, 280, 30);
 panel1.add(nomUsusario);
