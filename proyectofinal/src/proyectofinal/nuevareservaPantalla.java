@@ -33,6 +33,21 @@ public class nuevareservaPantalla extends JFrame {
         icono = new ImageIcon(icono.getImage().getScaledInstance(56, 56, Image.SCALE_SMOOTH));
         JLabel iconoLabel = new JLabel(icono);
         barraMenu.add(iconoLabel, BorderLayout.WEST);
+        
+        
+        JButton Search=new JButton("Buscar");
+        Search.setBounds(670, 30, 100, 30);
+        Search.setBackground(new Color(213,232,212,255));
+        //ImageIcon botonimagen = new ImageIcon("Pictures/back5.png");
+        //atras.setIcon(new ImageIcon(botonimagen.getImage().getScaledInstance(atras.getWidth(),atras.getHeight(),Image.SCALE_SMOOTH )));
+        barraMenu.add(Search);
+        Search.setVisible(true);
+
+        JTextField barBusqueda=new JTextField();
+        barBusqueda.setBounds(770, 30, 200, 30);
+        barBusqueda.setText("introduce tu lugar de destino");
+        barraMenu.add(barBusqueda);
+        barBusqueda.setVisible(true);
 
         iconoLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -44,7 +59,7 @@ public class nuevareservaPantalla extends JFrame {
         });
 
         JLabel labelTexto = new JLabel("Nueva reserva");
-        labelTexto.setFont(new Font(labelTexto.getFont().getName(), Font.PLAIN, 30));
+        labelTexto.setFont(new Font(labelTexto.getFont().getName(), Font.BOLD, 30));
         labelTexto.setHorizontalAlignment(SwingConstants.CENTER);
         barraMenu.add(labelTexto, BorderLayout.CENTER);
 

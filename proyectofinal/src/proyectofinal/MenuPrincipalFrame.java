@@ -52,7 +52,7 @@ panel1.add(etiqueta2);
 JLabel Texto1 = new JLabel();
 Texto1.setText("Pantalla Principal");
 Texto1.setBounds(335, 30, 400, 50);
-Texto1.setFont(new Font(Texto1.getFont().getName(), Font.PLAIN, 30));
+Texto1.setFont(new Font(Texto1.getFont().getName(), Font.BOLD, 30));
 panel1.add(Texto1, BorderLayout.CENTER);
 
 
@@ -66,6 +66,7 @@ Texto2.setFont(new Font("arial",Font.LAYOUT_LEFT_TO_RIGHT,15));
 panel1.add(Texto2);
 
 JButton Nuevas=new JButton("Nuevas Reservas");
+
 Nuevas.setBounds(0, 150, 360, 50);
 Nuevas.setBackground(new Color(213,232,212,255));
 //ImageIcon botonimagen = new ImageIcon("Pictures/back5.png");
