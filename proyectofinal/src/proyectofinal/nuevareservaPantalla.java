@@ -82,9 +82,9 @@ public class nuevareservaPantalla extends JFrame {
                 nombreLabel.setFont(fuentePersonalizada);
                 infoPanel.add(nombreLabel);
                 infoPanel.add(CrearLabel("Tipo de Estancia: " + tipoEstancia));
-                infoPanel.add(CrearLabel("Precio por Dï¿½a: " + precioDia + "ï¿½"));
-                infoPanel.add(CrearLabel("Valoraciï¿½n: " + valoracion + " estrellas"));
-                infoPanel.add(CrearLabel("Ubicaciï¿½n: " + ubicacion));
+                infoPanel.add(CrearLabel("Precio por Dia: " + precioDia + "ï¿½"));
+                infoPanel.add(CrearLabel("Valoracion: " + valoracion + " estrellas"));
+                infoPanel.add(CrearLabel("Ubicacion: " + ubicacion));
                 infoPanel.add(CrearLabel("Disponibilidad: " + disponibilidad));
 
                 // Aï¿½adir la imagen al panel
@@ -125,7 +125,7 @@ public class nuevareservaPantalla extends JFrame {
                                 Date fechaFin = new Date(dateChooserFin.getDate().getTime());
                                 System.out.println("Fecha de fin seleccionada: " + fechaFin);
 
-                                String inputPersonas = JOptionPane.showInputDialog(null, "Ingrese el nï¿½mero de personas:");
+                                String inputPersonas = JOptionPane.showInputDialog(null, "Ingrese el numero de personas:");
 
                                 try {
                                     int numeroPersonas = Integer.parseInt(inputPersonas);
@@ -134,7 +134,7 @@ public class nuevareservaPantalla extends JFrame {
 
                                     if (!existeCliente(idCliente)) {
                                         // Manejo de error: El cliente no existe, muestra un mensaje o realiza una acciï¿½n adecuada
-                                        JOptionPane.showMessageDialog(null, "El cliente no existe. Por favor, seleccione un cliente vï¿½lido.", "Error", JOptionPane.ERROR_MESSAGE);
+                                        JOptionPane.showMessageDialog(null, "El cliente no existe. Por favor, seleccione un cliente valido.", "Error", JOptionPane.ERROR_MESSAGE);
                                     } else {
                                         double precioEstancia = precioDia; // Ajusta segï¿½n tu lï¿½gica
                                         double precioTotal = precioEstancia * numeroPersonas;
@@ -157,10 +157,17 @@ public class nuevareservaPantalla extends JFrame {
 
                                         // Cierra el PreparedStatement despuï¿½s de su uso
                                         preparedStatement1.close();
+                                        
+                                        JOptionPane.showMessageDialog(null, "Reserva realizada", "Éxito", JOptionPane.INFORMATION_MESSAGE); 
+                                        
                                     }
                                 } catch (SQLException ex) {
                                     ex.printStackTrace();
+                                    
+                                    JOptionPane.showMessageDialog(null, "Error al realizar la reserva. Por favor, intente de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
+                                
                                 }
+                                
                             }
                         }
                     }
