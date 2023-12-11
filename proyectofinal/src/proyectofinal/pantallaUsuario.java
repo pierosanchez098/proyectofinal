@@ -54,7 +54,7 @@ public class pantallaUsuario extends JFrame {
         barraMenu.add(labelTexto, BorderLayout.CENTER);
 
         // Botï¿½n "Cerrar sesiï¿½n"
-        JButton botonCerrarSesion = new JButton("Cerrar sesión");
+        JButton botonCerrarSesion = new JButton("Cerrar sesiï¿½n");
         barraMenu.add(botonCerrarSesion, BorderLayout.EAST);
         
         botonCerrarSesion.addActionListener(new ActionListener() {
@@ -114,13 +114,13 @@ public class pantallaUsuario extends JFrame {
                             etiqueta.setText("Apellidos:");
                             break;
                         case 2:
-                            etiqueta.setText("Teléfono:");
+                            etiqueta.setText("Telï¿½fono:");
                             break;
                         case 3:
                             etiqueta.setText("DNI:");
                             break;
                         case 4:
-                            etiqueta.setText("Contraseña:");
+                            etiqueta.setText("Contraseï¿½a:");
                             break;
                     }
                     etiqueta.setFont(fuenteEtiqueta);
@@ -167,23 +167,27 @@ public class pantallaUsuario extends JFrame {
         JPanel panelGuardarCambios = new JPanel(new BorderLayout());
         panelGuardarCambios.setBackground(new Color(255, 255, 255));
 
-     // Textfield "Número de créditos actuales"
-        JTextField numCreditos = new JTextField("0");
+     // Textfield "Nï¿½mero de crï¿½ditos actuales"
+        JTextField numCreditos = new JTextField();
         numCreditos.setEditable(false);
         numCreditos.setPreferredSize(campoDimension);
-        JLabel numCreditosLabel = new JLabel("Número de créditos actuales:");
+        JLabel numCreditosLabel = new JLabel("NÃºmero de crÃ©ditos actuales:");
+        
+        int creditosActuales = obtenerCreditosActuales();
+        
+        numCreditos.setText(String.valueOf(creditosActuales));
 
-        // Textfield "¿Quieres comprar más crédito?"
+        // Textfield "ï¿½Quieres comprar mï¿½s crï¿½dito?"
         JTextField comprarCreditos = new JTextField();
         comprarCreditos.setPreferredSize(campoDimension);
-        JLabel comprarCreditosLabel = new JLabel("¿Quieres comprar más crédito?");
+        JLabel comprarCreditosLabel = new JLabel("ï¿½Quieres comprar mï¿½s crï¿½dito?");
 
-     // Botón "Comprar créditos"
-        JButton botonComprarCreditos = new JButton("Comprar créditos");
+     // Botï¿½n "Comprar crï¿½ditos"
+        JButton botonComprarCreditos = new JButton("Comprar crï¿½ditos");
 
         botonComprarCreditos.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Aquí agregar lógica para dirigirse a la clase Creditos.java
+                // Aquï¿½ agregar lï¿½gica para dirigirse a la clase Creditos.java
                 Creditos creditos = new Creditos(nombreUsuario, conexion);
                 creditos.setVisible(true);
                 dispose(); // Cierra la ventana actual (pantallaUsuario)
@@ -195,7 +199,7 @@ public class pantallaUsuario extends JFrame {
         botonGuardarCambios.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    // Crear una nueva conexión para esta operación
+                    // Crear una nueva conexiï¿½n para esta operaciï¿½n
                 	Connection conexion = book4u.obtenerConexion();
                     
                     for (int i = 0; i < 5; i++) {
@@ -216,7 +220,7 @@ public class pantallaUsuario extends JFrame {
                                     consulta += "dni = ?";
                                     break;
                                 case 4:
-                                    consulta += "contraseña = ?";
+                                    consulta += "contraseï¿½a = ?";
                                     break;
                             }
                             consulta += " WHERE nombre = ?"; // Usar el nombre de usuario para identificar al usuario
@@ -234,7 +238,7 @@ public class pantallaUsuario extends JFrame {
                         }
                     }
                     
-                    conexion.close(); // Cerrar la conexión después de todas las operaciones
+                    conexion.close(); // Cerrar la conexiï¿½n despuï¿½s de todas las operaciones
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -262,6 +266,28 @@ public class pantallaUsuario extends JFrame {
         add(panelInferior, BorderLayout.CENTER);
         setVisible(true);
     }
+	  
+	  private int obtenerCreditosActuales() {
+		    try {
+		        String consulta = "SELECT creditos FROM cliente WHERE nombre = ?";
+		        PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+		        preparedStatement.setString(1, nombreUsuario);
+
+		        ResultSet resultSet = preparedStatement.executeQuery();
+
+		        if (resultSet.next()) {
+		            return resultSet.getInt("creditos");
+		        }
+
+		        resultSet.close();
+		        preparedStatement.close();
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+
+		    // Devolver un valor predeterminado o manejar el caso de error segÃºn tus necesidades
+		    return 0; // Por ejemplo, devolver 0 si no se encuentra el nÃºmero de crÃ©ditos
+		}
 }
         
     	

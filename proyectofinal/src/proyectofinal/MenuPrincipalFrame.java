@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 
 import java.awt.event.ActionListener;
 
-import java.sql.Connection;
+import java.sql.*;
 
 public class MenuPrincipalFrame extends JFrame {
 
@@ -57,7 +57,7 @@ panel1.add(Texto1, BorderLayout.CENTER);
 
 
 JLabel Texto2 = new JLabel();
-Texto2.setText("Nro de créditos");
+Texto2.setText("Nro de crÃ©ditos:");
 Texto2.setBounds(670, 45, 110, 20);
 Texto2.setForeground(Color.white);
 Texto2.setOpaque(true);
@@ -133,10 +133,16 @@ panel1.add(nomUsusario);
  
 });
 
-JTextField numCredit=new JTextField();
-numCredit.setBounds(775, 45, 175, 21);
-panel1.add(numCredit);
-numCredit.setVisible(true);
+ JTextField numCredit = new JTextField();
+ numCredit.setBounds(775, 45, 175, 21);
+ panel1.add(numCredit);
+ numCredit.setVisible(true);
+ numCredit.setEditable(false);
+
+int creditosActuales = obtenerCreditosActuales();
+
+//Mostrar el nÃºmero actual de crÃ©ditos en el JTextField
+numCredit.setText(" " + String.valueOf(creditosActuales));
 
 
 
@@ -144,21 +150,6 @@ JPanel panel2 = new JPanel();
 panel2.setBackground(Color.white);
 panel2.setLayout(null);
 this.getContentPane().add(panel2);
-
-
-JButton Search=new JButton("Buscar");
-Search.setBounds(60, 220, 100, 40);
-Search.setBackground(new Color(213,232,212,255));
-//ImageIcon botonimagen = new ImageIcon("Pictures/back5.png");
-//atras.setIcon(new ImageIcon(botonimagen.getImage().getScaledInstance(atras.getWidth(),atras.getHeight(),Image.SCALE_SMOOTH )));
-panel2.add(Search);
-Search.setVisible(true);
-
-JTextField barBusqueda=new JTextField();
-barBusqueda.setBounds(180, 220, 200, 40);
-barBusqueda.setText("introduce tu lugar de destino");
-panel2.add(barBusqueda);
-barBusqueda.setVisible(true);
 
 
 //Anuncio1
@@ -170,14 +161,14 @@ panel2.add(anuncio1);
 anuncio1.setVisible(true);
 
 JLabel Textoanuncio1 = new JLabel();
-Textoanuncio1.setText("Medplaya Hotel Regente 74€");
+Textoanuncio1.setText("Medplaya Hotel Regente 74ï¿½");
 //Texto1.setForeground(Color.orange);//color teexto
 Textoanuncio1.setBounds(205, 230, 275, 150);
 Textoanuncio1.setFont(new Font("arial",Font.BOLD,20));
 panel2.add(Textoanuncio1);
 
 JLabel ddescripcnanuncio0 = new JLabel();
-ddescripcnanuncio0.setText("Habitación Doble con balcon 2 camas");
+ddescripcnanuncio0.setText("Habitaciï¿½n Doble con balcon 2 camas");
 //Texto1.setForeground(Color.orange);//color teexto
 ddescripcnanuncio0.setBounds(205, 260, 270, 150);
 ddescripcnanuncio0.setFont(new Font("arial",Font.BOLD,12));
@@ -232,14 +223,14 @@ panel2.add(anuncio2);
 anuncio2.setVisible(true);
 
 JLabel Textoanuncio2 = new JLabel();
-Textoanuncio2.setText("Port Benidorm hotel Spa 73€");
+Textoanuncio2.setText("Port Benidorm hotel Spa 73ï¿½");
 //Texto1.setForeground(Color.orange);//color teexto
 Textoanuncio2.setBounds(205, 415, 275, 150);
 Textoanuncio2.setFont(new Font("arial",Font.BOLD,20));
 panel2.add(Textoanuncio2);
 
 JLabel ddescripcnanuncio1 = new JLabel();
-ddescripcnanuncio1.setText("Habitación Doble (2 adultos)");
+ddescripcnanuncio1.setText("Habitaciï¿½n Doble (2 adultos)");
 //Texto1.setForeground(Color.orange);//color teexto
 ddescripcnanuncio1.setBounds(205, 440, 270, 150);
 ddescripcnanuncio1.setFont(new Font("arial",Font.BOLD,12));
@@ -276,5 +267,27 @@ public void actionPerformed(ActionEvent arg0) {
 
 });
 
+}
+
+private int obtenerCreditosActuales() {
+    try {
+        String consulta = "SELECT creditos FROM cliente WHERE nombre = ?";
+        PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+        preparedStatement.setString(1, nombreUsuario);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        if (resultSet.next()) {
+            return resultSet.getInt("creditos");
+        }
+
+        resultSet.close();
+        preparedStatement.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    // Devolver un valor predeterminado o manejar el caso de error segÃºn tus necesidades
+    return 0; // Por ejemplo, devolver 0 si no se encuentra el nÃºmero de crÃ©ditos
 }
 }

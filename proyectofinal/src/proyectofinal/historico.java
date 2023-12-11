@@ -1,20 +1,13 @@
 
 package proyectofinal;
 
-import java.awt.EventQueue;
+import java.awt.*;
+import java.awt.event.*;
+import java.sql.*;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-import java.awt.Font;
-import java.awt.Image;
-import java.sql.Connection;
 
-import javax.swing.JButton;
-import javax.swing.SwingConstants;
 
 public class historico extends JFrame {
 	
@@ -29,120 +22,175 @@ public class historico extends JFrame {
 		this.conexion = conexion;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1080, 720);
-		JPanel contentPane = new JPanel();
-		contentPane.setBackground(new Color(15, 82, 15));
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+	    setBounds(100, 100, 1080, 720);
+	    setLocationRelativeTo(null);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JPanel panel = new JPanel();
-		panel.setBounds(26, 31, 1032, 642);
-		contentPane.add(panel);
-		panel.setLayout(null);
-		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(214, 232, 212));
-		panel_1.setBounds(0, 0, 1080, 155);
-		panel.add(panel_1);
-		panel_1.setLayout(null);
-		
-		JLabel etiqueta2 = new JLabel();
-		ImageIcon imagen  = new ImageIcon("imagenes/Logo_Book4U.jpg"); 
-		etiqueta2.setBounds(05, 0, 170, 150);
-		etiqueta2.setIcon(new ImageIcon(imagen.getImage().getScaledInstance(170, 150, Image.SCALE_SMOOTH)));
-		panel_1.add(etiqueta2);
-		
-		
-		JLabel lblNewLabel_1 = new JLabel("Mi Historial");
-		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 34));
-		lblNewLabel_1.setBounds(440, 49, 360, 49);
-		panel_1.add(lblNewLabel_1);
-		
-		
-		
-		JLabel pie = new JLabel("Historial de reservas hechas:");
-		pie.setFont(new Font("Arial", Font.BOLD, 22));
-		pie.setBounds(128, 160, 321, 34);
-		panel.add(pie);
-		
-		JLabel cifraActualizable = new JLabel("*Cifra de equivalencia*");
-		cifraActualizable.setBounds(825, 243, 117, 52);
-		panel.add(cifraActualizable);
-		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(new Color(15, 82, 15));
-		panel_2.setBounds(599, 160, 163, 43);
-		panel.add(panel_2);
-		panel_2.setLayout(null);
-		
-		JLabel lblNewLabel_3 = new JLabel("N�mero de cr�ditos gastados:");
-		lblNewLabel_3.setBounds(0, 0, 163, 43);
-		panel_2.add(lblNewLabel_3);
-		lblNewLabel_3.setForeground(new Color(255, 255, 255));
-		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3.setBackground(new Color(15, 82, 15));
-		
-		JPanel panel_2_1 = new JPanel();
-		panel_2_1.setBackground(new Color(15, 82, 15));
-		panel_2_1.setBounds(809, 160, 136, 43);
-		panel.add(panel_2_1);
-		panel_2_1.setLayout(null);
-		
-		JLabel lblNewLabel_4 = new JLabel("Equivalencia real");
-		lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_4.setForeground(new Color(255, 255, 255));
-		lblNewLabel_4.setBackground(new Color(255, 255, 255));
-		lblNewLabel_4.setBounds(0, 0, 136, 43);
-		panel_2_1.add(lblNewLabel_4);
-		
-		JLabel lblNewLabel_5 = new JLabel("Reserva hecha de cliente");
-		lblNewLabel_5.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_5.setBounds(185, 227, 179, 85);
-		panel.add(lblNewLabel_5);
-		
-		JLabel cifraActualizable_1 = new JLabel("*Cifra de equivalencia*");
-		cifraActualizable_1.setBounds(825, 341, 117, 52);
-		panel.add(cifraActualizable_1);
-		
-		JLabel cifraActualizable_2 = new JLabel("*Cifra de equivalencia*");
-		cifraActualizable_2.setBounds(825, 437, 117, 52);
-		panel.add(cifraActualizable_2);
-		
-		JLabel cifraActualizable_3 = new JLabel("*Cifra de equivalencia*");
-		cifraActualizable_3.setBounds(825, 522, 117, 52);
-		panel.add(cifraActualizable_3);
-		
-		JLabel cifraActualizable_3_1 = new JLabel("*Cifra de equivalencia*");
-		cifraActualizable_3_1.setBounds(624, 522, 117, 52);
-		panel.add(cifraActualizable_3_1);
-		
-		JLabel cifraActualizable_4 = new JLabel("*Cifra de equivalencia*");
-		cifraActualizable_4.setBounds(624, 243, 117, 52);
-		panel.add(cifraActualizable_4);
-		
-		JLabel cifraActualizable_1_1 = new JLabel("*Cifra de equivalencia*");
-		cifraActualizable_1_1.setBounds(624, 341, 117, 52);
-		panel.add(cifraActualizable_1_1);
-		
-		JLabel cifraActualizable_2_1 = new JLabel("*Cifra de equivalencia*");
-		cifraActualizable_2_1.setBounds(624, 437, 117, 52);
-		panel.add(cifraActualizable_2_1);
-		
-		JLabel lblNewLabel_5_1 = new JLabel("Reserva hecha de cliente");
-		lblNewLabel_5_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_5_1.setBounds(185, 322, 179, 85);
-		panel.add(lblNewLabel_5_1);
-		
-		JLabel lblNewLabel_5_2 = new JLabel("Reserva hecha de cliente");
-		lblNewLabel_5_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_5_2.setBounds(185, 417, 179, 85);
-		panel.add(lblNewLabel_5_2);
-		
-		JLabel lblNewLabel_5_3 = new JLabel("Reserva hecha de cliente");
-		lblNewLabel_5_3.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_5_3.setBounds(185, 511, 179, 85);
-		panel.add(lblNewLabel_5_3);
+	    JPanel contentPane = new JPanel();
+	    contentPane.setBackground(new Color(15, 82, 15));
+	    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+	    setContentPane(contentPane);
+	    contentPane.setLayout(new BorderLayout());
+
+	    JPanel panel = new JPanel();
+	    panel.setLayout(new BorderLayout());
+	    contentPane.add(panel, BorderLayout.CENTER);
+
+	    JPanel panel_1 = new JPanel();
+	    panel_1.setBackground(new Color(214, 232, 212));
+	    panel_1.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+	    ImageIcon icono = new ImageIcon("imagenes/casa.png");
+	    icono = new ImageIcon(icono.getImage().getScaledInstance(56, 56, Image.SCALE_SMOOTH));
+	    JLabel iconoLabel = new JLabel(icono);
+	    panel_1.add(iconoLabel);
+
+	    JLabel lblNewLabel_1 = new JLabel("Histórico");
+	    lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 34));
+	    panel_1.add(lblNewLabel_1);
+
+	    iconoLabel.addMouseListener(new MouseAdapter() {
+	        @Override
+	        public void mouseClicked(MouseEvent e) {
+	            MenuPrincipalFrame menuPrincipalFrame = new MenuPrincipalFrame(nombreUsuario, conexion);
+	            menuPrincipalFrame.setVisible(true);
+	            dispose();
+	        }
+	    });
+
+	    panel.add(panel_1, BorderLayout.NORTH);
+
+	    JLabel pie = new JLabel("Reservas realizadas:");
+	    pie.setFont(new Font("Arial", Font.BOLD, 22));
+	    panel.add(pie, BorderLayout.WEST);
+
+	    int idCliente = obtenerIdCliente(nombreUsuario);
+
+	    // Mostrar las reservas asociadas a ese id_cliente
+	    mostrarReservas(idCliente, panel);
 	}
-}
+
+	private int obtenerIdCliente(String nombreUsuario) {
+	    try {
+	        String consulta = "SELECT id_cliente FROM cliente WHERE nombre = ?";
+	        PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+	        preparedStatement.setString(1, nombreUsuario);
+
+	        ResultSet resultSet = preparedStatement.executeQuery();
+
+	        if (resultSet.next()) {
+	            return resultSet.getInt("id_cliente");
+	        }
+
+	        resultSet.close();
+	        preparedStatement.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return -1;
+	}
+
+	private void mostrarReservas(int idCliente, JPanel panel) {
+	    try {
+	        String consultaReservas = "SELECT nombre, direccion, preciototal, personas, fechai, fechaf, precio_creditostotal, imagen FROM historico WHERE id_cliente = ?";
+	        PreparedStatement preparedStatementReservas = conexion.prepareStatement(consultaReservas);
+	        preparedStatementReservas.setInt(1, idCliente);
+
+	        ResultSet resultSetReservas = preparedStatementReservas.executeQuery();
+
+	        // Crear un panel para las reservas con un layout vertical
+	        JPanel reservasPanel = new JPanel();
+	        reservasPanel.setLayout(new BoxLayout(reservasPanel, BoxLayout.Y_AXIS));
+
+	        // Encabezado "Créditos gastados y equivalencia (dinero real):"
+	        JLabel encabezadoReservas = new JLabel("Créditos gastados y equivalencia:");
+	        encabezadoReservas.setFont(new Font("Arial", Font.BOLD, 22));
+	        reservasPanel.add(encabezadoReservas);
+
+	        while (resultSetReservas.next()) {
+	            String nombreReserva = resultSetReservas.getString("nombre");
+	            String direccion = resultSetReservas.getString("direccion");
+	            int precioTotal = resultSetReservas.getInt("preciototal");
+	            int personas = resultSetReservas.getInt("personas");
+	            Date fechaInicio = resultSetReservas.getDate("fechai");
+	            Date fechaFin = resultSetReservas.getDate("fechaf");
+	            int preciocreditosTotal = resultSetReservas.getInt("precio_creditostotal");
+	            String imagenPath = resultSetReservas.getString("imagen");
+
+	            // Crear un panel para cada reserva
+	            JPanel reservaPanel = new JPanel(new BorderLayout());
+
+	            // Crear un panel para la información de la reserva
+	            JPanel infoPanel = new JPanel();
+	            infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+
+	            // Nombre de la estancia en negrita y con fuente más grande
+	            JLabel nombreEstanciaLabel = new JLabel("Nombre: " + nombreReserva);
+	            nombreEstanciaLabel.setFont(new Font("Arial", Font.BOLD, 18));
+	            infoPanel.add(nombreEstanciaLabel);
+
+	            infoPanel.add(crearLabel("Dirección: " + direccion));
+	            infoPanel.add(crearLabel("Precio Total: " + precioTotal));
+	            infoPanel.add(crearLabel("Personas: " + personas));
+	            infoPanel.add(crearLabel("Fecha Inicio: " + fechaInicio));
+	            infoPanel.add(crearLabel("Fecha Fin: " + fechaFin));
+
+	            // Añadir la imagen al panel
+	            JLabel imagenLabel = new JLabel();
+	            try {
+	                ImageIcon iconoReserva = new ImageIcon(imagenPath);
+	                iconoReserva = new ImageIcon(iconoReserva.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH));
+	                imagenLabel.setIcon(iconoReserva);
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	            }
+	            infoPanel.add(imagenLabel);
+
+	            // Añadir el panel de información al panel de reserva
+	            reservaPanel.add(infoPanel, BorderLayout.CENTER);
+
+	            // Añadir botón o label de disponibilidad a la derecha
+	            JPanel disponibilidadPanel = new JPanel();
+	            disponibilidadPanel.setLayout(new BoxLayout(disponibilidadPanel, BoxLayout.Y_AXIS));
+
+	            // Agregar la nueva columna "Precio"
+	            int precioCreditos = preciocreditosTotal;
+	            disponibilidadPanel.add(crearLabel("Precio de reserva: " + precioCreditos + " créditos"));
+	            
+	            int precioEquivalente = precioCreditos * 10;
+	            disponibilidadPanel.add(crearLabel("Precio equivalente (dinero real): " + precioEquivalente + " €"));
+
+	            // Añadir el panel de disponibilidad a la derecha
+	            reservaPanel.add(disponibilidadPanel, BorderLayout.EAST);
+
+	            // Añadir el panel de reserva al panel principal
+	            reservasPanel.add(reservaPanel);
+	        }
+
+	        JScrollPane scrollPane = new JScrollPane(reservasPanel);
+
+	        // Agregar el JScrollPane al panel principal
+	        panel.add(scrollPane, BorderLayout.CENTER);
+
+	        resultSetReservas.close();
+	        preparedStatementReservas.close();
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    // Actualizar la interfaz gráfica
+	    panel.revalidate();
+	    panel.repaint();
+	}
+
+
+
+
+
+	private JLabel crearLabel(String text) {
+	    JLabel label = new JLabel(text);
+	    label.setFont(new Font("Arial", Font.PLAIN, 16));
+	    return label;
+	}
+	}

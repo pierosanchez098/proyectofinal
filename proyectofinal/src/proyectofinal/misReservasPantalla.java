@@ -6,11 +6,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
+import com.toedter.calendar.JDateChooser;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import java.awt.Font;
@@ -121,7 +124,7 @@ private void mostrarReservas(int idCliente, JPanel panel) {
         reservasPanel.setLayout(new BoxLayout(reservasPanel, BoxLayout.Y_AXIS));
 
         // Encabezado "Reservas en pie:"
-        JLabel encabezadoReservas = new JLabel("Disponibilidad:");
+        JLabel encabezadoReservas = new JLabel("Precio y disponibilidad:");
         encabezadoReservas.setFont(new Font("Arial", Font.BOLD, 22));
         reservasPanel.add(encabezadoReservas);
 
@@ -174,12 +177,48 @@ private void mostrarReservas(int idCliente, JPanel panel) {
             JPanel disponibilidadPanel = new JPanel();
             disponibilidadPanel.setLayout(new BoxLayout(disponibilidadPanel, BoxLayout.Y_AXIS));
 
+            // Agregar la nueva columna "Precio"
+            int precioCreditos = obtenerPrecioCreditos(idReserva);
+            disponibilidadPanel.add(crearLabel("Precio de reserva: " + precioCreditos + " créditos"));
+
             if (disponible) {
-                JButton btnDisponible = new JButton("Disponible (haz click para modificar)");
-                btnDisponible.addActionListener(e -> {
-                    // Implementa la lógica para modificar la reserva
-                    System.out.println("Modificar reserva con ID: " + idReserva);
+            	JButton btnDisponible = new JButton("Disponible (haz click para modificar)");
+            	btnDisponible.addActionListener(e -> {
+            	    Object[] opciones = {"Fecha de inicio", "Fecha de fin", "Número de personas"};
+            	    int opcionElegida = JOptionPane.showOptionDialog(null, "¿Qué quieres modificar?", "Modificar Reserva", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+
+            	    if (opcionElegida == 0 || opcionElegida == 1) {
+            	        JDateChooser dateChooser = new JDateChooser();
+            	        int result = JOptionPane.showConfirmDialog(null, dateChooser, "Seleccione una nueva fecha", JOptionPane.OK_CANCEL_OPTION);
+
+            	        if (result == JOptionPane.OK_OPTION) {
+            	            Date nuevaFecha = new java.sql.Date(dateChooser.getDate().getTime());
+            	        
+                    
+                
+
+                    // Realiza la acción correspondiente según la opción elegida
+                    switch (opcionElegida) {
+                    case 0: // Fecha de inicio
+                        modificarFechaInicio(idReserva, nuevaFecha);
+                        break;
+                    case 1: // Fecha de fin
+                        modificarFechaFin(idReserva, nuevaFecha);
+                        break;
+                    case 2: // Número de personas
+                        // Implementa la lógica para modificar el número de personas
+                        System.out.println("Modificar Número de personas para la reserva con ID: " + idReserva);
+                        break;
+                    default:
+                        // El usuario cerró la ventana sin seleccionar ninguna opción
+                        break;
+                
+                    }
+                    }
+            	    }
                 });
+             
+                
                 disponibilidadPanel.add(btnDisponible);
             } else {
                 JLabel lblNoDisponible = new JLabel("No disponible");
@@ -210,11 +249,13 @@ private void mostrarReservas(int idCliente, JPanel panel) {
     panel.repaint();
 }
 
-private boolean verificarDisponibilidad(int idEstancia) {
+private boolean verificarDisponibilidad(int idReserva) {
     try {
-        String consultaDisponibilidad = "SELECT disponibilidad FROM estancia WHERE id_estancia = ?";
+        String consultaDisponibilidad = "SELECT e.disponibilidad FROM reserva r " +
+                                        "JOIN estancia e ON r.id_estancia = e.id_estancia " +
+                                        "WHERE r.id_reserva = ?";
         PreparedStatement preparedStatementDisponibilidad = conexion.prepareStatement(consultaDisponibilidad);
-        preparedStatementDisponibilidad.setInt(1, idEstancia);
+        preparedStatementDisponibilidad.setInt(1, idReserva);
 
         ResultSet resultSetDisponibilidad = preparedStatementDisponibilidad.executeQuery();
 
@@ -230,6 +271,94 @@ private boolean verificarDisponibilidad(int idEstancia) {
     }
 
     return false;
+}
+
+private int obtenerPrecioCreditos(int idReserva) {
+    try {
+        String consultaPrecioCreditos = "SELECT precio_creditostotal FROM reserva WHERE id_reserva = ?";
+        PreparedStatement preparedStatementPrecioCreditos = conexion.prepareStatement(consultaPrecioCreditos);
+        preparedStatementPrecioCreditos.setInt(1, idReserva);
+
+        ResultSet resultSetPrecioCreditos = preparedStatementPrecioCreditos.executeQuery();
+
+        if (resultSetPrecioCreditos.next()) {
+            return resultSetPrecioCreditos.getInt("precio_creditostotal");
+        }
+
+        resultSetPrecioCreditos.close();
+        preparedStatementPrecioCreditos.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return -1;
+}
+
+private void modificarFechaInicio(int idReserva, Date nuevaFecha) {
+    try {
+    	
+    	java.sql.Date sqlNuevaFecha = new java.sql.Date(nuevaFecha.getTime());
+        // Realiza el update en la base de datos
+        String updateQuery = "UPDATE reserva SET fechai = ? WHERE id_reserva = ?";
+        PreparedStatement preparedStatement = conexion.prepareStatement(updateQuery);
+        preparedStatement.setDate(1, sqlNuevaFecha);
+        preparedStatement.setInt(2, idReserva);
+        
+        int filasAfectadas = preparedStatement.executeUpdate();
+
+        if (filasAfectadas > 0) {
+            JOptionPane.showMessageDialog(null, "Fecha modificada correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se pudo modificar la fecha", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        preparedStatement.close();
+        
+        String updatehistorico = "UPDATE historico SET fechai = ? WHERE id_reserva = ?";
+        PreparedStatement preparedStatementHistorico = conexion.prepareStatement(updatehistorico);
+        preparedStatementHistorico.setDate(1, sqlNuevaFecha);
+        preparedStatementHistorico.setInt(2, idReserva);
+        
+        preparedStatementHistorico.executeUpdate();
+        preparedStatementHistorico.close();
+        
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error al modificar la fecha. Por favor, intente de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
+
+private void modificarFechaFin(int idReserva, Date nuevaFecha) {
+    try {
+    	java.sql.Date sqlNuevaFecha = new java.sql.Date(nuevaFecha.getTime());
+        // Realiza el update en la base de datos
+        String updateQuery = "UPDATE reserva SET fechaf = ? WHERE id_reserva = ?";
+        PreparedStatement preparedStatement = conexion.prepareStatement(updateQuery);
+        preparedStatement.setDate(1, sqlNuevaFecha);
+        preparedStatement.setInt(2, idReserva);
+        
+        int filasAfectadas = preparedStatement.executeUpdate();
+
+        if (filasAfectadas > 0) {
+            JOptionPane.showMessageDialog(null, "Fecha modificada correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se pudo modificar la fecha", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        preparedStatement.close();
+        
+        String updatehistorico = "UPDATE historico SET fechaf = ? WHERE id_reserva = ?";
+        PreparedStatement preparedStatementHistorico = conexion.prepareStatement(updatehistorico);
+        preparedStatementHistorico.setDate(1, sqlNuevaFecha);
+        preparedStatementHistorico.setInt(2, idReserva);
+        
+        preparedStatementHistorico.executeUpdate();
+        preparedStatementHistorico.close();
+        
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error al modificar la fecha. Por favor, intente de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
 }
 
 private JLabel crearLabel(String text) {
