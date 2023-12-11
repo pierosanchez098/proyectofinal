@@ -144,22 +144,22 @@ private void mostrarReservas(int idCliente, JPanel panel) {
             // Crear un panel para cada reserva
             JPanel reservaPanel = new JPanel(new BorderLayout());
 
-            // Crear un panel para la informaciÃ³n de la reserva
+            // Crear un panel para la información de la reserva
             JPanel infoPanel = new JPanel();
             infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 
-            // Nombre de la estancia en negrita y con fuente mÃ¡s grande
+            // Nombre de la estancia en negrita y con fuente más grande
             JLabel nombreEstanciaLabel = new JLabel("Nombre: " + nombreReserva);
             nombreEstanciaLabel.setFont(new Font("Arial", Font.BOLD, 18));
             infoPanel.add(nombreEstanciaLabel);
 
-            infoPanel.add(crearLabel("DirecciÃ³n: " + direccion));
+            infoPanel.add(crearLabel("Dirección: " + direccion));
             infoPanel.add(crearLabel("Precio Total: " + precioTotal));
             infoPanel.add(crearLabel("Personas: " + personas));
             infoPanel.add(crearLabel("Fecha Inicio: " + fechaInicio));
             infoPanel.add(crearLabel("Fecha Fin: " + fechaFin));
 
-            // AÃ±adir la imagen al panel
+            // Añadir la imagen al panel
             JLabel imagenLabel = new JLabel();
             try {
                 ImageIcon iconoReserva = new ImageIcon(imagenPath);
@@ -170,22 +170,22 @@ private void mostrarReservas(int idCliente, JPanel panel) {
             }
             infoPanel.add(imagenLabel);
 
-            // AÃ±adir el panel de informaciÃ³n al panel de reserva
+            // Añadir el panel de información al panel de reserva
             reservaPanel.add(infoPanel, BorderLayout.CENTER);
 
-            // AÃ±adir botÃ³n o label de disponibilidad a la derecha
+            // Añadir botón o label de disponibilidad a la derecha
             JPanel disponibilidadPanel = new JPanel();
             disponibilidadPanel.setLayout(new BoxLayout(disponibilidadPanel, BoxLayout.Y_AXIS));
 
             // Agregar la nueva columna "Precio"
             int precioCreditos = obtenerPrecioCreditos(idReserva);
-            disponibilidadPanel.add(crearLabel("Precio de reserva: " + precioCreditos + " crÃ©ditos"));
+            disponibilidadPanel.add(crearLabel("Precio de reserva: " + precioCreditos + " créditos"));
 
             if (disponible) {
             	JButton btnDisponible = new JButton("Disponible (haz click para modificar)");
             	btnDisponible.addActionListener(e -> {
-            	    Object[] opciones = {"Fecha de inicio", "Fecha de fin", "NÃºmero de personas", "Cancelar reserva"};
-            	    int opcionElegida = JOptionPane.showOptionDialog(null, "Â¿QuÃ© quieres modificar?", "Modificar Reserva", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+            	    Object[] opciones = {"Fecha de inicio", "Fecha de fin", "Número de personas", "Cancelar reserva"};
+            	    int opcionElegida = JOptionPane.showOptionDialog(null, "¿Qué quieres modificar?", "Modificar Reserva", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
 
             	    if (opcionElegida == 0 || opcionElegida == 1) {
             	        JDateChooser dateChooser = new JDateChooser();
@@ -197,7 +197,7 @@ private void mostrarReservas(int idCliente, JPanel panel) {
                     
                 
 
-                    // Realiza la acciÃ³n correspondiente segÃºn la opciÃ³n elegida
+                    // Realiza la acción correspondiente según la opción elegida
                     switch (opcionElegida) {
                     case 0: // Fecha de inicio
                         modificarFechaInicio(idReserva, nuevaFecha);
@@ -205,15 +205,15 @@ private void mostrarReservas(int idCliente, JPanel panel) {
                     case 1: // Fecha de fin
                         modificarFechaFin(idReserva, nuevaFecha);
                         break;
-                    case 2: // NÃºmero de personas
-                        // Implementa la lÃ³gica para modificar el nÃºmero de personas
-                        System.out.println("Modificar NÃºmero de personas para la reserva con ID: " + idReserva);
+                    case 2: // Número de personas
+                        // Implementa la lógica para modificar el número de personas
+                        System.out.println("Modificar Número de personas para la reserva con ID: " + idReserva);
                         break;
                     case 3:
                     	cancelarReserva(idReserva);
                     	break;
                     default:
-                        // El usuario cerrÃ³ la ventana sin seleccionar ninguna opciÃ³n
+                        // El usuario cerró la ventana sin seleccionar ninguna opción
                         break;
                 
                     }
@@ -228,10 +228,10 @@ private void mostrarReservas(int idCliente, JPanel panel) {
                 disponibilidadPanel.add(lblNoDisponible);
             }
 
-            // AÃ±adir el panel de disponibilidad a la derecha
+            // Añadir el panel de disponibilidad a la derecha
             reservaPanel.add(disponibilidadPanel, BorderLayout.EAST);
 
-            // AÃ±adir el panel de reserva al panel principal
+            // Añadir el panel de reserva al panel principal
             reservasPanel.add(reservaPanel);
         }
 
@@ -247,7 +247,7 @@ private void mostrarReservas(int idCliente, JPanel panel) {
         e.printStackTrace();
     }
 
-    // Actualizar la interfaz grÃ¡fica
+    // Actualizar la interfaz gráfica
     panel.revalidate();
     panel.repaint();
 }

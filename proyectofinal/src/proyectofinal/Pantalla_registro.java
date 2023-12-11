@@ -35,9 +35,9 @@ public class Pantalla_registro extends JFrame {
         imageLabel.setBounds(80, 50, 150, 100);
         panelLimon.add(imageLabel);
 
-        // Etiqueta de Iniciar sesi贸n
+        // Etiqueta de Iniciar sesi髇
         JLabel panelBlanco = new JLabel("Registrar usuario");
-        panelBlanco.setBounds(375, 180, 200, 25); // Ajustado el tama帽o
+        panelBlanco.setBounds(375, 180, 200, 25); // Ajustado el tama駉
         panelBlanco.setFont(new Font("Arial", Font.BOLD, 20));
 
         // Etiquetas y campos de texto
@@ -71,12 +71,12 @@ public class Pantalla_registro extends JFrame {
         JTextField correoField = new JTextField();
         correoField.setBounds(200, 400, 120, 25);
 
-        JLabel contrasenaLabel = new JLabel("Contrase帽a:");
+        JLabel contrasenaLabel = new JLabel("Contrase馻:");
         contrasenaLabel.setBounds(50, 430, 80, 25);
         JPasswordField passwordField = new JPasswordField();
         passwordField.setBounds(200, 430, 120, 25);
 
-        // Bot贸n de Iniciar sesi贸n
+        // Bot髇 de Iniciar sesi髇
         JButton botondeRegistro = new JButton("Registrarse");
         botondeRegistro.setBounds(375, 350, 100, 30);
         panelLimon.add(botondeRegistro);
@@ -135,16 +135,16 @@ public class Pantalla_registro extends JFrame {
         });
 
         
-        // Panel para el mensaje y el bot贸n de registrarse
+        // Panel para el mensaje y el bot髇 de registrarse
         JPanel InicioSesionpanel = new JPanel(new GridLayout(1, 2, 5, 0));
         InicioSesionpanel.setBounds(350, 425, 200, 25);
 
-        // Label 驴A煤n no te has registrado? con fuente m谩s peque帽a
-        JLabel SesionLabel = new JLabel("驴Ya tienes una cuenta?");
+        // Label a鷑 no te has registrado? con fuente m醩 peque馻
+        JLabel SesionLabel = new JLabel("縔a tienes una cuenta?");
         SesionLabel.setFont(new Font("Arial", Font.PLAIN, 8));
 
-        // Bot贸n para registrarse
-        JButton iniciarVolver = new JButton("Iniciar sesi贸n");
+        // Bot髇 para registrarse
+        JButton iniciarVolver = new JButton("Iniciar sesi髇");
         
         iniciarVolver.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

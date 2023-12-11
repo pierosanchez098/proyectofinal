@@ -20,7 +20,7 @@ public class Pantalla_login extends JFrame {
         background.setBounds(0, 0, 1080, 720);
         background.setLayout(null);
 
-        // Crear un panel blanco para los componentes de inicio de sesi贸n
+        // Crear un panel blanco para los componentes de inicio de sesi髇
         JPanel panelLimon = new JPanel();
         panelLimon.setLayout(null);
         panelLimon.setBackground(new Color(214, 232, 213, 255));
@@ -40,8 +40,8 @@ public class Pantalla_login extends JFrame {
         imageLabel.setBounds(80, 50, 150, 100);
         panelLimon.add(imageLabel);
 
-        // Etiqueta de Iniciar sesi贸n
-        JLabel TituloLogin = new JLabel("Iniciar sesi贸n");
+        // Etiqueta de Iniciar sesi髇
+        JLabel TituloLogin = new JLabel("Iniciar sesi髇");
         TituloLogin.setBounds(90, 180, 150, 25);
         panelLimon.add(TituloLogin);
         TituloLogin.setFont(new Font("Arial", Font.BOLD, 20));
@@ -51,8 +51,8 @@ public class Pantalla_login extends JFrame {
         UsuarioLabel.setBounds(50, 250, 150, 25);
         panelLimon.add(UsuarioLabel);
 
-        // Etiqueta de Contrase帽a
-        JLabel ContrasenaLabel = new JLabel("Contrase帽a");
+        // Etiqueta de Contrase馻
+        JLabel ContrasenaLabel = new JLabel("Contrase馻");
         ContrasenaLabel.setBounds(50, 290, 80, 25);
         panelLimon.add(ContrasenaLabel);
 
@@ -61,26 +61,26 @@ public class Pantalla_login extends JFrame {
         usuarioCampo.setBounds(150, 250, 120, 25);
         panelLimon.add(usuarioCampo);
 
-        // Campo de contrase帽a
+        // Campo de contrase馻
         JPasswordField claveCampo = new JPasswordField();
         claveCampo.setBounds(150, 290, 120, 25);
         panelLimon.add(claveCampo);
 
-        // Bot贸n de Iniciar sesi贸n
+        // Bot髇 de Iniciar sesi髇
         JButton BotonEntrar = new JButton("Entrar");
         BotonEntrar.setBounds(100, 350, 100, 30);
         panelLimon.add(BotonEntrar);
 
-        // Panel para el mensaje y el bot贸n de registrarse
+        // Panel para el mensaje y el bot髇 de registrarse
         JPanel panelRegistro = new JPanel(new GridLayout(1, 2, 5, 0)); // 1 fila, 2 columnas
         panelRegistro.setBounds(50, 425, 200, 25); // Ajustar el ancho
 
-        // Label 驴A煤n no te has registrado? con fuente m谩s peque帽a
-        JLabel textoRegistro = new JLabel("驴A煤n no te has registrado?");
-        textoRegistro.setFont(new Font("Arial", Font.PLAIN, 8)); // Tama帽o de fuente m谩s peque帽o
+        // Label a鷑 no te has registrado? con fuente m醩 peque馻
+        JLabel textoRegistro = new JLabel("a鷑 no te has registrado?");
+        textoRegistro.setFont(new Font("Arial", Font.PLAIN, 8)); // Tama駉 de fuente m醩 peque駉
         panelRegistro.add(textoRegistro);
 
-        // Bot贸n para registrarse
+        // Bot髇 para registrarse
         JButton botonRegistro = new JButton("Registrarse");
         panelRegistro.add(botonRegistro);
 
@@ -98,7 +98,7 @@ public class Pantalla_login extends JFrame {
                     menuPrincipalFrame.setVisible(true);
                     dispose();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Credenciales incorrectas", "Error de inicio de sesi贸n", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Credenciales incorrectas", "Error de inicio de sesi髇", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -122,7 +122,7 @@ public class Pantalla_login extends JFrame {
         setIconImage(icono.getImage());
         getContentPane().setBackground(new Color(0x0F520F));
 
-        // L铆neas para centrar el JFrame en la pantalla
+        // L韓eas para centrar el JFrame en la pantalla
         Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (pantalla.width - getWidth()) / 2;
         int y = (pantalla.height - getHeight()) / 2;

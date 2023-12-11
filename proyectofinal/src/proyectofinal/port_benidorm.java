@@ -59,9 +59,9 @@ public class port_benidorm extends JFrame{
 	        panelInferior.add(VerAnuncio2, BorderLayout.SOUTH);
 	        VerAnuncio2.setVisible(true);
 	       
-	     // Panel superior (que cumple la funciï¿½n de una barra de menï¿½)
+	     // Panel superior (que cumple la función de una barra de menó)
 	        JPanel barraMenu = new JPanel(new BorderLayout());
-	        barraMenu.setBackground(new Color(213, 232, 212, 255)); // Color verde limï¿½n
+	        barraMenu.setBackground(new Color(213, 232, 212, 255)); // Color verde limón
 	        barraMenu.setPreferredSize(new Dimension(1050, 80));
 	        this.getContentPane().add(barraMenu);
 

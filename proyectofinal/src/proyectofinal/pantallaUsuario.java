@@ -26,9 +26,9 @@ public class pantallaUsuario extends JFrame {
         Color colorDeFondo = new Color(15, 82, 15, 255);
        getContentPane().setBackground(colorDeFondo);
 
-     // Panel superior (que cumple la funciï¿½n de una barra de menï¿½)
+     // Panel superior (que cumple la función de una barra de menó)
         JPanel barraMenu = new JPanel(new BorderLayout());
-        barraMenu.setBackground(new Color(213, 232, 212, 255)); // Color verde limï¿½n
+        barraMenu.setBackground(new Color(213, 232, 212, 255)); // Color verde limón
         barraMenu.setPreferredSize(new Dimension(1050, 80));
 
         // Icono
@@ -53,8 +53,8 @@ public class pantallaUsuario extends JFrame {
         labelTexto.setHorizontalAlignment(SwingConstants.CENTER);
         barraMenu.add(labelTexto, BorderLayout.CENTER);
 
-        // Botï¿½n "Cerrar sesiï¿½n"
-        JButton botonCerrarSesion = new JButton("Cerrar sesiï¿½n");
+        // Botón "Cerrar sesión"
+        JButton botonCerrarSesion = new JButton("Cerrar sesión");
         barraMenu.add(botonCerrarSesion, BorderLayout.EAST);
         
         botonCerrarSesion.addActionListener(new ActionListener() {
@@ -79,13 +79,13 @@ public class pantallaUsuario extends JFrame {
         JPanel panelCampos = new JPanel(new GridLayout(5, 1)); 
         panelCampos.setBackground(new Color(255, 255, 255)); 
 
-        // Tamaï¿½o de los campos de entrada
+        // Tamaóo de los campos de entrada
         Dimension campoDimension = new Dimension(200, 20); 
 
-        // Etiquetas para los campos con fuente mï¿½s pequeï¿½a
+        // Etiquetas para los campos con fuente mós pequeóa
         Font fuenteEtiqueta = new Font("Arial", Font.PLAIN, 16); 
 
-        // Agregar campos de entrada, botones "Editar" y lï¿½gica de ediciï¿½n
+        // Agregar campos de entrada, botones "Editar" y lógica de edición
         JTextField[] campos = new JTextField[5];
         JToggleButton[] botonesEditar = new JToggleButton[5];
         String[] valoresOriginales = new String[5];
@@ -114,13 +114,13 @@ public class pantallaUsuario extends JFrame {
                             etiqueta.setText("Apellidos:");
                             break;
                         case 2:
-                            etiqueta.setText("Telï¿½fono:");
+                            etiqueta.setText("Telófono:");
                             break;
                         case 3:
                             etiqueta.setText("DNI:");
                             break;
                         case 4:
-                            etiqueta.setText("Contraseï¿½a:");
+                            etiqueta.setText("Contraseña:");
                             break;
                     }
                     etiqueta.setFont(fuenteEtiqueta);
@@ -167,27 +167,27 @@ public class pantallaUsuario extends JFrame {
         JPanel panelGuardarCambios = new JPanel(new BorderLayout());
         panelGuardarCambios.setBackground(new Color(255, 255, 255));
 
-     // Textfield "Nï¿½mero de crï¿½ditos actuales"
+     // Textfield "Nómero de cróditos actuales"
         JTextField numCreditos = new JTextField();
         numCreditos.setEditable(false);
         numCreditos.setPreferredSize(campoDimension);
-        JLabel numCreditosLabel = new JLabel("NÃºmero de crÃ©ditos actuales:");
+        JLabel numCreditosLabel = new JLabel("Número de créditos actuales:");
         
         int creditosActuales = obtenerCreditosActuales();
         
         numCreditos.setText(String.valueOf(creditosActuales));
 
-        // Textfield "ï¿½Quieres comprar mï¿½s crï¿½dito?"
+        // Textfield "óQuieres comprar mós cródito?"
         JTextField comprarCreditos = new JTextField();
         comprarCreditos.setPreferredSize(campoDimension);
-        JLabel comprarCreditosLabel = new JLabel("ï¿½Quieres comprar mï¿½s crï¿½dito?");
+        JLabel comprarCreditosLabel = new JLabel("¿Quieres comprar más créditos?");
 
-     // Botï¿½n "Comprar crï¿½ditos"
-        JButton botonComprarCreditos = new JButton("Comprar crï¿½ditos");
+     // Botón "Comprar cróditos"
+        JButton botonComprarCreditos = new JButton("Comprar créditos");
 
         botonComprarCreditos.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Aquï¿½ agregar lï¿½gica para dirigirse a la clase Creditos.java
+                // Aquí agregar lógica para dirigirse a la clase Creditos.java
                 Creditos creditos = new Creditos(nombreUsuario, conexion);
                 creditos.setVisible(true);
                 dispose(); // Cierra la ventana actual (pantallaUsuario)
@@ -199,7 +199,7 @@ public class pantallaUsuario extends JFrame {
         botonGuardarCambios.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    // Crear una nueva conexiï¿½n para esta operaciï¿½n
+                    // Crear una nueva conexión para esta operación
                 	Connection conexion = book4u.obtenerConexion();
                     
                     for (int i = 0; i < 5; i++) {
@@ -220,7 +220,7 @@ public class pantallaUsuario extends JFrame {
                                     consulta += "dni = ?";
                                     break;
                                 case 4:
-                                    consulta += "contraseï¿½a = ?";
+                                    consulta += "contraseña = ?";
                                     break;
                             }
                             consulta += " WHERE nombre = ?"; // Usar el nombre de usuario para identificar al usuario
@@ -238,7 +238,7 @@ public class pantallaUsuario extends JFrame {
                         }
                     }
                     
-                    conexion.close(); // Cerrar la conexiï¿½n despuï¿½s de todas las operaciones
+                    conexion.close(); // Cerrar la conexión después de todas las operaciones
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -254,7 +254,7 @@ public class pantallaUsuario extends JFrame {
 
         panelGuardarCambios.add(panelIzquierdo, BorderLayout.WEST);
 
-        // Agregar el botï¿½n "Guardar cambios" al panel "Guardar cambios"
+        // Agregar el botón "Guardar cambios" al panel "Guardar cambios"
         JPanel panelBotonGuardarCambios = new JPanel(new FlowLayout(FlowLayout.CENTER));
         panelBotonGuardarCambios.add(botonGuardarCambios);
         panelGuardarCambios.add(panelBotonGuardarCambios, BorderLayout.SOUTH);
@@ -276,7 +276,7 @@ public class pantallaUsuario extends JFrame {
 		        ResultSet resultSet = preparedStatement.executeQuery();
 
 		        if (resultSet.next()) {
-		            return resultSet.getInt("creditos");
+		            return resultSet.getInt("créditos");
 		        }
 
 		        resultSet.close();
@@ -285,8 +285,8 @@ public class pantallaUsuario extends JFrame {
 		        e.printStackTrace();
 		    }
 
-		    // Devolver un valor predeterminado o manejar el caso de error segÃºn tus necesidades
-		    return 0; // Por ejemplo, devolver 0 si no se encuentra el nÃºmero de crÃ©ditos
+		    // Devolver un valor predeterminado o manejar el caso de error según tus necesidades
+		    return 0; // Por ejemplo, devolver 0 si no se encuentra el número de créditos
 		}
 }
         

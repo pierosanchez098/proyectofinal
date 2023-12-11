@@ -44,7 +44,7 @@ public class historico extends JFrame {
 	    JLabel iconoLabel = new JLabel(icono);
 	    panel_1.add(iconoLabel);
 
-	    JLabel lblNewLabel_1 = new JLabel("Hist√≥rico");
+	    JLabel lblNewLabel_1 = new JLabel("HistÛrico");
 	    lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 34));
 	    panel_1.add(lblNewLabel_1);
 
@@ -102,8 +102,8 @@ public class historico extends JFrame {
 	        JPanel reservasPanel = new JPanel();
 	        reservasPanel.setLayout(new BoxLayout(reservasPanel, BoxLayout.Y_AXIS));
 
-	        // Encabezado "Cr√©ditos gastados y equivalencia (dinero real):"
-	        JLabel encabezadoReservas = new JLabel("Cr√©ditos gastados y equivalencia:");
+	        // Encabezado "CrÈditos gastados y equivalencia (dinero real):"
+	        JLabel encabezadoReservas = new JLabel("CrÈditos gastados y equivalencia:");
 	        encabezadoReservas.setFont(new Font("Arial", Font.BOLD, 22));
 	        reservasPanel.add(encabezadoReservas);
 
@@ -121,23 +121,23 @@ public class historico extends JFrame {
 	            // Crear un panel para cada reserva
 	            JPanel reservaPanel = new JPanel(new BorderLayout());
 
-	            // Crear un panel para la informaci√≥n de la reserva
+	            // Crear un panel para la informaciÛn de la reserva
 	            JPanel infoPanel = new JPanel();
 	            infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 
-	            // Nombre de la estancia en negrita y con fuente m√°s grande
+	            // Nombre de la estancia en negrita y con fuente m·s grande
 	            JLabel nombreEstanciaLabel = new JLabel("Nombre: " + nombreReserva);
 	            nombreEstanciaLabel.setFont(new Font("Arial", Font.BOLD, 18));
 	            infoPanel.add(nombreEstanciaLabel);
 
-	            infoPanel.add(crearLabel("Direcci√≥n: " + direccion));
+	            infoPanel.add(crearLabel("DirecciÛn: " + direccion));
 	            infoPanel.add(crearLabel("Precio Total: " + precioTotal));
 	            infoPanel.add(crearLabel("Personas: " + personas));
 	            infoPanel.add(crearLabel("Fecha Inicio: " + fechaInicio));
 	            infoPanel.add(crearLabel("Fecha Fin: " + fechaFin));
 	            infoPanel.add(crearLabel("Estado de reserva: " + estadoreserva));
 
-	            // A√±adir la imagen al panel
+	            // AÒadir la imagen al panel
 	            JLabel imagenLabel = new JLabel();
 	            try {
 	                ImageIcon iconoReserva = new ImageIcon(imagenPath);
@@ -148,24 +148,24 @@ public class historico extends JFrame {
 	            }
 	            infoPanel.add(imagenLabel);
 
-	            // A√±adir el panel de informaci√≥n al panel de reserva
+	            // AÒadir el panel de informaciÛn al panel de reserva
 	            reservaPanel.add(infoPanel, BorderLayout.CENTER);
 
-	            // A√±adir bot√≥n o label de disponibilidad a la derecha
+	            // AÒadir botÛn o label de disponibilidad a la derecha
 	            JPanel disponibilidadPanel = new JPanel();
 	            disponibilidadPanel.setLayout(new BoxLayout(disponibilidadPanel, BoxLayout.Y_AXIS));
 
 	            // Agregar la nueva columna "Precio"
 	            int precioCreditos = preciocreditosTotal;
-	            disponibilidadPanel.add(crearLabel("Precio de reserva: " + precioCreditos + " cr√©ditos"));
+	            disponibilidadPanel.add(crearLabel("Precio de reserva: " + precioCreditos + " crÈditos"));
 	            
 	            int precioEquivalente = precioCreditos * 10;
-	            disponibilidadPanel.add(crearLabel("Precio equivalente (dinero real): " + precioEquivalente + " ‚Ç¨"));
+	            disponibilidadPanel.add(crearLabel("Precio equivalente (dinero real): " + precioEquivalente + " Ä"));
 
-	            // A√±adir el panel de disponibilidad a la derecha
+	            // AÒadir el panel de disponibilidad a la derecha
 	            reservaPanel.add(disponibilidadPanel, BorderLayout.EAST);
 
-	            // A√±adir el panel de reserva al panel principal
+	            // AÒadir el panel de reserva al panel principal
 	            reservasPanel.add(reservaPanel);
 	        }
 
@@ -181,7 +181,7 @@ public class historico extends JFrame {
 	        e.printStackTrace();
 	    }
 
-	    // Actualizar la interfaz gr√°fica
+	    // Actualizar la interfaz gr·fica
 	    panel.revalidate();
 	    panel.repaint();
 	}

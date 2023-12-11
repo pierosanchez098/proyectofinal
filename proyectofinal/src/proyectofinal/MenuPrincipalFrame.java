@@ -21,10 +21,10 @@ this.nombreUsuario = nombreUsuario;
 this.conexion = conexion;
 
 setDefaultCloseOperation(EXIT_ON_CLOSE);
-setSize(1080, 720); //El tamaÃ±o de que de la ventana de la App
+setSize(1080, 720); //El tamaño de que de la ventana de la App
 setTitle("Pantalla Princial");
 setLocationRelativeTo(null); //permite que la ventana siempre se inicilice en el centro de la pantalla
-setMinimumSize(new Dimension (200, 200));//el tamaÃ±o minimo
+setMinimumSize(new Dimension (200, 200));//el tamaño minimo
 
 	iniciarComponentes();			
 			
@@ -57,7 +57,7 @@ panel1.add(Texto1, BorderLayout.CENTER);
 
 
 JLabel Texto2 = new JLabel();
-Texto2.setText("Nro de crÃ©ditos:");
+Texto2.setText("Numero de créditos:");
 Texto2.setBounds(670, 45, 110, 20);
 Texto2.setForeground(Color.white);
 Texto2.setOpaque(true);
@@ -141,7 +141,7 @@ panel1.add(nomUsusario);
 
 int creditosActuales = obtenerCreditosActuales();
 
-//Mostrar el nÃºmero actual de crÃ©ditos en el JTextField
+//Mostrar el número actual de créditos en el JTextField
 numCredit.setText(" " + String.valueOf(creditosActuales));
 
 
@@ -161,14 +161,14 @@ panel2.add(anuncio1);
 anuncio1.setVisible(true);
 
 JLabel Textoanuncio1 = new JLabel();
-Textoanuncio1.setText("Medplaya Hotel Regente 74ï¿½");
+Textoanuncio1.setText("Medplaya Hotel Regente 741");
 //Texto1.setForeground(Color.orange);//color teexto
 Textoanuncio1.setBounds(205, 230, 275, 150);
 Textoanuncio1.setFont(new Font("arial",Font.BOLD,20));
 panel2.add(Textoanuncio1);
 
 JLabel ddescripcnanuncio0 = new JLabel();
-ddescripcnanuncio0.setText("Habitaciï¿½n Doble con balcon 2 camas");
+ddescripcnanuncio0.setText("Habitación Doble con balcon 2 camas");
 //Texto1.setForeground(Color.orange);//color teexto
 ddescripcnanuncio0.setBounds(205, 260, 270, 150);
 ddescripcnanuncio0.setFont(new Font("arial",Font.BOLD,12));
@@ -223,14 +223,14 @@ panel2.add(anuncio2);
 anuncio2.setVisible(true);
 
 JLabel Textoanuncio2 = new JLabel();
-Textoanuncio2.setText("Port Benidorm hotel Spa 73ï¿½");
+Textoanuncio2.setText("Port Benidorm hotel Spa 730");
 //Texto1.setForeground(Color.orange);//color teexto
 Textoanuncio2.setBounds(205, 415, 275, 150);
 Textoanuncio2.setFont(new Font("arial",Font.BOLD,20));
 panel2.add(Textoanuncio2);
 
 JLabel ddescripcnanuncio1 = new JLabel();
-ddescripcnanuncio1.setText("Habitaciï¿½n Doble (2 adultos)");
+ddescripcnanuncio1.setText("Habitación Doble (2 adultos)");
 //Texto1.setForeground(Color.orange);//color teexto
 ddescripcnanuncio1.setBounds(205, 440, 270, 150);
 ddescripcnanuncio1.setFont(new Font("arial",Font.BOLD,12));
@@ -287,7 +287,7 @@ private int obtenerCreditosActuales() {
         e.printStackTrace();
     }
 
-    // Devolver un valor predeterminado o manejar el caso de error segÃºn tus necesidades
-    return 0; // Por ejemplo, devolver 0 si no se encuentra el nÃºmero de crÃ©ditos
+    // Devolver un valor predeterminado o manejar el caso de error según tus necesidades
+    return 0; // Por ejemplo, devolver 0 si no se encuentra el número de créditos
 }
 }

@@ -44,7 +44,7 @@ public class Creditos extends JFrame {
         btnNewButton.setBounds(260, 26, 150, 21); 
         getContentPane().add(btnNewButton);
 
-        JLabel lblNewLabel = new JLabel("Valor: 10â‚¬ = 1 crÃ©dito");
+        JLabel lblNewLabel = new JLabel("Valor: 10€ = 1 crédito");
         lblNewLabel.setFont(new Font("Arial", Font.PLAIN, 13));
         lblNewLabel.setBounds(268, 72, 160, 27);
         getContentPane().add(lblNewLabel);
@@ -64,12 +64,12 @@ public class Creditos extends JFrame {
         getContentPane().add(titular);
         titular.setColumns(10);
 
-        // Texto "NÃºmero de la tarjeta"
-        JLabel lblNewLabel_4 = new JLabel("NÃºmero de la tarjeta:");
+        // Texto "Número de la tarjeta"
+        JLabel lblNewLabel_4 = new JLabel("Número de la tarjeta:");
         lblNewLabel_4.setBounds(50, 240, 150, 15);
         getContentPane().add(lblNewLabel_4);
 
-        // Campo "NÃºmero de la tarjeta"
+        // Campo "Número de la tarjeta"
         numTarjeta = new JTextField();
         numTarjeta.setBounds(250, 240, 200, 19);
         getContentPane().add(numTarjeta);
@@ -108,13 +108,13 @@ public class Creditos extends JFrame {
         lblNewLabel_7.setBounds(50, 320, 100, 15);
         getContentPane().add(lblNewLabel_7);
 
-        // BotÃ³n "Pagar"
+        // Botón "Pagar"
         JButton pagar = new JButton("Pagar");
         pagar.setBounds(50, 390, 100, 21);
         getContentPane().add(pagar);
         
 
-        // Agregar ActionListener al botÃ³n "Pagar"
+        // Agregar ActionListener al botón "Pagar"
         pagar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -123,7 +123,7 @@ public class Creditos extends JFrame {
         });
     }
 
-    // FunciÃ³n para realizar la inserciÃ³n en la base de datos
+    // Función para realizar la inserción en la base de datos
     private void insertarEnBaseDeDatos() {
         try {
             // Obtener los valores de los campos
@@ -131,10 +131,10 @@ public class Creditos extends JFrame {
             String numeroTarjeta = numTarjeta.getText();
             String fechaCaducidad = fechaCad.getText();
             String cvcValue = cvc.getText();
-            // Cambiar la obtenciÃ³n de la cantidad de String a int
+            // Cambiar la obtención de la cantidad de String a int
             int cantidad = Integer.parseInt(cant.getText());
 
-            // Verificar si los campos estÃ¡n llenos
+            // Verificar si los campos están llenos
             if (nombreTitular.isEmpty() || numeroTarjeta.isEmpty() || fechaCaducidad.isEmpty() || cvcValue.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Todos los campos deben ser llenados", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -148,7 +148,7 @@ public class Creditos extends JFrame {
             // Calcular el nuevo valor de creditos sumando la cantidad ingresada
             int nuevoCredito = creditosActuales + cantidad;
 
-            // Realizar la inserciÃ³n en la tabla creditos
+            // Realizar la inserción en la tabla creditos
             String consultaCreditos = "INSERT INTO creditos (id_creditos, id_cliente, titular, numTarjeta, fechaCad, cvc, cantidad) VALUES (secucreditos.NEXTVAL, ?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatementCreditos = conexion.prepareStatement(consultaCreditos);
             preparedStatementCreditos.setInt(1, idCliente);
@@ -170,9 +170,9 @@ public class Creditos extends JFrame {
 
             // Verificar el resultado de ambas operaciones
             if (filasAfectadasCreditos > 0 && filasAfectadasCliente > 0) {
-                JOptionPane.showMessageDialog(this, "Pago registrado y crÃ©ditos actualizados exitosamente", "Ã‰xito", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Pago registrado y créditos actualizados exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this, "Error al registrar el pago o actualizar los crÃ©ditos", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Error al registrar el pago o actualizar los créditos", "Error", JOptionPane.ERROR_MESSAGE);
             }
 
             preparedStatementCreditos.close();
@@ -223,7 +223,7 @@ public class Creditos extends JFrame {
             e.printStackTrace();
         }
 
-        // Devolver un valor predeterminado o manejar el caso de error segï¿½n tus necesidades
+        // Devolver un valor predeterminado o manejar el caso de error según tus necesidades
         return -1; // Por ejemplo, devolver -1 si no se encuentra el cliente
     }
 }
