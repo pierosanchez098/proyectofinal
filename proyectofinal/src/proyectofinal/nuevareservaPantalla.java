@@ -143,7 +143,7 @@ public class nuevareservaPantalla extends JFrame {
                                         int creditospreciototal = precioCreditos * numeroPersonas;
 
                                         // Resto de tu l�gica de inserci�n aqu�
-                                        String insertReserva = "INSERT INTO reserva (id_reserva, id_cliente, id_estancia, fechai, fechaf, pagado, preciototal, personas, direccion, nombre, precio_creditostotal, creditos_estancia, imagen) VALUES (secureserva.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                                        String insertReserva = "INSERT INTO reserva (id_reserva, id_cliente, id_estancia, fechai, fechaf, pagado, preciototal, personas, direccion, nombre, precio_creditostotal, creditos_estancia, estado, imagen) VALUES (secureserva.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                                         PreparedStatement preparedStatement1 = conexion.prepareStatement(insertReserva);
                                         preparedStatement1.setInt(1, idCliente);
                                         preparedStatement1.setInt(2, idEstanciaActual); // Utiliza el idEstanciaActual obtenido fuera del ActionListener
@@ -156,7 +156,8 @@ public class nuevareservaPantalla extends JFrame {
                                         preparedStatement1.setString(9, nombreEstancia);
                                         preparedStatement1.setInt(10, creditospreciototal);
                                         preparedStatement1.setInt(11, precioCreditos);
-                                        preparedStatement1.setString(12, imagenPath);
+                                        preparedStatement1.setString(12, "reservado");
+                                        preparedStatement1.setString(13, imagenPath);
 
                                         preparedStatement1.executeUpdate();
                                         
@@ -164,7 +165,7 @@ public class nuevareservaPantalla extends JFrame {
                                         preparedStatement1.close();
 
                                         // Inserta en la tabla "historico" con los mismos valores que en "reserva"
-                                        String insertHistorico = "INSERT INTO historico (id_reserva, id_cliente, id_estancia, fechai, fechaf, pagado, preciototal, personas, direccion, nombre, precio_creditostotal, creditos_estancia, imagen) VALUES (secuhistorico.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                                        String insertHistorico = "INSERT INTO historico (id_reserva, id_cliente, id_estancia, fechai, fechaf, pagado, preciototal, personas, direccion, nombre, precio_creditostotal, creditos_estancia, estado, imagen) VALUES (secuhistorico.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                                         PreparedStatement preparedStatementHistorico = conexion.prepareStatement(insertHistorico);
                                         preparedStatementHistorico.setInt(1, idCliente);
                                         preparedStatementHistorico.setInt(2, idEstanciaActual);
@@ -177,7 +178,8 @@ public class nuevareservaPantalla extends JFrame {
                                         preparedStatementHistorico.setString(9, nombreEstancia);
                                         preparedStatementHistorico.setInt(10, creditospreciototal);
                                         preparedStatementHistorico.setInt(11, precioCreditos);
-                                        preparedStatementHistorico.setString(12, imagenPath);
+                                        preparedStatementHistorico.setString(12, "reservado");
+                                        preparedStatementHistorico.setString(13, imagenPath);
 
                                         preparedStatementHistorico.executeUpdate();
                                         preparedStatementHistorico.close();

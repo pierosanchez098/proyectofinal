@@ -113,7 +113,7 @@ private int obtenerIdCliente(String nombreUsuario) {
 
 private void mostrarReservas(int idCliente, JPanel panel) {
     try {
-        String consultaReservas = "SELECT id_reserva, nombre, direccion, preciototal, personas, fechai, fechaf, imagen FROM reserva WHERE id_cliente = ?";
+        String consultaReservas = "SELECT id_reserva, nombre, direccion, preciototal, personas, fechai, fechaf, imagen FROM reserva WHERE id_cliente = ? AND estado = 'reservado'";
         PreparedStatement preparedStatementReservas = conexion.prepareStatement(consultaReservas);
         preparedStatementReservas.setInt(1, idCliente);
 
@@ -184,7 +184,7 @@ private void mostrarReservas(int idCliente, JPanel panel) {
             if (disponible) {
             	JButton btnDisponible = new JButton("Disponible (haz click para modificar)");
             	btnDisponible.addActionListener(e -> {
-            	    Object[] opciones = {"Fecha de inicio", "Fecha de fin", "Número de personas"};
+            	    Object[] opciones = {"Fecha de inicio", "Fecha de fin", "Número de personas", "Cancelar reserva"};
             	    int opcionElegida = JOptionPane.showOptionDialog(null, "¿Qué quieres modificar?", "Modificar Reserva", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
 
             	    if (opcionElegida == 0 || opcionElegida == 1) {
@@ -209,6 +209,9 @@ private void mostrarReservas(int idCliente, JPanel panel) {
                         // Implementa la lógica para modificar el número de personas
                         System.out.println("Modificar Número de personas para la reserva con ID: " + idReserva);
                         break;
+                    case 3:
+                    	cancelarReserva(idReserva);
+                    	break;
                     default:
                         // El usuario cerró la ventana sin seleccionar ninguna opción
                         break;
@@ -271,6 +274,38 @@ private boolean verificarDisponibilidad(int idReserva) {
     }
 
     return false;
+}
+
+private void cancelarReserva(int idReserva) {
+    try {
+        // Realiza la l�gica para cancelar la reserva (puedes cambiar el estado, borrarla, etc.)
+        String updateQuery = "UPDATE reserva SET estado = 'cancelado' WHERE id_reserva = ?";
+        PreparedStatement preparedStatement = conexion.prepareStatement(updateQuery);
+        preparedStatement.setInt(1, idReserva);
+
+        int filasAfectadas = preparedStatement.executeUpdate();
+
+        if (filasAfectadas > 0) {
+            JOptionPane.showMessageDialog(null, "Reserva cancelada correctamente", "�xito", JOptionPane.INFORMATION_MESSAGE);
+            // Puedes realizar otras acciones necesarias despu�s de cancelar la reserva
+        } else {
+            JOptionPane.showMessageDialog(null, "No se pudo cancelar la reserva", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        preparedStatement.close();
+        
+        String updateHistorico = "UPDATE historico SET estado = 'cancelado' WHERE id_reserva = ?";
+        PreparedStatement preparedStatementHistorico = conexion.prepareStatement(updateHistorico);
+        preparedStatementHistorico.setInt(1, idReserva);
+        
+        preparedStatementHistorico.executeUpdate();
+        
+        preparedStatementHistorico.close();
+        
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error al cancelar la reserva. Por favor, int�ntelo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
 }
 
 private int obtenerPrecioCreditos(int idReserva) {
