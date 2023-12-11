@@ -1,0 +1,1 @@
+En caso de que se decida no usar esta version, se puede reemplazar facilmente los caracteres erroneos seleccionandolos y utiliznado la herramienta de busqueda con CTRL+F y después replace all, para reemplazar ese caracter erroneo con é, por ejemplo.
