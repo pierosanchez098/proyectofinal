@@ -6,6 +6,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
@@ -28,7 +30,6 @@ public class administracion_estancias extends JFrame {
     public administracion_estancias(String usuario, Connection conexion) {
         this.usuario = usuario;
         this.conexion = conexion;
-        
         
         setSize(1080, 720);
         setLocationRelativeTo(null);
@@ -56,7 +57,7 @@ public class administracion_estancias extends JFrame {
             }
         });
 
-        JLabel labelTexto = new JLabel("Administración de estancias");
+        JLabel labelTexto = new JLabel("Administraciï¿½n de clientes / usuarios");
         labelTexto.setFont(new Font(labelTexto.getFont().getName(), Font.BOLD, 30));
         labelTexto.setHorizontalAlignment(SwingConstants.CENTER);
         barraMenu.add(labelTexto, BorderLayout.CENTER);
@@ -66,7 +67,7 @@ public class administracion_estancias extends JFrame {
         panelInferior.setLayout(new BoxLayout(panelInferior, BoxLayout.Y_AXIS));
         panelInferior.setBackground(new Color(255, 255, 255, 255));
         
-        JLabel textoCentrado = new JLabel("¿Qué deseas hacer?");
+        JLabel textoCentrado = new JLabel("ï¿½Quï¿½ deseas hacer?");
         textoCentrado.setFont(new Font("Arial", Font.BOLD, 20));
         textoCentrado.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelInferior.add(Box.createVerticalStrut(20));  
@@ -79,11 +80,37 @@ public class administracion_estancias extends JFrame {
             botonOpcion.setAlignmentX(Component.CENTER_ALIGNMENT);
             panelInferior.add(botonOpcion);
             panelInferior.add(Box.createVerticalStrut(10));
+            botonOpcion.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    switch (opcion) {
+                        case "Ver estancias":
+                            new pantalla_Verestancias(usuario, conexion);
+                            dispose();
+                            break;
+                        case "Crear estancia":
+                        	new pantalla_Crearestancia(usuario, conexion);
+                            dispose();
+                            break;
+                        case "Modificar estancia":
+                        	new pantalla_Editarestancia(usuario, conexion);
+                            dispose();
+                            break;
+                        case "Eliminar estancia":
+                        	new pantalla_Eliminarestancia(usuario, conexion);
+                            dispose();
+                            break;
+                    }
+                }
+            });
         }
-        
-        
+
+
         add(barraMenu, BorderLayout.NORTH);
         add(new JScrollPane(panelInferior), BorderLayout.CENTER);
         setVisible(true);
     }
+        
+
+
 }

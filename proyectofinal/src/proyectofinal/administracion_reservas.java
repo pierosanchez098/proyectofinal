@@ -6,6 +6,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
@@ -40,6 +42,7 @@ public class administracion_reservas extends JFrame {
         barraMenu.setBackground(new Color(213, 232, 212, 255));
         barraMenu.setPreferredSize(new Dimension(1050, 80));
 
+
         ImageIcon icono = new ImageIcon("imagenes/casa.png");
         icono = new ImageIcon(icono.getImage().getScaledInstance(56, 56, Image.SCALE_SMOOTH));
         JLabel iconoLabel = new JLabel(icono);
@@ -54,8 +57,7 @@ public class administracion_reservas extends JFrame {
             }
         });
 
-
-        JLabel labelTexto = new JLabel("Administración de reservas");
+        JLabel labelTexto = new JLabel("Administraciï¿½n de reservas");
         labelTexto.setFont(new Font(labelTexto.getFont().getName(), Font.BOLD, 30));
         labelTexto.setHorizontalAlignment(SwingConstants.CENTER);
         barraMenu.add(labelTexto, BorderLayout.CENTER);
@@ -65,7 +67,7 @@ public class administracion_reservas extends JFrame {
         panelInferior.setLayout(new BoxLayout(panelInferior, BoxLayout.Y_AXIS));
         panelInferior.setBackground(new Color(255, 255, 255, 255));
         
-        JLabel textoCentrado = new JLabel("¿Qué deseas hacer?");
+        JLabel textoCentrado = new JLabel("ï¿½Quï¿½ deseas hacer?");
         textoCentrado.setFont(new Font("Arial", Font.BOLD, 20));
         textoCentrado.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelInferior.add(Box.createVerticalStrut(20));  
@@ -78,10 +80,37 @@ public class administracion_reservas extends JFrame {
             botonOpcion.setAlignmentX(Component.CENTER_ALIGNMENT);
             panelInferior.add(botonOpcion);
             panelInferior.add(Box.createVerticalStrut(10));
+            botonOpcion.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    switch (opcion) {
+                        case "Ver reservas":
+                            new pantalla_Verreserva(usuario, conexion);
+                            dispose();
+                            break;
+                        case "Crear reserva":
+                        	new pantalla_Crearreserva(usuario, conexion);
+                            dispose();
+                            break;
+                        case "Modificar reserva":
+                        	new pantalla_Editarreserva(usuario, conexion);
+                            dispose();
+                            break;
+                        case "Eliminar reserva":
+                        	new pantalla_Eliminarreserva(usuario, conexion);
+                            dispose();
+                            break;
+                    }
+                }
+            });
         }
-        
+
+
         add(barraMenu, BorderLayout.NORTH);
         add(new JScrollPane(panelInferior), BorderLayout.CENTER);
         setVisible(true);
     }
+        
+
+
 }
