@@ -87,7 +87,6 @@ public class port_benidorm extends JFrame{
 	        labelTexto.setHorizontalAlignment(SwingConstants.CENTER);
 	        barraMenu.add(labelTexto, BorderLayout.CENTER);
 	
-	        // Agregar el panel superior y el panel inferior al JFrame
 	        add(barraMenu, BorderLayout.NORTH);
 	        add(panelInferior, BorderLayout.CENTER);
 	        setVisible(true);

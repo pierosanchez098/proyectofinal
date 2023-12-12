@@ -123,18 +123,14 @@ public class Creditos extends JFrame {
         });
     }
 
-    // Función para realizar la inserción en la base de datos
     private void insertarEnBaseDeDatos() {
         try {
-            // Obtener los valores de los campos
             String nombreTitular = titular.getText();
             String numeroTarjeta = numTarjeta.getText();
             String fechaCaducidad = fechaCad.getText();
             String cvcValue = cvc.getText();
-            // Cambiar la obtención de la cantidad de String a int
             int cantidad = Integer.parseInt(cant.getText());
 
-            // Verificar si los campos están llenos
             if (nombreTitular.isEmpty() || numeroTarjeta.isEmpty() || fechaCaducidad.isEmpty() || cvcValue.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Todos los campos deben ser llenados", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -142,13 +138,10 @@ public class Creditos extends JFrame {
 
             int idCliente = obtenerIdClienteDesdeUsuario(nombreUsuario);
 
-            // Obtener el valor actual de la columna creditos en la tabla cliente
             int creditosActuales = obtenerCreditosActuales(idCliente);
 
-            // Calcular el nuevo valor de creditos sumando la cantidad ingresada
             int nuevoCredito = creditosActuales + cantidad;
 
-            // Realizar la inserción en la tabla creditos
             String consultaCreditos = "INSERT INTO creditos (id_creditos, id_cliente, titular, numTarjeta, fechaCad, cvc, cantidad) VALUES (secucreditos.NEXTVAL, ?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatementCreditos = conexion.prepareStatement(consultaCreditos);
             preparedStatementCreditos.setInt(1, idCliente);
@@ -160,7 +153,6 @@ public class Creditos extends JFrame {
 
             int filasAfectadasCreditos = preparedStatementCreditos.executeUpdate();
 
-            // Actualizar la columna creditos en la tabla cliente
             String consultaCliente = "UPDATE cliente SET creditos = ? WHERE id_cliente = ?";
             PreparedStatement preparedStatementCliente = conexion.prepareStatement(consultaCliente);
             preparedStatementCliente.setInt(1, nuevoCredito);
@@ -168,7 +160,6 @@ public class Creditos extends JFrame {
 
             int filasAfectadasCliente = preparedStatementCliente.executeUpdate();
 
-            // Verificar el resultado de ambas operaciones
             if (filasAfectadasCreditos > 0 && filasAfectadasCliente > 0) {
                 JOptionPane.showMessageDialog(this, "Pago registrado y créditos actualizados exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } else {
@@ -213,7 +204,6 @@ public class Creditos extends JFrame {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                // Obtener el ID del cliente directamente
                 return resultSet.getInt("id_cliente");
             }
 
@@ -223,7 +213,6 @@ public class Creditos extends JFrame {
             e.printStackTrace();
         }
 
-        // Devolver un valor predeterminado o manejar el caso de error seg�n tus necesidades
-        return -1; // Por ejemplo, devolver -1 si no se encuentra el cliente
+        return -1; 
     }
 }

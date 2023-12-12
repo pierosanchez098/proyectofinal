@@ -19,16 +19,13 @@ public class nuevareservaPantalla extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Color de fondo
         Color colorDeFondo = new Color(15, 82, 15, 255);
         getContentPane().setBackground(colorDeFondo);
 
-        // Panel superior
         JPanel barraMenu = new JPanel(new BorderLayout());
         barraMenu.setBackground(new Color(213, 232, 212, 255));
         barraMenu.setPreferredSize(new Dimension(1050, 80));
 
-        // Icono
         ImageIcon icono = new ImageIcon("imagenes/casa.png");
         icono = new ImageIcon(icono.getImage().getScaledInstance(56, 56, Image.SCALE_SMOOTH));
         JLabel iconoLabel = new JLabel(icono);
@@ -51,12 +48,10 @@ public class nuevareservaPantalla extends JFrame {
 
         Font fuentePersonalizada = new Font("Arial", Font.BOLD, 30);
 
-        // Panel inferior con paneles individuales para cada estancia
         JPanel panelInferior = new JPanel();
         panelInferior.setLayout(new BoxLayout(panelInferior, BoxLayout.Y_AXIS));
         panelInferior.setBackground(new Color(255, 255, 255, 255));
 
-     // Obtener datos de la tabla "estancia"
         try {
             String consulta = "SELECT id_estancia, nombre, tipo_estancia, precioxdia, valoracion, ubicacion, disponibilidad, precio_creditos, imagen FROM estancia";
             PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
@@ -73,10 +68,8 @@ public class nuevareservaPantalla extends JFrame {
                 String imagenPath = resultSet.getString("imagen");
                 int precioCreditos = resultSet.getInt("precio_creditos");
 
-                // Crear un panel para cada estancia
                 JPanel estanciaPanel = new JPanel(new BorderLayout());
 
-                // Crear un panel para la informaci�n de la estancia
                 JPanel infoPanel = new JPanel();
                 infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 
@@ -84,7 +77,7 @@ public class nuevareservaPantalla extends JFrame {
                 nombreLabel.setFont(fuentePersonalizada);
                 infoPanel.add(nombreLabel);
                 infoPanel.add(CrearLabel("Tipo de Estancia: " + tipoEstancia));
-                infoPanel.add(CrearLabel("Precio por Dia: " + precioDia + "�"));
+                infoPanel.add(CrearLabel("Precio por Dia: " + precioDia + "euros"));
                 infoPanel.add(CrearLabel("Valoracion: " + valoracion + " estrellas"));
                 infoPanel.add(CrearLabel("Ubicacion: " + ubicacion));
                 infoPanel.add(CrearLabel("Disponibilidad: " + disponibilidad));
@@ -101,13 +94,10 @@ public class nuevareservaPantalla extends JFrame {
                 }
                 infoPanel.add(imagenLabel);
 
-                // Agregar el panel de informaci�n al panel de estancia
                 estanciaPanel.add(infoPanel, BorderLayout.CENTER);
 
-                // A�adir el bot�n "Realizar reserva" a la derecha
                 JButton reservaBoton = new JButton("Realizar reserva");
 
-                // Obt�n el idEstancia antes de crear el ActionListener
                 int idEstanciaActual = idEstancia;
 
                 reservaBoton.addActionListener(new ActionListener() {
@@ -135,24 +125,26 @@ public class nuevareservaPantalla extends JFrame {
                                     int idCliente = obtenerIdClienteDesdeUsuario(nombreUsuario);
 
                                     if (!existeCliente(idCliente)) {
-                                        // Manejo de error: El cliente no existe, muestra un mensaje o realiza una acci�n adecuada
                                         JOptionPane.showMessageDialog(null, "El cliente no existe. Por favor, seleccione un cliente valido.", "Error", JOptionPane.ERROR_MESSAGE);
                                     } else {
-                                        double precioEstancia = precioDia; // Ajusta seg�n tu l�gica
+                                        double precioEstancia = precioDia; 
                                         double precioTotal = precioEstancia * numeroPersonas;
                                         int creditospreciototal = precioCreditos * numeroPersonas;
+                                        
+                                        int creditosDisponibles = obtenerCreditosActuales(idCliente);
 
-                                        // Resto de tu l�gica de inserci�n aqu�
+                                        if (creditosDisponibles >= creditospreciototal) {
+
                                         String insertReserva = "INSERT INTO reserva (id_reserva, id_cliente, id_estancia, fechai, fechaf, pagado, preciototal, personas, direccion, nombre, precio_creditostotal, creditos_estancia, estado, imagen) VALUES (secureserva.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                                         PreparedStatement preparedStatement1 = conexion.prepareStatement(insertReserva);
                                         preparedStatement1.setInt(1, idCliente);
-                                        preparedStatement1.setInt(2, idEstanciaActual); // Utiliza el idEstanciaActual obtenido fuera del ActionListener
+                                        preparedStatement1.setInt(2, idEstanciaActual); 
                                         preparedStatement1.setDate(3, fechaInicio);
                                         preparedStatement1.setDate(4, fechaFin);
-                                        preparedStatement1.setString(5, "no"); // Valor predeterminado
+                                        preparedStatement1.setString(5, "no"); 
                                         preparedStatement1.setDouble(6, precioTotal);
                                         preparedStatement1.setInt(7, numeroPersonas);
-                                        preparedStatement1.setString(8, ubicacion); // Reemplaza con el valor real
+                                        preparedStatement1.setString(8, ubicacion); 
                                         preparedStatement1.setString(9, nombreEstancia);
                                         preparedStatement1.setInt(10, creditospreciototal);
                                         preparedStatement1.setInt(11, precioCreditos);
@@ -161,20 +153,18 @@ public class nuevareservaPantalla extends JFrame {
 
                                         preparedStatement1.executeUpdate();
                                         
-                                        // Cierra el PreparedStatement después de su uso
                                         preparedStatement1.close();
 
-                                        // Inserta en la tabla "historico" con los mismos valores que en "reserva"
-                                        String insertHistorico = "INSERT INTO historico (id_reserva, id_cliente, id_estancia, fechai, fechaf, pagado, preciototal, personas, direccion, nombre, precio_creditostotal, creditos_estancia, estado, imagen) VALUES (secuhistorico.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                                        String insertHistorico = "INSERT INTO historico (id_reserva, id_cliente, id_estancia, fechai, fechaf, pagado, preciototal, personas, direccion, nombre, precio_creditostotal, creditos_estancia, estado, imagen) VALUES (secuhistorico.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                                         PreparedStatement preparedStatementHistorico = conexion.prepareStatement(insertHistorico);
                                         preparedStatementHistorico.setInt(1, idCliente);
                                         preparedStatementHistorico.setInt(2, idEstanciaActual);
                                         preparedStatementHistorico.setDate(3, fechaInicio);
                                         preparedStatementHistorico.setDate(4, fechaFin);
-                                        preparedStatementHistorico.setString(5, "no"); // Valor predeterminado
+                                        preparedStatementHistorico.setString(5, "no"); 
                                         preparedStatementHistorico.setDouble(6, precioTotal);
                                         preparedStatementHistorico.setInt(7, numeroPersonas);
-                                        preparedStatementHistorico.setString(8, ubicacion); // Reemplaza con el valor real
+                                        preparedStatementHistorico.setString(8, ubicacion);
                                         preparedStatementHistorico.setString(9, nombreEstancia);
                                         preparedStatementHistorico.setInt(10, creditospreciototal);
                                         preparedStatementHistorico.setInt(11, precioCreditos);
@@ -184,7 +174,6 @@ public class nuevareservaPantalla extends JFrame {
                                         preparedStatementHistorico.executeUpdate();
                                         preparedStatementHistorico.close();
 
-                                     // Actualizar los créditos del cliente
                                      String updateCreditos = "UPDATE cliente SET creditos = creditos - ? WHERE id_cliente = ?";
                                      PreparedStatement preparedStatement2 = conexion.prepareStatement(updateCreditos);
                                      preparedStatement2.setInt(1, creditospreciototal);
@@ -195,6 +184,10 @@ public class nuevareservaPantalla extends JFrame {
                                         
                                         JOptionPane.showMessageDialog(null, "Reserva realizada", "�xito", JOptionPane.INFORMATION_MESSAGE); 
                                         
+                                     } else {
+                                        // No hay suficientes créditos
+                                        JOptionPane.showMessageDialog(null, "No posees los créditos necesarios para hacer la reserva", "Error", JOptionPane.ERROR_MESSAGE);
+                                    }
                                     }
                                 } catch (SQLException ex) {
                                     ex.printStackTrace();
@@ -210,7 +203,6 @@ public class nuevareservaPantalla extends JFrame {
 
                 estanciaPanel.add(reservaBoton, BorderLayout.EAST);
 
-                // A�adir el panel de estancia al panel inferior
                 panelInferior.add(estanciaPanel);
             }
 
@@ -238,7 +230,6 @@ public class nuevareservaPantalla extends JFrame {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                // Obtener el ID del cliente directamente
                 return resultSet.getInt("id_cliente");
             }
 
@@ -248,8 +239,28 @@ public class nuevareservaPantalla extends JFrame {
             e.printStackTrace();
         }
 
-        // Devolver un valor predeterminado o manejar el caso de error seg�n tus necesidades
-        return -1; // Por ejemplo, devolver -1 si no se encuentra el cliente
+        return -1; 
+    }
+    
+    private int obtenerCreditosActuales(int idCliente) {
+        try {
+            String consulta = "SELECT creditos FROM cliente WHERE id_cliente = ?";
+            PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+            preparedStatement.setInt(1, idCliente);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getInt("creditos");
+            }
+
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
     }
     
    

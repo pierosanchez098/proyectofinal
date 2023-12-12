@@ -29,16 +29,14 @@ public class medplaya_hotel extends JFrame{
 		        setLocationRelativeTo(null);
 		        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		        // Color de fondo
 		        Color colorDeFondo = new Color(15, 82, 15, 255);
 		       getContentPane().setBackground(colorDeFondo);
 
 		       JPanel panelInferior = new JPanel(new BorderLayout());
 		        panelInferior.setBackground(new Color(255, 255, 255, 255));
 		       
-		     // Panel superior (que cumple la funci�n de una barra de men�)
 		        JPanel barraMenu = new JPanel(new BorderLayout());
-		        barraMenu.setBackground(new Color(213, 232, 212, 255)); // Color verde lim�n
+		        barraMenu.setBackground(new Color(213, 232, 212, 255)); 
 		        barraMenu.setPreferredSize(new Dimension(1050, 80));
 
 		        // Icono
@@ -61,7 +59,6 @@ public class medplaya_hotel extends JFrame{
 		        labelTexto.setHorizontalAlignment(SwingConstants.CENTER);
 		        barraMenu.add(labelTexto, BorderLayout.CENTER);
 		
-		        // Agregar el panel superior y el panel inferior al JFrame
 		        add(barraMenu, BorderLayout.NORTH);
 		        add(panelInferior, BorderLayout.CENTER);
 		        setVisible(true);

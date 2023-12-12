@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class book4u extends JFrame {
 private static final String USER = "DW2_2324_BOOK4U_ESECODI";
 private static final String PWD = "AESECODI";
-    private static final String URL = "jdbc:oracle:thin:@192.168.3.26:1521:xe"; //oracle.ilerna.com //192.168.3.26
+    private static final String URL = "jdbc:oracle:thin:@oracle.ilerna.com:1521:xe"; //oracle.ilerna.com //192.168.3.26
     
 
 

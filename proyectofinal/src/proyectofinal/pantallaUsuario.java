@@ -22,16 +22,13 @@ public class pantallaUsuario extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Color de fondo
         Color colorDeFondo = new Color(15, 82, 15, 255);
        getContentPane().setBackground(colorDeFondo);
 
-     // Panel superior (que cumple la funci�n de una barra de men�)
         JPanel barraMenu = new JPanel(new BorderLayout());
-        barraMenu.setBackground(new Color(213, 232, 212, 255)); // Color verde lim�n
+        barraMenu.setBackground(new Color(213, 232, 212, 255)); 
         barraMenu.setPreferredSize(new Dimension(1050, 80));
 
-        // Icono
         ImageIcon icono = new ImageIcon("imagenes/casa.png");
         icono = new ImageIcon(icono.getImage().getScaledInstance(56, 56, Image.SCALE_SMOOTH));
         JLabel iconoLabel = new JLabel(icono);
@@ -47,13 +44,11 @@ public class pantallaUsuario extends JFrame {
         });
 
 
-        // Texto "Mi perfil"
         JLabel labelTexto = new JLabel("Mi perfil");
         labelTexto.setFont(new Font(labelTexto.getFont().getName(), Font.PLAIN, 30));
         labelTexto.setHorizontalAlignment(SwingConstants.CENTER);
         barraMenu.add(labelTexto, BorderLayout.CENTER);
 
-        // Bot�n "Cerrar sesi�n"
         JButton botonCerrarSesion = new JButton("Cerrar sesi�n");
         barraMenu.add(botonCerrarSesion, BorderLayout.EAST);
         
@@ -65,24 +60,19 @@ public class pantallaUsuario extends JFrame {
             }
         });
 
-        // Panel inferior
         JPanel panelInferior = new JPanel(new BorderLayout());
         panelInferior.setBackground(new Color(255, 255, 255, 255));
 
-        // Icono de usuario en la parte izquierda del panel inferior
         ImageIcon usuarioIcono = new ImageIcon("imagenes/usuario.png");
         usuarioIcono = new ImageIcon(usuarioIcono.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH));
         JLabel usuarioLabel = new JLabel(usuarioIcono);
         panelInferior.add(usuarioLabel, BorderLayout.WEST);
 
-        // Panel para campos de entrada
         JPanel panelCampos = new JPanel(new GridLayout(5, 1)); 
         panelCampos.setBackground(new Color(255, 255, 255)); 
 
-        // Tama�o de los campos de entrada
         Dimension campoDimension = new Dimension(200, 20); 
 
-        // Etiquetas para los campos con fuente m�s peque�a
         Font fuenteEtiqueta = new Font("Arial", Font.PLAIN, 16); 
 
         // Agregar campos de entrada, botones "Editar" y l�gica de edici�n
@@ -114,13 +104,13 @@ public class pantallaUsuario extends JFrame {
                             etiqueta.setText("Apellidos:");
                             break;
                         case 2:
-                            etiqueta.setText("Tel�fono:");
+                            etiqueta.setText("Teléfono:");
                             break;
                         case 3:
                             etiqueta.setText("DNI:");
                             break;
                         case 4:
-                            etiqueta.setText("Contrase�a:");
+                            etiqueta.setText("Contraseña:");
                             break;
                     }
                     etiqueta.setFont(fuenteEtiqueta);
@@ -163,11 +153,9 @@ public class pantallaUsuario extends JFrame {
     
         panelInferior.add(panelCampos, BorderLayout.CENTER);
 
-        // Panel de "Guardar cambios"
         JPanel panelGuardarCambios = new JPanel(new BorderLayout());
         panelGuardarCambios.setBackground(new Color(255, 255, 255));
 
-     // Textfield "N�mero de cr�ditos actuales"
         JTextField numCreditos = new JTextField();
         numCreditos.setEditable(false);
         numCreditos.setPreferredSize(campoDimension);
@@ -177,20 +165,17 @@ public class pantallaUsuario extends JFrame {
         
         numCreditos.setText(String.valueOf(creditosActuales));
 
-        // Textfield "�Quieres comprar m�s cr�dito?"
         JTextField comprarCreditos = new JTextField();
         comprarCreditos.setPreferredSize(campoDimension);
         JLabel comprarCreditosLabel = new JLabel("�Quieres comprar m�s cr�dito?");
 
-     // Bot�n "Comprar cr�ditos"
         JButton botonComprarCreditos = new JButton("Comprar cr�ditos");
 
         botonComprarCreditos.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Aqu� agregar l�gica para dirigirse a la clase Creditos.java
                 Creditos creditos = new Creditos(nombreUsuario, conexion);
                 creditos.setVisible(true);
-                dispose(); // Cierra la ventana actual (pantallaUsuario)
+                dispose();
             }
         });
 
@@ -220,32 +205,30 @@ public class pantallaUsuario extends JFrame {
                                     consulta += "dni = ?";
                                     break;
                                 case 4:
-                                    consulta += "contrase�a = ?";
+                                    consulta += "contrasenya = ?";
                                     break;
                             }
-                            consulta += " WHERE nombre = ?"; // Usar el nombre de usuario para identificar al usuario
+                            consulta += " WHERE nombre = ?"; 
                             
                             PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
                             preparedStatement.setString(1, nuevoValor);
-                            preparedStatement.setString(2, nombreUsuario); // Usar el nombre de usuario actual
+                            preparedStatement.setString(2, nombreUsuario);
                             preparedStatement.executeUpdate();
                             preparedStatement.close();
 
-                            // Actualizar el campo de texto con el nuevo valor
                             campos[i].setText(nuevoValor);
                             campos[i].setEditable(false);
                             botonesEditar[i].setText("Editar");
                         }
                     }
                     
-                    conexion.close(); // Cerrar la conexi�n despu�s de todas las operaciones
+                    conexion.close(); 
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
         });
 
-        // Agregar elementos al panel de "Guardar cambios"
         JPanel panelIzquierdo = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panelIzquierdo.add(numCreditosLabel);
         panelIzquierdo.add(numCreditos);
@@ -254,14 +237,12 @@ public class pantallaUsuario extends JFrame {
 
         panelGuardarCambios.add(panelIzquierdo, BorderLayout.WEST);
 
-        // Agregar el bot�n "Guardar cambios" al panel "Guardar cambios"
         JPanel panelBotonGuardarCambios = new JPanel(new FlowLayout(FlowLayout.CENTER));
         panelBotonGuardarCambios.add(botonGuardarCambios);
         panelGuardarCambios.add(panelBotonGuardarCambios, BorderLayout.SOUTH);
 
         panelInferior.add(panelGuardarCambios, BorderLayout.SOUTH);
 
-        // Agregar el panel superior y el panel inferior al JFrame
         add(barraMenu, BorderLayout.NORTH);
         add(panelInferior, BorderLayout.CENTER);
         setVisible(true);
@@ -285,8 +266,7 @@ public class pantallaUsuario extends JFrame {
 		        e.printStackTrace();
 		    }
 
-		    // Devolver un valor predeterminado o manejar el caso de error según tus necesidades
-		    return 0; // Por ejemplo, devolver 0 si no se encuentra el número de créditos
+		    return 0;
 		}
 }
         

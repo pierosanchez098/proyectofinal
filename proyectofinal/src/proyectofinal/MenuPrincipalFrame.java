@@ -21,10 +21,10 @@ this.nombreUsuario = nombreUsuario;
 this.conexion = conexion;
 
 setDefaultCloseOperation(EXIT_ON_CLOSE);
-setSize(1080, 720); //El tamaño de que de la ventana de la App
+setSize(1080, 720);
 setTitle("Pantalla Princial");
-setLocationRelativeTo(null); //permite que la ventana siempre se inicilice en el centro de la pantalla
-setMinimumSize(new Dimension (200, 200));//el tamaño minimo
+setLocationRelativeTo(null);
+setMinimumSize(new Dimension (200, 200));
 
 	iniciarComponentes();			
 			
@@ -195,23 +195,10 @@ descripcnanuncio0000.setBounds(205, 304, 270, 150);
 descripcnanuncio0000.setFont(new Font("arial",Font.BOLD,12));
 panel2.add(descripcnanuncio0000);
 
-JButton VerAnuncio1=new JButton("Ver Anuncio");
-VerAnuncio1.setBounds(720, 300, 150, 50);
-VerAnuncio1.setBackground(new Color(213,232,212,255));
-//ImageIcon botonimagen = new ImageIcon("Pictures/back5.png");
-//atras.setIcon(new ImageIcon(botonimagen.getImage().getScaledInstance(atras.getWidth(),atras.getHeight(),Image.SCALE_SMOOTH )));
-panel2.add(VerAnuncio1);
-VerAnuncio1.setVisible(true);
 
 
- VerAnuncio1.addActionListener(new ActionListener() {
-public void actionPerformed(ActionEvent arg0) {
-	 dispose();
-	 medplaya_hotel PERFIL = new medplaya_hotel(nombreUsuario, conexion);
-	 PERFIL.setVisible(true);
-}
 
-});
+
 
 /////////////////////////////
 //Anuncio2
@@ -249,24 +236,6 @@ descripcnanuncio3.setText("Desayuno incluido");
 descripcnanuncio3.setBounds(205, 467, 270, 150);
 descripcnanuncio3.setFont(new Font("arial",Font.BOLD,12));
 panel2.add(descripcnanuncio3);
-
-JButton VerAnuncio2=new JButton("Ver Anuncio");
-VerAnuncio2.setBounds(720, 480, 150, 50);
-VerAnuncio2.setBackground(new Color(213,232,212,255));
-//ImageIcon botonimagen = new ImageIcon("Pictures/back5.png");
-//atras.setIcon(new ImageIcon(botonimagen.getImage().getScaledInstance(atras.getWidth(),atras.getHeight(),Image.SCALE_SMOOTH )));
-panel2.add(VerAnuncio2);
-VerAnuncio2.setVisible(true);
-
-VerAnuncio2.addActionListener(new ActionListener() {
-public void actionPerformed(ActionEvent arg0) {
-	 dispose();
-	 port_benidorm PERFIL = new port_benidorm(nombreUsuario, conexion);
-	 PERFIL.setVisible(true);
-}
-
-});
-
 }
 
 private int obtenerCreditosActuales() {
@@ -287,7 +256,6 @@ private int obtenerCreditosActuales() {
         e.printStackTrace();
     }
 
-    // Devolver un valor predeterminado o manejar el caso de error según tus necesidades
-    return 0; // Por ejemplo, devolver 0 si no se encuentra el número de créditos
+    return 0; 
 }
 }

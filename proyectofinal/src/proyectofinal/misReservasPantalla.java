@@ -86,7 +86,6 @@ public class misReservasPantalla extends JFrame {
 
     int idCliente = obtenerIdCliente(nombreUsuario);
 
-    // Mostrar las reservas asociadas a ese id_cliente
     mostrarReservas(idCliente, panel);
 }
 
@@ -119,11 +118,9 @@ private void mostrarReservas(int idCliente, JPanel panel) {
 
         ResultSet resultSetReservas = preparedStatementReservas.executeQuery();
 
-        // Crear un panel para las reservas con un layout vertical
         JPanel reservasPanel = new JPanel();
         reservasPanel.setLayout(new BoxLayout(reservasPanel, BoxLayout.Y_AXIS));
 
-        // Encabezado "Reservas en pie:"
         JLabel encabezadoReservas = new JLabel("Precio y disponibilidad:");
         encabezadoReservas.setFont(new Font("Arial", Font.BOLD, 22));
         reservasPanel.add(encabezadoReservas);
@@ -138,17 +135,13 @@ private void mostrarReservas(int idCliente, JPanel panel) {
             Date fechaFin = resultSetReservas.getDate("fechaf");
             String imagenPath = resultSetReservas.getString("imagen");
 
-            // Verificar disponibilidad
             boolean disponible = verificarDisponibilidad(idReserva);
 
-            // Crear un panel para cada reserva
             JPanel reservaPanel = new JPanel(new BorderLayout());
 
-            // Crear un panel para la información de la reserva
             JPanel infoPanel = new JPanel();
             infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 
-            // Nombre de la estancia en negrita y con fuente más grande
             JLabel nombreEstanciaLabel = new JLabel("Nombre: " + nombreReserva);
             nombreEstanciaLabel.setFont(new Font("Arial", Font.BOLD, 18));
             infoPanel.add(nombreEstanciaLabel);
@@ -159,7 +152,6 @@ private void mostrarReservas(int idCliente, JPanel panel) {
             infoPanel.add(crearLabel("Fecha Inicio: " + fechaInicio));
             infoPanel.add(crearLabel("Fecha Fin: " + fechaFin));
 
-            // Añadir la imagen al panel
             JLabel imagenLabel = new JLabel();
             try {
                 ImageIcon iconoReserva = new ImageIcon(imagenPath);
@@ -170,14 +162,11 @@ private void mostrarReservas(int idCliente, JPanel panel) {
             }
             infoPanel.add(imagenLabel);
 
-            // Añadir el panel de información al panel de reserva
             reservaPanel.add(infoPanel, BorderLayout.CENTER);
 
-            // Añadir botón o label de disponibilidad a la derecha
             JPanel disponibilidadPanel = new JPanel();
             disponibilidadPanel.setLayout(new BoxLayout(disponibilidadPanel, BoxLayout.Y_AXIS));
 
-            // Agregar la nueva columna "Precio"
             int precioCreditos = obtenerPrecioCreditos(idReserva);
             disponibilidadPanel.add(crearLabel("Precio de reserva: " + precioCreditos + " créditos"));
 
@@ -193,11 +182,10 @@ private void mostrarReservas(int idCliente, JPanel panel) {
 
             	        if (result == JOptionPane.OK_OPTION) {
             	            Date nuevaFecha = new java.sql.Date(dateChooser.getDate().getTime());
+            	            
+            	            
             	        
                     
-                
-
-                    // Realiza la acción correspondiente según la opción elegida
                     switch (opcionElegida) {
                     case 0: // Fecha de inicio
                         modificarFechaInicio(idReserva, nuevaFecha);
@@ -205,9 +193,10 @@ private void mostrarReservas(int idCliente, JPanel panel) {
                     case 1: // Fecha de fin
                         modificarFechaFin(idReserva, nuevaFecha);
                         break;
-                    case 2: // Número de personas
-                        // Implementa la lógica para modificar el número de personas
-                        System.out.println("Modificar Número de personas para la reserva con ID: " + idReserva);
+                    case 2: 
+                    	System.out.println("Modificar Número de personas para la reserva con ID: " + idReserva);
+                        String nuevoNumeroPersonas = JOptionPane.showInputDialog(null, "Ingrese el nuevo número de personas:");
+                        modificarNumeroPersonas(idReserva, Integer.parseInt(nuevoNumeroPersonas));
                         break;
                     case 3:
                     	cancelarReserva(idReserva);
@@ -218,7 +207,14 @@ private void mostrarReservas(int idCliente, JPanel panel) {
                 
                     }
                     }
-            	    }
+            	    } else if (opcionElegida == 2) {
+                        System.out.println("Modificar Número de personas para la reserva con ID: " + idReserva);
+                        String nuevoNumeroPersonas = JOptionPane.showInputDialog(null, "Ingrese el nuevo número de personas:");
+                        modificarNumeroPersonas(idReserva, Integer.parseInt(nuevoNumeroPersonas));
+                    } else if (opcionElegida == 3) {
+                    	cancelarReserva(idReserva);
+                    	
+                    }
                 });
              
                 
@@ -228,16 +224,13 @@ private void mostrarReservas(int idCliente, JPanel panel) {
                 disponibilidadPanel.add(lblNoDisponible);
             }
 
-            // Añadir el panel de disponibilidad a la derecha
             reservaPanel.add(disponibilidadPanel, BorderLayout.EAST);
 
-            // Añadir el panel de reserva al panel principal
             reservasPanel.add(reservaPanel);
         }
 
         JScrollPane scrollPane = new JScrollPane(reservasPanel);
 
-        // Agregar el JScrollPane al panel principal
         panel.add(scrollPane, BorderLayout.CENTER);
 
         resultSetReservas.close();
@@ -247,7 +240,6 @@ private void mostrarReservas(int idCliente, JPanel panel) {
         e.printStackTrace();
     }
 
-    // Actualizar la interfaz gráfica
     panel.revalidate();
     panel.repaint();
 }
@@ -278,7 +270,6 @@ private boolean verificarDisponibilidad(int idReserva) {
 
 private void cancelarReserva(int idReserva) {
     try {
-        // Realiza la l�gica para cancelar la reserva (puedes cambiar el estado, borrarla, etc.)
         String updateQuery = "UPDATE reserva SET estado = 'cancelado' WHERE id_reserva = ?";
         PreparedStatement preparedStatement = conexion.prepareStatement(updateQuery);
         preparedStatement.setInt(1, idReserva);
@@ -286,8 +277,7 @@ private void cancelarReserva(int idReserva) {
         int filasAfectadas = preparedStatement.executeUpdate();
 
         if (filasAfectadas > 0) {
-            JOptionPane.showMessageDialog(null, "Reserva cancelada correctamente", "�xito", JOptionPane.INFORMATION_MESSAGE);
-            // Puedes realizar otras acciones necesarias despu�s de cancelar la reserva
+            JOptionPane.showMessageDialog(null, "Reserva cancelada correctamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, "No se pudo cancelar la reserva", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -304,7 +294,7 @@ private void cancelarReserva(int idReserva) {
         
     } catch (SQLException ex) {
         ex.printStackTrace();
-        JOptionPane.showMessageDialog(null, "Error al cancelar la reserva. Por favor, int�ntelo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Error al cancelar la reserva. Por favor, int�ntelo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
 
@@ -322,6 +312,67 @@ private int obtenerPrecioCreditos(int idReserva) {
 
         resultSetPrecioCreditos.close();
         preparedStatementPrecioCreditos.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return -1;
+}
+
+private void modificarNumeroPersonas(int idReserva, int nuevoNumeroPersonas) {
+    try {
+        // Obtener el valor de "creditos_estancia" para la reserva específica
+        int creditosEstancia = obtenerCreditosEstancia(idReserva);
+
+        if (creditosEstancia != -1) {
+            // Calcular el nuevo valor de "precio_creditostotal"
+            int nuevoPrecioCreditos = nuevoNumeroPersonas * creditosEstancia;
+
+            // Realizar el update en la base de datos
+            String updateQuery = "UPDATE reserva SET personas = ?, precio_creditostotal = ? WHERE id_reserva = ?";
+            try (PreparedStatement preparedStatement = conexion.prepareStatement(updateQuery)) {
+                preparedStatement.setInt(1, nuevoNumeroPersonas);
+                preparedStatement.setInt(2, nuevoPrecioCreditos);
+                preparedStatement.setInt(3, idReserva);
+
+                int filasAfectadas = preparedStatement.executeUpdate();
+
+                if (filasAfectadas > 0) {
+                    JOptionPane.showMessageDialog(
+                        null, "Número de personas modificado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE
+                    );
+                } else {
+                    JOptionPane.showMessageDialog(
+                        null, "No se pudo modificar el número de personas", "Error", JOptionPane.ERROR_MESSAGE
+                    );
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(
+                null, "No se pudo obtener el valor de 'creditos_estancia'", "Error", JOptionPane.ERROR_MESSAGE
+            );
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(
+            null, "Error al modificar el número de personas. Por favor, inténtelo de nuevo.", "Error",
+            JOptionPane.ERROR_MESSAGE
+        );
+    }
+}
+
+private int obtenerCreditosEstancia(int idReserva) {
+    try {
+        String consultaCreditosEstancia = "SELECT creditos_estancia FROM reserva WHERE id_reserva = ?";
+        try (PreparedStatement preparedStatementCreditosEstancia = conexion.prepareStatement(consultaCreditosEstancia)) {
+            preparedStatementCreditosEstancia.setInt(1, idReserva);
+
+            try (ResultSet resultSetCreditosEstancia = preparedStatementCreditosEstancia.executeQuery()) {
+                if (resultSetCreditosEstancia.next()) {
+                    return resultSetCreditosEstancia.getInt("creditos_estancia");
+                }
+            }
+        }
     } catch (SQLException e) {
         e.printStackTrace();
     }
@@ -366,7 +417,6 @@ private void modificarFechaInicio(int idReserva, Date nuevaFecha) {
 private void modificarFechaFin(int idReserva, Date nuevaFecha) {
     try {
     	java.sql.Date sqlNuevaFecha = new java.sql.Date(nuevaFecha.getTime());
-        // Realiza el update en la base de datos
         String updateQuery = "UPDATE reserva SET fechaf = ? WHERE id_reserva = ?";
         PreparedStatement preparedStatement = conexion.prepareStatement(updateQuery);
         preparedStatement.setDate(1, sqlNuevaFecha);
@@ -395,6 +445,8 @@ private void modificarFechaFin(int idReserva, Date nuevaFecha) {
         JOptionPane.showMessageDialog(null, "Error al modificar la fecha. Por favor, intente de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
+
+
 
 private JLabel crearLabel(String text) {
     JLabel label = new JLabel(text);

@@ -65,7 +65,6 @@ public class historico extends JFrame {
 
 	    int idCliente = obtenerIdCliente(nombreUsuario);
 
-	    // Mostrar las reservas asociadas a ese id_cliente
 	    mostrarReservas(idCliente, panel);
 	}
 
@@ -92,17 +91,15 @@ public class historico extends JFrame {
 
 	private void mostrarReservas(int idCliente, JPanel panel) {
 	    try {
-	        String consultaReservas = "SELECT nombre, direccion, preciototal, personas, fechai, fechaf, precio_creditostotal, estado, imagen FROM historico WHERE id_cliente = ?";
+	        String consultaReservas = "SELECT nombre, direccion, preciototal, personas, fechai, fechaf, precio_creditostotal, imagen FROM historico WHERE id_cliente = ?";
 	        PreparedStatement preparedStatementReservas = conexion.prepareStatement(consultaReservas);
 	        preparedStatementReservas.setInt(1, idCliente);
 
 	        ResultSet resultSetReservas = preparedStatementReservas.executeQuery();
 
-	        // Crear un panel para las reservas con un layout vertical
 	        JPanel reservasPanel = new JPanel();
 	        reservasPanel.setLayout(new BoxLayout(reservasPanel, BoxLayout.Y_AXIS));
 
-	        // Encabezado "Créditos gastados y equivalencia (dinero real):"
 	        JLabel encabezadoReservas = new JLabel("Créditos gastados y equivalencia:");
 	        encabezadoReservas.setFont(new Font("Arial", Font.BOLD, 22));
 	        reservasPanel.add(encabezadoReservas);
@@ -116,16 +113,12 @@ public class historico extends JFrame {
 	            Date fechaFin = resultSetReservas.getDate("fechaf");
 	            int preciocreditosTotal = resultSetReservas.getInt("precio_creditostotal");
 	            String imagenPath = resultSetReservas.getString("imagen");
-	            String estadoreserva = resultSetReservas.getString("estado");
 
-	            // Crear un panel para cada reserva
 	            JPanel reservaPanel = new JPanel(new BorderLayout());
 
-	            // Crear un panel para la información de la reserva
 	            JPanel infoPanel = new JPanel();
 	            infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 
-	            // Nombre de la estancia en negrita y con fuente más grande
 	            JLabel nombreEstanciaLabel = new JLabel("Nombre: " + nombreReserva);
 	            nombreEstanciaLabel.setFont(new Font("Arial", Font.BOLD, 18));
 	            infoPanel.add(nombreEstanciaLabel);
@@ -135,9 +128,7 @@ public class historico extends JFrame {
 	            infoPanel.add(crearLabel("Personas: " + personas));
 	            infoPanel.add(crearLabel("Fecha Inicio: " + fechaInicio));
 	            infoPanel.add(crearLabel("Fecha Fin: " + fechaFin));
-	            infoPanel.add(crearLabel("Estado de reserva: " + estadoreserva));
 
-	            // Añadir la imagen al panel
 	            JLabel imagenLabel = new JLabel();
 	            try {
 	                ImageIcon iconoReserva = new ImageIcon(imagenPath);
@@ -148,30 +139,24 @@ public class historico extends JFrame {
 	            }
 	            infoPanel.add(imagenLabel);
 
-	            // Añadir el panel de información al panel de reserva
 	            reservaPanel.add(infoPanel, BorderLayout.CENTER);
 
-	            // Añadir botón o label de disponibilidad a la derecha
 	            JPanel disponibilidadPanel = new JPanel();
 	            disponibilidadPanel.setLayout(new BoxLayout(disponibilidadPanel, BoxLayout.Y_AXIS));
 
-	            // Agregar la nueva columna "Precio"
 	            int precioCreditos = preciocreditosTotal;
 	            disponibilidadPanel.add(crearLabel("Precio de reserva: " + precioCreditos + " créditos"));
 	            
 	            int precioEquivalente = precioCreditos * 10;
 	            disponibilidadPanel.add(crearLabel("Precio equivalente (dinero real): " + precioEquivalente + " €"));
 
-	            // Añadir el panel de disponibilidad a la derecha
 	            reservaPanel.add(disponibilidadPanel, BorderLayout.EAST);
 
-	            // Añadir el panel de reserva al panel principal
 	            reservasPanel.add(reservaPanel);
 	        }
 
 	        JScrollPane scrollPane = new JScrollPane(reservasPanel);
 
-	        // Agregar el JScrollPane al panel principal
 	        panel.add(scrollPane, BorderLayout.CENTER);
 
 	        resultSetReservas.close();
@@ -181,7 +166,6 @@ public class historico extends JFrame {
 	        e.printStackTrace();
 	    }
 
-	    // Actualizar la interfaz gráfica
 	    panel.revalidate();
 	    panel.repaint();
 	}

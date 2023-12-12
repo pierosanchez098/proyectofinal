@@ -26,7 +26,6 @@ public class Pantalla_registro extends JFrame {
         int panelY = (background.getHeight() - panelHeight) / 2;
         panelLimon.setBounds(panelX, panelY, panelWidth, panelHeight);
 
-        // Imagen (redimensionada)
         ImageIcon logoImage = new ImageIcon("imagenes/Logo_Book4U_NO_fondo.png");
         Image img = logoImage.getImage();
         Image newImg = img.getScaledInstance(150, 100, Image.SCALE_SMOOTH);
@@ -35,12 +34,10 @@ public class Pantalla_registro extends JFrame {
         imageLabel.setBounds(80, 50, 150, 100);
         panelLimon.add(imageLabel);
 
-        // Etiqueta de Iniciar sesión
         JLabel panelBlanco = new JLabel("Registrar usuario");
-        panelBlanco.setBounds(375, 180, 200, 25); // Ajustado el tamaño
+        panelBlanco.setBounds(375, 180, 200, 25); 
         panelBlanco.setFont(new Font("Arial", Font.BOLD, 20));
 
-        // Etiquetas y campos de texto
         JLabel nombreUsuario = new JLabel("Nombre:");
         nombreUsuario.setBounds(50, 250, 150, 25);
         JTextField nombreField = new JTextField();
@@ -76,7 +73,6 @@ public class Pantalla_registro extends JFrame {
         JPasswordField passwordField = new JPasswordField();
         passwordField.setBounds(200, 430, 120, 25);
 
-        // Botón de Iniciar sesión
         JButton botondeRegistro = new JButton("Registrarse");
         botondeRegistro.setBounds(375, 350, 100, 30);
         panelLimon.add(botondeRegistro);
@@ -107,7 +103,6 @@ public class Pantalla_registro extends JFrame {
                     preparedStatement.setString(6, correo);
                     preparedStatement.setString(7, contrasena);
 
-                 // Ejecutar la sentencia SQL
                     int filasAfectadas = preparedStatement.executeUpdate();
 
                     if (filasAfectadas > 0) {
@@ -120,7 +115,6 @@ public class Pantalla_registro extends JFrame {
                     }
                 } catch (SQLException ex) {
                     ex.printStackTrace();
-                    // Manejar errores, como mostrar un mensaje de error al usuario
                     JOptionPane.showMessageDialog(null, "Error al registrar: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 } finally {
                     try {
@@ -135,15 +129,12 @@ public class Pantalla_registro extends JFrame {
         });
 
         
-        // Panel para el mensaje y el botón de registrarse
         JPanel InicioSesionpanel = new JPanel(new GridLayout(1, 2, 5, 0));
         InicioSesionpanel.setBounds(350, 425, 200, 25);
 
-        // Label ¿Aún no te has registrado? con fuente más pequeña
         JLabel SesionLabel = new JLabel("¿Ya tienes una cuenta?");
         SesionLabel.setFont(new Font("Arial", Font.PLAIN, 8));
 
-        // Botón para registrarse
         JButton iniciarVolver = new JButton("Iniciar sesión");
         
         iniciarVolver.addActionListener(new ActionListener() {
