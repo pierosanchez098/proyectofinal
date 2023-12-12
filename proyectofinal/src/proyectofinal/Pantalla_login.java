@@ -76,18 +76,25 @@ public class Pantalla_login extends JFrame {
         panelLimon.add(panelRegistro);
 
         background.add(panelLimon);
-
         BotonEntrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String usuario = usuarioCampo.getText();
                 String contrasena = new String(claveCampo.getPassword());
+
+                if (usuario.equals("administrador") && contrasena.equals("administrador")) {
+                    Pantalla_administrador pantallaAdministrador = new Pantalla_administrador(usuario, conexion);
+                    pantallaAdministrador.setVisible(true);
+                    dispose();
+                    return;  
+                }
+
                 if (autenticarUsuario(usuario, contrasena)) {
                     MenuPrincipalFrame menuPrincipalFrame = new MenuPrincipalFrame(usuario, conexion);
                     menuPrincipalFrame.setVisible(true);
                     dispose();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Credenciales incorrectas", "Error de inicio de sesiÃ³n", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Credenciales incorrectas", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
