@@ -91,7 +91,7 @@ public class historico extends JFrame {
 
 	private void mostrarReservas(int idCliente, JPanel panel) {
 	    try {
-	        String consultaReservas = "SELECT nombre, direccion, preciototal, personas, fechai, fechaf, precio_creditostotal, imagen FROM historico WHERE id_cliente = ?";
+	        String consultaReservas = "SELECT nombre, direccion, preciototal, personas, fechai, fechaf, precio_creditostotal, estado, imagen FROM historico WHERE id_cliente = ?";
 	        PreparedStatement preparedStatementReservas = conexion.prepareStatement(consultaReservas);
 	        preparedStatementReservas.setInt(1, idCliente);
 
@@ -112,6 +112,7 @@ public class historico extends JFrame {
 	            Date fechaInicio = resultSetReservas.getDate("fechai");
 	            Date fechaFin = resultSetReservas.getDate("fechaf");
 	            int preciocreditosTotal = resultSetReservas.getInt("precio_creditostotal");
+	            String estadoReserva = resultSetReservas.getString("estado");
 	            String imagenPath = resultSetReservas.getString("imagen");
 
 	            JPanel reservaPanel = new JPanel(new BorderLayout());
@@ -128,6 +129,7 @@ public class historico extends JFrame {
 	            infoPanel.add(crearLabel("Personas: " + personas));
 	            infoPanel.add(crearLabel("Fecha Inicio: " + fechaInicio));
 	            infoPanel.add(crearLabel("Fecha Fin: " + fechaFin));
+	            infoPanel.add(crearLabel("Estado: " + estadoReserva));
 
 	            JLabel imagenLabel = new JLabel();
 	            try {
