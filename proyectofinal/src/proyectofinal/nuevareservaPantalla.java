@@ -97,6 +97,7 @@ public class nuevareservaPantalla extends JFrame {
                 estanciaPanel.add(infoPanel, BorderLayout.CENTER);
 
                 JButton reservaBoton = new JButton("Realizar reserva");
+                estiloBoton(reservaBoton);
 
                 int idEstanciaActual = idEstancia;
 
@@ -285,6 +286,13 @@ public class nuevareservaPantalla extends JFrame {
             JOptionPane.showMessageDialog(null, "Error al verificar la existencia del cliente. Por favor, int�ntelo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
+    }
+    
+    private void estiloBoton(JButton boton) {
+        boton.setBackground(new Color(41, 128, 185));  
+        boton.setForeground(Color.WHITE); 
+        boton.setFocusPainted(false); 
+        boton.setFont(new Font("Arial", Font.BOLD, 16));
     }
 
 
