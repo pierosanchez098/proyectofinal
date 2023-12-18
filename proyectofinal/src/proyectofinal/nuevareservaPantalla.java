@@ -72,6 +72,7 @@ public class nuevareservaPantalla extends JFrame {
 
                 JPanel infoPanel = new JPanel();
                 infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+                infoPanel.setBackground(new Color(255,255,255,255));
 
                 JLabel nombreLabel = CrearLabel(nombreEstancia);
                 nombreLabel.setFont(fuentePersonalizada);
@@ -95,6 +96,15 @@ public class nuevareservaPantalla extends JFrame {
                 infoPanel.add(imagenLabel);
 
                 estanciaPanel.add(infoPanel, BorderLayout.CENTER);
+                
+                
+                JPanel borde = new JPanel();
+                borde.setBackground(new Color (233, 252, 232));
+
+                
+                estanciaPanel.add(borde, BorderLayout.SOUTH);
+                
+                
 
                 JButton reservaBoton = new JButton("Realizar reserva");
                 estiloBoton(reservaBoton);
