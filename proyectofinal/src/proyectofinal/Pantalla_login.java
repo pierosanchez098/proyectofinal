@@ -38,7 +38,7 @@ public class Pantalla_login extends JFrame {
         imageLabel.setBounds(80, 50, 150, 100);
         panelLimon.add(imageLabel);
 
-        JLabel TituloLogin = new JLabel("Iniciar sesión");
+        JLabel TituloLogin = new JLabel("Iniciar sesion");
         TituloLogin.setBounds(90, 180, 150, 25);
         panelLimon.add(TituloLogin);
         TituloLogin.setFont(new Font("Arial", Font.BOLD, 20));
@@ -47,7 +47,7 @@ public class Pantalla_login extends JFrame {
         UsuarioLabel.setBounds(50, 250, 150, 25);
         panelLimon.add(UsuarioLabel);
 
-        JLabel ContrasenaLabel = new JLabel("Contraseña");
+        JLabel ContrasenaLabel = new JLabel("Contrasena");
         ContrasenaLabel.setBounds(50, 290, 80, 25);
         panelLimon.add(ContrasenaLabel);
 
