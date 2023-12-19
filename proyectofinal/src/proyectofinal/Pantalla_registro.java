@@ -68,7 +68,7 @@ public class Pantalla_registro extends JFrame {
         JTextField correoField = new JTextField();
         correoField.setBounds(200, 400, 120, 25);
 
-        JLabel contrasenaLabel = new JLabel("Contraseña:");
+        JLabel contrasenaLabel = new JLabel("Contrasena:");
         contrasenaLabel.setBounds(50, 430, 80, 25);
         JPasswordField passwordField = new JPasswordField();
         passwordField.setBounds(200, 430, 120, 25);
@@ -128,10 +128,10 @@ public class Pantalla_registro extends JFrame {
         JPanel InicioSesionpanel = new JPanel(new GridLayout(1, 2, 5, 0));
         InicioSesionpanel.setBounds(350, 425, 200, 25);
 
-        JLabel SesionLabel = new JLabel("¿Ya tienes una cuenta?");
+        JLabel SesionLabel = new JLabel("Ya tienes una cuenta?");
         SesionLabel.setFont(new Font("Arial", Font.PLAIN, 8));
 
-        JButton iniciarVolver = new JButton("Iniciar sesión");
+        JButton iniciarVolver = new JButton("Iniciar sesion");
         
         iniciarVolver.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

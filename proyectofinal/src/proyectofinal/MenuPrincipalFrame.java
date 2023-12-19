@@ -22,7 +22,7 @@ this.conexion = conexion;
 
 setDefaultCloseOperation(EXIT_ON_CLOSE);
 setSize(1080, 720);
-setTitle("Pantalla Princial");
+setTitle("Pantalla Principal");
 setLocationRelativeTo(null);
 setMinimumSize(new Dimension (200, 200));
 
@@ -57,7 +57,7 @@ panel1.add(Texto1, BorderLayout.CENTER);
 
 
 JLabel Texto2 = new JLabel();
-Texto2.setText("Nro de créditos:");
+Texto2.setText("Nro de creditos:");
 Texto2.setBounds(670, 45, 110, 20);
 Texto2.setForeground(Color.white);
 Texto2.setOpaque(true);
@@ -170,7 +170,7 @@ Textoanuncio1.setFont(new Font("arial",Font.BOLD,20));
 panel2.add(Textoanuncio1);
 
 JLabel ddescripcnanuncio0 = new JLabel();
-ddescripcnanuncio0.setText("Habitaci�n Doble con balcon 2 camas");
+ddescripcnanuncio0.setText("Habitacion Doble con balcon 2 camas");
 //Texto1.setForeground(Color.orange);//color teexto
 ddescripcnanuncio0.setBounds(205, 260, 270, 150);
 ddescripcnanuncio0.setFont(new Font("arial",Font.BOLD,12));
@@ -212,14 +212,14 @@ panel2.add(anuncio2);
 anuncio2.setVisible(true);
 
 JLabel Textoanuncio2 = new JLabel();
-Textoanuncio2.setText("Port Benidorm hotel Spa 73�");
+Textoanuncio2.setText("Port Benidorm hotel Spa 73 euros");
 //Texto1.setForeground(Color.orange);//color teexto
 Textoanuncio2.setBounds(205, 415, 275, 150);
 Textoanuncio2.setFont(new Font("arial",Font.BOLD,20));
 panel2.add(Textoanuncio2);
 
 JLabel ddescripcnanuncio1 = new JLabel();
-ddescripcnanuncio1.setText("Habitaci�n Doble (2 adultos)");
+ddescripcnanuncio1.setText("Habitacion Doble (2 adultos)");
 //Texto1.setForeground(Color.orange);//color teexto
 ddescripcnanuncio1.setBounds(205, 440, 270, 150);
 ddescripcnanuncio1.setFont(new Font("arial",Font.BOLD,12));

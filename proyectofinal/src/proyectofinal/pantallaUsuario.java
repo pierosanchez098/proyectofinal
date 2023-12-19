@@ -175,7 +175,7 @@ public class pantallaUsuario extends JFrame {
         JTextField numCreditos = new JTextField();
         numCreditos.setEditable(false);
         numCreditos.setPreferredSize(campoDimension);
-        JLabel numCreditosLabel = new JLabel("Número de creditos actuales:");
+        JLabel numCreditosLabel = new JLabel("Numero de creditos actuales:");
         
         int creditosActuales = obtenerCreditosActuales();
         

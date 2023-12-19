@@ -82,7 +82,7 @@ public class nuevareservaPantalla extends JFrame {
                 infoPanel.add(CrearLabel("Valoracion: " + valoracion + " estrellas"));
                 infoPanel.add(CrearLabel("Ubicacion: " + ubicacion));
                 infoPanel.add(CrearLabel("Disponibilidad: " + disponibilidad));
-                infoPanel.add(CrearLabel("Créditos para reservar (1 persona): " + precioCreditos + " créditos"));
+                infoPanel.add(CrearLabel("Creditos para reservar (1 persona): " + precioCreditos + " créditos"));
 
                 // A�adir la imagen al panel
                 JLabel imagenLabel = new JLabel();
@@ -193,11 +193,11 @@ public class nuevareservaPantalla extends JFrame {
                                      preparedStatement2.close();
 
                                         
-                                        JOptionPane.showMessageDialog(null, "Reserva realizada", "�xito", JOptionPane.INFORMATION_MESSAGE); 
+                                        JOptionPane.showMessageDialog(null, "Reserva realizada", "Exito", JOptionPane.INFORMATION_MESSAGE); 
                                         
                                      } else {
                                         // No hay suficientes créditos
-                                        JOptionPane.showMessageDialog(null, "No posees los créditos necesarios para hacer la reserva", "Error", JOptionPane.ERROR_MESSAGE);
+                                        JOptionPane.showMessageDialog(null, "No posees los creditos necesarios para hacer la reserva", "Error", JOptionPane.ERROR_MESSAGE);
                                     }
                                     }
                                 } catch (SQLException ex) {
@@ -294,7 +294,7 @@ public class nuevareservaPantalla extends JFrame {
             return count > 0;
         } catch (SQLException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error al verificar la existencia del cliente. Por favor, int�ntelo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error al verificar la existencia del cliente. Por favor, intentelo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }

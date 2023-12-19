@@ -45,7 +45,7 @@ public class historico extends JFrame {
 	    JLabel iconoLabel = new JLabel(icono);
 	    panel_1.add(iconoLabel);
 
-	    JLabel lblNewLabel_1 = new JLabel("Histórico");
+	    JLabel lblNewLabel_1 = new JLabel("Historico");
 	    lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 34));
 	    panel_1.add(lblNewLabel_1);
 
@@ -103,7 +103,7 @@ public class historico extends JFrame {
 	        reservasPanel.setLayout(new BoxLayout(reservasPanel, BoxLayout.Y_AXIS));
 	        reservasPanel.setBackground(new Color(247, 220, 111));
 
-	        JLabel encabezadoReservas = new JLabel("Créditos gastados y equivalencia:");
+	        JLabel encabezadoReservas = new JLabel("Creditos gastados y equivalencia:");
 	        encabezadoReservas.setFont(new Font("Arial", Font.BOLD, 22));
 	        encabezadoReservas.setForeground(new Color (0,0,0));
 	        reservasPanel.add(encabezadoReservas);
@@ -129,7 +129,7 @@ public class historico extends JFrame {
 	            nombreEstanciaLabel.setFont(new Font("Arial", Font.BOLD, 18));
 	            infoPanel.add(nombreEstanciaLabel);
 
-	            infoPanel.add(crearLabel("Dirección: " + direccion));
+	            infoPanel.add(crearLabel("Direccion: " + direccion));
 	            infoPanel.add(crearLabel("Precio Total: " + precioTotal));
 	            infoPanel.add(crearLabel("Personas: " + personas));
 	            infoPanel.add(crearLabel("Fecha Inicio: " + fechaInicio));
@@ -156,10 +156,10 @@ public class historico extends JFrame {
 	            disponibilidadPanel.setBackground(new Color(255,255,255,255));
 
 	            int precioCreditos = preciocreditosTotal;
-	            disponibilidadPanel.add(crearLabel("Precio de reserva: " + precioCreditos + " créditos"));
+	            disponibilidadPanel.add(crearLabel("Precio de reserva: " + precioCreditos + " creditos"));
 	            
 	            int precioEquivalente = precioCreditos * 10;
-	            disponibilidadPanel.add(crearLabel("Precio equivalente (dinero real): " + precioEquivalente + " €"));
+	            disponibilidadPanel.add(crearLabel("Precio equivalente (dinero real): " + precioEquivalente + " euros"));
 
 	            reservaPanel.add(disponibilidadPanel, BorderLayout.EAST);
 

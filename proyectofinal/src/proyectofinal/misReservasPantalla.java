@@ -299,7 +299,7 @@ private void cancelarReserva(int idReserva) {
 
         if (filasAfectadas > 0) {
             JOptionPane.showMessageDialog(
-                null, "Reserva cancelada correctamente", "�xito", JOptionPane.INFORMATION_MESSAGE
+                null, "Reserva cancelada correctamente", "Exito", JOptionPane.INFORMATION_MESSAGE
             );
 
             cancelarReservaHistorico(idReserva);

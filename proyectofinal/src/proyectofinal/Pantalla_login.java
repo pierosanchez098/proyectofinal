@@ -66,7 +66,7 @@ public class Pantalla_login extends JFrame {
         JPanel panelRegistro = new JPanel(new GridLayout(1, 2, 5, 0)); 
         panelRegistro.setBounds(50, 425, 200, 25); 
 
-        JLabel textoRegistro = new JLabel("¿Aún no te has registrado?");
+        JLabel textoRegistro = new JLabel("Aun no te has registrado?");
         textoRegistro.setFont(new Font("Arial", Font.PLAIN, 8)); 
         panelRegistro.add(textoRegistro);
 
