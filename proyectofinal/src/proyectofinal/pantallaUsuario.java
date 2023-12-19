@@ -113,13 +113,13 @@ public class pantallaUsuario extends JFrame {
                             etiqueta.setText("Apellidos:");
                             break;
                         case 2:
-                            etiqueta.setText("Teléfono:");
+                            etiqueta.setText("Telefono:");
                             break;
                         case 3:
                             etiqueta.setText("DNI:");
                             break;
                         case 4:
-                            etiqueta.setText("Contraseña:");
+                            etiqueta.setText("Contrasena:");
                             break;
                         case 5:
                             etiqueta.setText("Correo:");
