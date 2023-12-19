@@ -14,17 +14,8 @@ public class pantalla_Editarestancia extends JFrame {
     private String usuario;
     private Connection conexion = book4u.obtenerConexion();
     private JComboBox<String> estanciasComboBox;
-    private JTextField tipoTextField;
-    private JTextField precioxDiaTextField;
-    private JTextField valoracionTextField;
-    private JTextField ubicacionTextField;
-    private JTextField informacionTextField;
-    private JTextField telefonoTextField;
-    private JTextField disponibilidadTextField;
-    private JTextField npersonasTextField;
-    private JTextField nombreTextField;
-    private JTextField imagenTextField;
-    private JTextField precioCreditosTextField;
+    private JComboBox<String> columnasComboBox;
+    private JTextField nuevoValorTextField;
 
     public pantalla_Editarestancia(String usuario, Connection conexion) {
         this.usuario = usuario;
@@ -66,49 +57,18 @@ public class pantalla_Editarestancia extends JFrame {
 
         String[] estancias = obtenerEstancias();
         estanciasComboBox = new JComboBox<>(estancias);
-        estanciasComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cargarDatosEstanciaSeleccionada((String) estanciasComboBox.getSelectedItem());
-            }
-        });
 
-        tipoTextField = new JTextField();
-        precioxDiaTextField = new JTextField();
-        valoracionTextField = new JTextField();
-        ubicacionTextField = new JTextField();
-        informacionTextField = new JTextField();
-        telefonoTextField = new JTextField();
-        disponibilidadTextField = new JTextField();
-        npersonasTextField = new JTextField();
-        nombreTextField = new JTextField();
-        imagenTextField = new JTextField();
-        precioCreditosTextField = new JTextField();
+        String[] columnas = obtenerColumnas();
+        columnasComboBox = new JComboBox<>(columnas);
+
+        nuevoValorTextField = new JTextField();
 
         panelInferior.add(new JLabel("Seleccionar Estancia:"));
         panelInferior.add(estanciasComboBox);
-        panelInferior.add(new JLabel("Tipo:"));
-        panelInferior.add(tipoTextField);
-        panelInferior.add(new JLabel("Precio por Día:"));
-        panelInferior.add(precioxDiaTextField);
-        panelInferior.add(new JLabel("Valoración:"));
-        panelInferior.add(valoracionTextField);
-        panelInferior.add(new JLabel("Ubicación:"));
-        panelInferior.add(ubicacionTextField);
-        panelInferior.add(new JLabel("Información:"));
-        panelInferior.add(informacionTextField);
-        panelInferior.add(new JLabel("Teléfono:"));
-        panelInferior.add(telefonoTextField);
-        panelInferior.add(new JLabel("Disponibilidad:"));
-        panelInferior.add(disponibilidadTextField);
-        panelInferior.add(new JLabel("Número de Personas:"));
-        panelInferior.add(npersonasTextField);
-        panelInferior.add(new JLabel("Nombre:"));
-        panelInferior.add(nombreTextField);
-        panelInferior.add(new JLabel("Imagen:"));
-        panelInferior.add(imagenTextField);
-        panelInferior.add(new JLabel("Precio en Créditos:"));
-        panelInferior.add(precioCreditosTextField);
+        panelInferior.add(new JLabel("Seleccionar Columna:"));
+        panelInferior.add(columnasComboBox);
+        panelInferior.add(new JLabel("Nuevo Valor:"));
+        panelInferior.add(nuevoValorTextField);
 
         JButton editarEstanciaButton = new JButton("Editar Estancia");
         editarEstanciaButton.addActionListener(new ActionListener() {
@@ -149,58 +109,23 @@ public class pantalla_Editarestancia extends JFrame {
         }
     }
 
-    private void cargarDatosEstanciaSeleccionada(String nombreEstancia) {
-        String consulta = "SELECT * FROM estancia WHERE nombre = ?";
-        try (PreparedStatement sentencia = conexion.prepareStatement(consulta)) {
-            sentencia.setString(1, nombreEstancia);
-            ResultSet resultado = sentencia.executeQuery();
-
-            if (resultado.next()) {
-                tipoTextField.setText(resultado.getString("tipo_estancia"));
-                precioxDiaTextField.setText(resultado.getString("precioxdia"));
-                valoracionTextField.setText(resultado.getString("valoracion"));
-                ubicacionTextField.setText(resultado.getString("ubicacion"));
-                informacionTextField.setText(resultado.getString("informacion"));
-                telefonoTextField.setText(resultado.getString("telefono_est"));
-                disponibilidadTextField.setText(resultado.getString("disponibilidad"));
-                npersonasTextField.setText(resultado.getString("npersonas"));
-                nombreTextField.setText(resultado.getString("nombre"));
-                imagenTextField.setText(resultado.getString("imagen"));
-                precioCreditosTextField.setText(resultado.getString("precio_creditos"));
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+    private String[] obtenerColumnas() {
+        String[] columnas = {"tipo_estancia", "precioxdia", "valoracion", "ubicacion", "informacion",
+                             "telefono_est", "disponibilidad", "npersonas", "nombre", "imagen", "precio_creditos"};
+        return columnas;
     }
+
+
 
     private void editarEstancia() {
         String nombreEstancia = (String) estanciasComboBox.getSelectedItem();
-        String tipo = tipoTextField.getText();
-        String precioxDia = precioxDiaTextField.getText();
-        String valoracion = valoracionTextField.getText();
-        String ubicacion = ubicacionTextField.getText();
-        String informacion = informacionTextField.getText();
-        String telefono = telefonoTextField.getText();
-        String disponibilidad = disponibilidadTextField.getText();
-        String npersonas = npersonasTextField.getText();
-        String nombre = nombreTextField.getText();
-        String imagen = imagenTextField.getText();
-        String precioCreditos = precioCreditosTextField.getText();
+        String columna = (String) columnasComboBox.getSelectedItem();
+        String nuevoValor = nuevoValorTextField.getText();
 
-        String consulta = "UPDATE estancia SET tipo_estancia=?, precioxdia=?, valoracion=?, ubicacion=?, informacion=?, telefono_est=?, disponibilidad=?, npersonas=?, nombre=?, imagen=?, precio_creditos=? WHERE nombre=?";
+        String consulta = "UPDATE estancia SET " + columna + "=? WHERE nombre=?";
         try (PreparedStatement sentencia = conexion.prepareStatement(consulta)) {
-            sentencia.setString(1, tipo);
-            sentencia.setString(2, precioxDia);
-            sentencia.setString(3, valoracion);
-            sentencia.setString(4, ubicacion);
-            sentencia.setString(5, informacion);
-            sentencia.setString(6, telefono);
-            sentencia.setString(7, disponibilidad);
-            sentencia.setString(8, npersonas);
-            sentencia.setString(9, nombre);
-            sentencia.setString(10, imagen);
-            sentencia.setString(11, precioCreditos);
-            sentencia.setString(12, nombreEstancia);
+            sentencia.setString(1, nuevoValor);
+            sentencia.setString(2, nombreEstancia);
 
             int filasAfectadas = sentencia.executeUpdate();
 
@@ -216,4 +141,3 @@ public class pantalla_Editarestancia extends JFrame {
         }
     }
 }
-

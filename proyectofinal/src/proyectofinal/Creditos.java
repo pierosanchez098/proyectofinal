@@ -197,9 +197,10 @@ public class Creditos extends JFrame {
     
     private int obtenerIdClienteDesdeUsuario(String nombreUsuario) {
         try {
-            String consulta = "SELECT id_cliente FROM cliente WHERE nombre = ?";
+            String consulta = "SELECT id_cliente FROM cliente WHERE nombre = ? OR correo = ?";
             PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
             preparedStatement.setString(1, nombreUsuario);
+            preparedStatement.setString(2, nombreUsuario);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 

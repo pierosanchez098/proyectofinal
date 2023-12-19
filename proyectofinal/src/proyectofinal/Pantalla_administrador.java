@@ -58,7 +58,7 @@ public class Pantalla_administrador extends JFrame {
 
 
 
-        JLabel labelTexto = new JLabel("Administración");
+        JLabel labelTexto = new JLabel("Administracion");
         labelTexto.setFont(new Font(labelTexto.getFont().getName(), Font.BOLD, 30));
         labelTexto.setHorizontalAlignment(SwingConstants.CENTER);
         barraMenu.add(labelTexto, BorderLayout.CENTER);
@@ -68,7 +68,7 @@ public class Pantalla_administrador extends JFrame {
         panelInferior.setLayout(new BoxLayout(panelInferior, BoxLayout.Y_AXIS));
         panelInferior.setBackground(new Color(255, 255, 255, 255));
         
-        JLabel textoCentrado = new JLabel("¿Qué deseas administrar?");
+        JLabel textoCentrado = new JLabel("Que deseas administrar?");
         textoCentrado.setFont(new Font("Arial", Font.BOLD, 20));
         textoCentrado.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelInferior.add(Box.createVerticalStrut(20));  

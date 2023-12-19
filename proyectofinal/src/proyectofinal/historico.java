@@ -33,6 +33,7 @@ public class historico extends JFrame {
 
 	    JPanel panel = new JPanel();
 	    panel.setLayout(new BorderLayout());
+	    panel.setBackground(new Color(214, 232, 212));
 	    contentPane.add(panel, BorderLayout.CENTER);
 
 	    JPanel panel_1 = new JPanel();
@@ -70,9 +71,10 @@ public class historico extends JFrame {
 
 	private int obtenerIdCliente(String nombreUsuario) {
 	    try {
-	        String consulta = "SELECT id_cliente FROM cliente WHERE nombre = ?";
+	        String consulta = "SELECT id_cliente FROM cliente WHERE nombre = ? OR correo = ?";
 	        PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
 	        preparedStatement.setString(1, nombreUsuario);
+	        preparedStatement.setString(2, nombreUsuario);
 
 	        ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -99,9 +101,11 @@ public class historico extends JFrame {
 
 	        JPanel reservasPanel = new JPanel();
 	        reservasPanel.setLayout(new BoxLayout(reservasPanel, BoxLayout.Y_AXIS));
+	        reservasPanel.setBackground(new Color(247, 220, 111));
 
 	        JLabel encabezadoReservas = new JLabel("Créditos gastados y equivalencia:");
 	        encabezadoReservas.setFont(new Font("Arial", Font.BOLD, 22));
+	        encabezadoReservas.setForeground(new Color (0,0,0));
 	        reservasPanel.add(encabezadoReservas);
 
 	        while (resultSetReservas.next()) {
@@ -119,6 +123,7 @@ public class historico extends JFrame {
 
 	            JPanel infoPanel = new JPanel();
 	            infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+	            infoPanel.setBackground(new Color(255,255,255,255));
 
 	            JLabel nombreEstanciaLabel = new JLabel("Nombre: " + nombreReserva);
 	            nombreEstanciaLabel.setFont(new Font("Arial", Font.BOLD, 18));
@@ -142,9 +147,13 @@ public class historico extends JFrame {
 	            infoPanel.add(imagenLabel);
 
 	            reservaPanel.add(infoPanel, BorderLayout.CENTER);
+	            JPanel borde = new JPanel();
+	            borde.setBackground(new Color (247, 220, 111));
+	            reservaPanel.add(borde, BorderLayout.SOUTH);
 
 	            JPanel disponibilidadPanel = new JPanel();
 	            disponibilidadPanel.setLayout(new BoxLayout(disponibilidadPanel, BoxLayout.Y_AXIS));
+	            disponibilidadPanel.setBackground(new Color(255,255,255,255));
 
 	            int precioCreditos = preciocreditosTotal;
 	            disponibilidadPanel.add(crearLabel("Precio de reserva: " + precioCreditos + " créditos"));

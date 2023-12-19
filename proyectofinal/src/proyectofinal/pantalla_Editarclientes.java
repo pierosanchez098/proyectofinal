@@ -31,19 +31,18 @@ public class pantalla_Editarclientes extends JFrame {
 	private String usuario;
     private Connection conexion = book4u.obtenerConexion();
     private JComboBox<String> clientesComboBox;
-    private JTextField nombreTextField;
-    private JTextField apellidosTextField;
-    private JTextField dniTextField;
-    private JTextField contrasenyaTextField;
-    private JTextField telefonoTextField;
-    private JTextField domicilioTextField;
-    private JTextField creditosTextField;
-    private JTextField correoTextField;
+    private JComboBox<String> columnasComboBox;
+    private JTextField nuevoValorTextField;
+    
 
     public pantalla_Editarclientes(String usuario, Connection conexion) {
         this.usuario = usuario;
         this.conexion = conexion;
 
+        setSize(400, 200);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
         setSize(1080, 720);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -69,62 +68,45 @@ public class pantalla_Editarclientes extends JFrame {
             }
         });
 
-        JLabel labelTexto = new JLabel("Editar clientes");
+        JLabel labelTexto = new JLabel("Editar clientes / usuarios");
         labelTexto.setFont(new Font(labelTexto.getFont().getName(), Font.BOLD, 30));
         labelTexto.setHorizontalAlignment(SwingConstants.CENTER);
         barraMenu.add(labelTexto, BorderLayout.CENTER);
 
         JPanel panelInferior = new JPanel();
-        panelInferior.setLayout(new GridLayout(9, 2));
+        panelInferior.setLayout(new GridLayout(12, 2));
         panelInferior.setBackground(new Color(255, 255, 255, 255));
+        
+        JPanel panel = new JPanel();
 
         String[] clientes = obtenerClientes();
         clientesComboBox = new JComboBox<>(clientes);
-        clientesComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cargarDatosClienteSeleccionado((String) clientesComboBox.getSelectedItem());
-            }
-        });
 
-        nombreTextField = new JTextField();
-        apellidosTextField = new JTextField();
-        dniTextField = new JTextField();
-        contrasenyaTextField = new JTextField();
-        telefonoTextField = new JTextField();
-        domicilioTextField = new JTextField();
-        creditosTextField = new JTextField();
-        correoTextField = new JTextField();
+        String[] columnas = obtenerColumnas();
+        columnasComboBox = new JComboBox<>(columnas);
 
-        panelInferior.add(new JLabel("Seleccionar Cliente:"));
-        panelInferior.add(clientesComboBox);
-        panelInferior.add(new JLabel("Nombre:"));
-        panelInferior.add(nombreTextField);
-        panelInferior.add(new JLabel("Apellidos:"));
-        panelInferior.add(apellidosTextField);
-        panelInferior.add(new JLabel("DNI:"));
-        panelInferior.add(dniTextField);
-        panelInferior.add(new JLabel("Contraseña:"));
-        panelInferior.add(contrasenyaTextField);
-        panelInferior.add(new JLabel("Teléfono:"));
-        panelInferior.add(telefonoTextField);
-        panelInferior.add(new JLabel("Domicilio:"));
-        panelInferior.add(domicilioTextField);
-        panelInferior.add(new JLabel("Créditos:"));
-        panelInferior.add(creditosTextField);
-        panelInferior.add(new JLabel("Correo:"));
-        panelInferior.add(correoTextField);
+        nuevoValorTextField = new JTextField();
+        nuevoValorTextField.setPreferredSize(new Dimension(200, 25));
 
-        JButton editarClienteButton = new JButton("Editar Cliente");
-        editarClienteButton.addActionListener(new ActionListener() {
+        JButton editarButton = new JButton("Editar");
+        editarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 editarCliente();
             }
         });
 
-        panelInferior.add(editarClienteButton);
+        panel.add(new JLabel("Seleccionar Cliente:"));
+        panel.add(clientesComboBox, BorderLayout.NORTH);
+        panel.add(new JLabel("Seleccionar Columna:"));
+        panel.add(columnasComboBox, BorderLayout.CENTER);
+        panel.add(new JLabel("Nuevo Valor:"));
+        panel.add(nuevoValorTextField, BorderLayout.SOUTH);
+        panel.add(new JLabel());
+        panel.add(editarButton, BorderLayout.WEST);
 
+        panelInferior.add(panel, BorderLayout.CENTER);
+        setVisible(true);
         add(barraMenu, BorderLayout.NORTH);
         add(new JScrollPane(panelInferior), BorderLayout.CENTER);
         setVisible(true);
@@ -154,48 +136,20 @@ public class pantalla_Editarclientes extends JFrame {
         }
     }
 
-    private void cargarDatosClienteSeleccionado(String nombreCliente) {
-        String consulta = "SELECT * FROM cliente WHERE nombre = ?";
-        try (PreparedStatement sentencia = conexion.prepareStatement(consulta)) {
-            sentencia.setString(1, nombreCliente);
-            ResultSet resultado = sentencia.executeQuery();
-
-            if (resultado.next()) {
-                nombreTextField.setText(resultado.getString("nombre"));
-                apellidosTextField.setText(resultado.getString("apellidos"));
-                dniTextField.setText(resultado.getString("dni"));
-                contrasenyaTextField.setText(resultado.getString("contrasenya"));
-                telefonoTextField.setText(String.valueOf(resultado.getInt("telefono")));
-                domicilioTextField.setText(resultado.getString("domicilio"));
-                creditosTextField.setText(String.valueOf(resultado.getInt("creditos"))); 
-                correoTextField.setText(resultado.getString("correo"));
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+    private String[] obtenerColumnas() {
+        String[] columnas = {"nombre", "apellidos", "dni", "contrasenya", "telefono", "domicilio", "creditos", "correo"};
+        return columnas;
     }
 
-
     private void editarCliente() {
-        String nombre = nombreTextField.getText();
-        String apellidos = apellidosTextField.getText();
-        String dni = dniTextField.getText();
-        String contrasenya = contrasenyaTextField.getText();
-        int  telefono = Integer.parseInt(telefonoTextField.getText());
-        String domicilio = domicilioTextField.getText();
-        int creditos = Integer.parseInt(creditosTextField.getText()); 
-        String correo = correoTextField.getText();
+        String nombre = (String) clientesComboBox.getSelectedItem();
+        String columna = (String) columnasComboBox.getSelectedItem();
+        String nuevoValor = nuevoValorTextField.getText();
 
-        String consulta = "UPDATE cliente SET apellidos=?, dni=?, contrasenya=?, telefono=?, domicilio=?, creditos=?, correo=? WHERE nombre=?";
+        String consulta = "UPDATE cliente SET " + columna + "=? WHERE nombre=?";
         try (PreparedStatement sentencia = conexion.prepareStatement(consulta)) {
-            sentencia.setString(1, apellidos);
-            sentencia.setString(2, dni);
-            sentencia.setString(3, contrasenya);
-            sentencia.setInt(4, telefono);
-            sentencia.setString(5, domicilio);
-            sentencia.setInt(6, creditos); 
-            sentencia.setString(7, correo);
-            sentencia.setString(8, nombre);
+            sentencia.setString(1, nuevoValor);
+            sentencia.setString(2, nombre);
 
             int filasAfectadas = sentencia.executeUpdate();
 
@@ -210,6 +164,4 @@ public class pantalla_Editarclientes extends JFrame {
             JOptionPane.showMessageDialog(this, "Error al editar el cliente");
         }
     }
-
-    
 }

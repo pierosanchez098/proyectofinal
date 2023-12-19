@@ -119,8 +119,10 @@ public void actionPerformed(ActionEvent arg0) {
 
 
 
-JButton nomUsusario=new JButton(nombreUsuario);
+JButton nomUsusario=new JButton(obtenerNombreUsuario());
 nomUsusario.setBounds(670, 5, 280, 30);
+nomUsusario.setForeground(new Color(255, 255, 255));
+nomUsusario.setBackground(new Color(47, 79, 79));
 panel1.add(nomUsusario);
 panel1.add(nomUsusario);
 
@@ -161,7 +163,7 @@ panel2.add(anuncio1);
 anuncio1.setVisible(true);
 
 JLabel Textoanuncio1 = new JLabel();
-Textoanuncio1.setText("Medplaya Hotel Regente 74�");
+Textoanuncio1.setText("Medplaya Hotel Regente 74 euros");
 //Texto1.setForeground(Color.orange);//color teexto
 Textoanuncio1.setBounds(205, 230, 275, 150);
 Textoanuncio1.setFont(new Font("arial",Font.BOLD,20));
@@ -240,9 +242,10 @@ panel2.add(descripcnanuncio3);
 
 private int obtenerCreditosActuales() {
     try {
-        String consulta = "SELECT creditos FROM cliente WHERE nombre = ?";
+        String consulta = "SELECT creditos FROM cliente WHERE nombre = ? OR correo = ?";
         PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
         preparedStatement.setString(1, nombreUsuario);
+        preparedStatement.setString(2, nombreUsuario);
 
         ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -257,5 +260,29 @@ private int obtenerCreditosActuales() {
     }
 
     return 0; 
+}
+
+
+public String obtenerNombreUsuario() {
+
+    try {
+        String consulta = "SELECT nombre FROM cliente WHERE nombre = ? OR correo = ?";
+        PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+        preparedStatement.setString(1, nombreUsuario);
+        preparedStatement.setString(2, nombreUsuario);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        if (resultSet.next()) {
+            nombreUsuario = resultSet.getString("nombre");
+        }
+
+        resultSet.close();
+        preparedStatement.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return nombreUsuario;
 }
 }

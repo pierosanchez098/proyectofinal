@@ -30,24 +30,12 @@ import java.util.Date;
 
 public class pantalla_Editarreserva extends JFrame {
 
-    private String usuario;
+	private String usuario;
     private Connection conexion = book4u.obtenerConexion();
 
-    private JTextField idReservaTextField;
-    private JTextField idClienteTextField;
-    private JTextField idEstanciaTextField;
-    private JTextField fechaInicioTextField;
-    private JTextField fechaFinTextField;
-    private JTextField pagadoTextField;
-    private JTextField precioTotalTextField;
-    private JTextField personasTextField;
-    private JTextField descripcionTextField;
-    private JTextField direccionTextField;
-    private JTextField nombreTextField;
-    private JTextField imagenTextField;
-    private JTextField precioCreditosTotalTextField;
-    private JTextField creditosEstanciaTextField;
-    private JTextField estadoTextField;
+    private JComboBox<String> reservasComboBox;
+    private JComboBox<String> columnasComboBox;
+    private JTextField nuevoValorTextField;
 
     public pantalla_Editarreserva(String usuario, Connection conexion) {
         this.usuario = usuario;
@@ -83,77 +71,23 @@ public class pantalla_Editarreserva extends JFrame {
         labelTexto.setHorizontalAlignment(SwingConstants.CENTER);
         barraMenu.add(labelTexto, BorderLayout.CENTER);
 
-        JPanel panelInferior = new JPanel(new GridLayout(16, 2));
+        JPanel panelInferior = new JPanel(new GridLayout(12, 2));
         panelInferior.setBackground(new Color(255, 255, 255, 255));
 
-        panelInferior.add(new JLabel("ID Reserva:"));
-        idReservaTextField = new JTextField();
-        panelInferior.add(idReservaTextField);
+        String[] reservas = obtenerReservas();
+        reservasComboBox = new JComboBox<>(reservas);
 
-        panelInferior.add(new JLabel("ID Cliente:"));
-        idClienteTextField = new JTextField();
-        panelInferior.add(idClienteTextField);
+        String[] columnas = obtenerColumnas();
+        columnasComboBox = new JComboBox<>(columnas);
 
-        panelInferior.add(new JLabel("ID Estancia:"));
-        idEstanciaTextField = new JTextField();
-        panelInferior.add(idEstanciaTextField);
+        nuevoValorTextField = new JTextField();
 
-        panelInferior.add(new JLabel("Fecha Inicio (yyyy-MM-dd):"));
-        fechaInicioTextField = new JTextField();
-        panelInferior.add(fechaInicioTextField);
-
-        panelInferior.add(new JLabel("Fecha Fin (yyyy-MM-dd):"));
-        fechaFinTextField = new JTextField();
-        panelInferior.add(fechaFinTextField);
-
-        panelInferior.add(new JLabel("Pagado:"));
-        pagadoTextField = new JTextField();
-        panelInferior.add(pagadoTextField);
-
-        panelInferior.add(new JLabel("Precio Total:"));
-        precioTotalTextField = new JTextField();
-        panelInferior.add(precioTotalTextField);
-
-        panelInferior.add(new JLabel("Personas:"));
-        personasTextField = new JTextField();
-        panelInferior.add(personasTextField);
-
-        panelInferior.add(new JLabel("Descripción:"));
-        descripcionTextField = new JTextField();
-        panelInferior.add(descripcionTextField);
-
-        panelInferior.add(new JLabel("Dirección:"));
-        direccionTextField = new JTextField();
-        panelInferior.add(direccionTextField);
-
-        panelInferior.add(new JLabel("Nombre:"));
-        nombreTextField = new JTextField();
-        panelInferior.add(nombreTextField);
-
-        panelInferior.add(new JLabel("Imagen:"));
-        imagenTextField = new JTextField();
-        panelInferior.add(imagenTextField);
-
-        panelInferior.add(new JLabel("Precio Créditos Total:"));
-        precioCreditosTotalTextField = new JTextField();
-        panelInferior.add(precioCreditosTotalTextField);
-
-        panelInferior.add(new JLabel("Créditos Estancia:"));
-        creditosEstanciaTextField = new JTextField();
-        panelInferior.add(creditosEstanciaTextField);
-
-        panelInferior.add(new JLabel("Estado:"));
-        estadoTextField = new JTextField();
-        panelInferior.add(estadoTextField);
-
-        JButton cargarReservaButton = new JButton("Cargar Reserva");
-        cargarReservaButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cargarReserva();
-            }
-        });
-        panelInferior.add(cargarReservaButton);
+        panelInferior.add(new JLabel("Seleccionar Reserva:"));
+        panelInferior.add(reservasComboBox);
+        panelInferior.add(new JLabel("Seleccionar Columna:"));
+        panelInferior.add(columnasComboBox);
+        panelInferior.add(new JLabel("Nuevo Valor:"));
+        panelInferior.add(nuevoValorTextField);
 
         JButton editarReservaButton = new JButton("Editar Reserva");
         editarReservaButton.addActionListener(new ActionListener() {
@@ -162,6 +96,7 @@ public class pantalla_Editarreserva extends JFrame {
                 editarReserva();
             }
         });
+
         panelInferior.add(editarReservaButton);
 
         add(barraMenu, BorderLayout.NORTH);
@@ -169,97 +104,60 @@ public class pantalla_Editarreserva extends JFrame {
         setVisible(true);
     }
 
-    private void cargarReserva() {
-        try {
-            int idReserva = Integer.parseInt(idReservaTextField.getText());
-            String consulta = "SELECT * FROM reserva WHERE id_reserva = ?";
-            try (PreparedStatement sentencia = conexion.prepareStatement(consulta)) {
-                sentencia.setInt(1, idReserva);
-                ResultSet resultado = sentencia.executeQuery();
+    private String[] obtenerReservas() {
+        String consulta = "SELECT id_reserva FROM reserva";
+        try (PreparedStatement sentencia = conexion.prepareStatement(consulta)) {
+            ResultSet resultado = sentencia.executeQuery();
 
-                if (resultado.next()) {
-                    idClienteTextField.setText(String.valueOf(resultado.getInt("id_cliente")));
-                    idEstanciaTextField.setText(String.valueOf(resultado.getInt("id_estancia")));
-                    fechaInicioTextField.setText(resultado.getDate("fechai").toString());
-                    fechaFinTextField.setText(resultado.getDate("fechaf").toString());
-                    pagadoTextField.setText(resultado.getString("pagado"));
-                    precioTotalTextField.setText(String.valueOf(resultado.getInt("preciototal")));
-                    personasTextField.setText(String.valueOf(resultado.getInt("personas")));
-                    descripcionTextField.setText(resultado.getString("descripcion"));
-                    direccionTextField.setText(resultado.getString("direccion"));
-                    nombreTextField.setText(resultado.getString("nombre"));
-                    imagenTextField.setText(resultado.getString("imagen"));
-                    precioCreditosTotalTextField.setText(String.valueOf(resultado.getInt("precio_creditostotal")));
-                    creditosEstanciaTextField.setText(String.valueOf(resultado.getInt("creditos_estancia")));
-                    estadoTextField.setText(resultado.getString("estado"));
-                } else {
-                    JOptionPane.showMessageDialog(this, "No se encontró la reserva con ID " + idReserva);
-                }
+            int cantidadReservas = 0;
+            while (resultado.next()) {
+                cantidadReservas++;
             }
-        } catch (NumberFormatException | SQLException ex) {
+
+            resultado = sentencia.executeQuery();
+            String[] reservas = new String[cantidadReservas];
+            int indice = 0;
+            while (resultado.next()) {
+                reservas[indice] = String.valueOf(resultado.getInt("id_reserva"));
+                indice++;
+            }
+            return reservas;
+        } catch (SQLException ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error al cargar la reserva");
+            return new String[0];
         }
     }
 
+    private String[] obtenerColumnas() {
+        String[] columnas = {"id_cliente", "id_estancia", "fechai", "fechaf", "pagado", "preciototal",
+                             "personas", "descripcion", "direccion", "nombre", "imagen",
+                             "precio_creditostotal", "creditos_estancia", "estado"};
+        return columnas;
+    }
+
+
+
     private void editarReserva() {
-        try {
-            int idReserva = Integer.parseInt(idReservaTextField.getText());
-            int idCliente = Integer.parseInt(idClienteTextField.getText());
-            int idEstancia = Integer.parseInt(idEstanciaTextField.getText());
-            Date fechaInicio = new SimpleDateFormat("yyyy-MM-dd").parse(fechaInicioTextField.getText());
-            Date fechaFin = new SimpleDateFormat("yyyy-MM-dd").parse(fechaFinTextField.getText());
-            String pagado = pagadoTextField.getText();
-            int precioTotal = Integer.parseInt(precioTotalTextField.getText());
-            int personas = Integer.parseInt(personasTextField.getText());
-            String descripcion = descripcionTextField.getText();
-            String direccion = direccionTextField.getText();
-            String nombre = nombreTextField.getText();
-            String imagen = imagenTextField.getText();
-            int precioCreditosTotal = Integer.parseInt(precioCreditosTotalTextField.getText());
-            int creditosEstancia = Integer.parseInt(creditosEstanciaTextField.getText());
-            String estado = estadoTextField.getText();
+        String idReserva = (String) reservasComboBox.getSelectedItem();
+        String columna = (String) columnasComboBox.getSelectedItem();
+        String nuevoValor = nuevoValorTextField.getText();
 
-            String consulta = "UPDATE reserva SET id_cliente=?, id_estancia=?, fechai=?, fechaf=?, " +
-                              "pagado=?, preciototal=?, personas=?, descripcion=?, direccion=?, " +
-                              "nombre=?, imagen=?, precio_creditostotal=?, creditos_estancia=?, estado=? " +
-                              "WHERE id_reserva=?";
-            try (PreparedStatement sentencia = conexion.prepareStatement(consulta)) {
-                sentencia.setInt(1, idCliente);
-                sentencia.setInt(2, idEstancia);
-                sentencia.setDate(3, new java.sql.Date(fechaInicio.getTime()));
-                sentencia.setDate(4, new java.sql.Date(fechaFin.getTime()));
-                sentencia.setString(5, pagado);
-                sentencia.setInt(6, precioTotal);
-                sentencia.setInt(7, personas);
-                sentencia.setString(8, descripcion);
-                sentencia.setString(9, direccion);
-                sentencia.setString(10, nombre);
-                sentencia.setString(11, imagen);
-                sentencia.setInt(12, precioCreditosTotal);
-                sentencia.setInt(13, creditosEstancia);
-                sentencia.setString(14, estado);
-                sentencia.setInt(15, idReserva);
+        String consulta = "UPDATE reserva SET " + columna + "=? WHERE id_reserva=?";
+        try (PreparedStatement sentencia = conexion.prepareStatement(consulta)) {
+            sentencia.setString(1, nuevoValor);
+            sentencia.setInt(2, Integer.parseInt(idReserva));
 
-                int filasAfectadas = sentencia.executeUpdate();
+            int filasAfectadas = sentencia.executeUpdate();
 
-                if (filasAfectadas > 0) {
-                    JOptionPane.showMessageDialog(this, "Reserva editada exitosamente");
-                } else {
-                    JOptionPane.showMessageDialog(this, "Error al editar la reserva");
-                }
+            if (filasAfectadas > 0) {
+                JOptionPane.showMessageDialog(this, "Reserva editada exitosamente");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al editar la reserva");
             }
-        } catch (ParseException | NumberFormatException | SQLException ex) {
+
+        } catch (SQLException ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error al editar la reserva");
         }
     }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            Connection conexion = book4u.obtenerConexion();
-            new pantalla_Editarreserva("admin", conexion);
-        });
-    }
 }
-

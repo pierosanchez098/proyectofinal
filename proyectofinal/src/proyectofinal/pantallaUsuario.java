@@ -42,14 +42,18 @@ public class pantallaUsuario extends JFrame {
                 dispose(); 
             }
         });
-
+        
+        Font fuenteEtiqueta = new Font("Arial", Font.PLAIN, 16); 
 
         JLabel labelTexto = new JLabel("Mi perfil");
         labelTexto.setFont(new Font(labelTexto.getFont().getName(), Font.PLAIN, 30));
         labelTexto.setHorizontalAlignment(SwingConstants.CENTER);
         barraMenu.add(labelTexto, BorderLayout.CENTER);
 
-        JButton botonCerrarSesion = new JButton("Cerrar sesi�n");
+        JButton botonCerrarSesion = new JButton("Cerrar sesion");
+        botonCerrarSesion.setFont(fuenteEtiqueta);
+        botonCerrarSesion.setForeground(new Color(255, 255, 255));
+        botonCerrarSesion.setBackground(colorDeFondo);
         barraMenu.add(botonCerrarSesion, BorderLayout.EAST);
         
         botonCerrarSesion.addActionListener(new ActionListener() {
@@ -71,29 +75,34 @@ public class pantallaUsuario extends JFrame {
         JPanel panelCampos = new JPanel(new GridLayout(5, 1)); 
         panelCampos.setBackground(new Color(255, 255, 255)); 
 
-        Dimension campoDimension = new Dimension(200, 20); 
+        Dimension campoDimension = new Dimension(99, 20); 
 
-        Font fuenteEtiqueta = new Font("Arial", Font.PLAIN, 16); 
+        
 
         // Agregar campos de entrada, botones "Editar" y l�gica de edici�n
-        JTextField[] campos = new JTextField[5];
-        JToggleButton[] botonesEditar = new JToggleButton[5];
-        String[] valoresOriginales = new String[5];
+        JTextField[] campos = new JTextField[6];
+        JToggleButton[] botonesEditar = new JToggleButton[6];
+        String[] valoresOriginales = new String[6];
 
         try {
-            String consulta = "SELECT nombre, apellidos, telefono, dni, contrasenya FROM cliente WHERE nombre = ?";
+            String consulta = "SELECT nombre, apellidos, telefono, dni, contrasenya, correo FROM cliente WHERE nombre = ? OR correo = ?";
             
             PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
-            preparedStatement.setString(1, nombreUsuario); // Usar el nombre de usuario actual
+            preparedStatement.setString(1, nombreUsuario); 
+            preparedStatement.setString(2, nombreUsuario);
             
             ResultSet resultSet = preparedStatement.executeQuery();
 
             // Si se encuentra un registro, mostrar los datos en los campos de texto
             if (resultSet.next()) {
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < 6; i++) {
                     campos[i] = new JTextField(resultSet.getString(i + 1)); //Indices de resulset comienzan en 1
-                    campos[i].setPreferredSize(campoDimension);
+                    campos[i].setPreferredSize(new Dimension(200, 30));
                     campos[i].setEditable(false);
+                    campos[i].setBorder(BorderFactory.createCompoundBorder(
+                            BorderFactory.createMatteBorder(0, 0, 2, 0, new Color(41, 128, 185)),
+                            BorderFactory.createEmptyBorder(5, 5, 5, 5)
+                    ));
 
                     JLabel etiqueta = new JLabel();
                     switch (i) {
@@ -112,21 +121,28 @@ public class pantallaUsuario extends JFrame {
                         case 4:
                             etiqueta.setText("Contraseña:");
                             break;
+                        case 5:
+                            etiqueta.setText("Correo:");
+                            break;
                     }
                     etiqueta.setFont(fuenteEtiqueta);
 
-                    botonesEditar[i] = new JToggleButton("Editar");
+                    botonesEditar[i] = new JToggleButton("Editar", new ImageIcon("iconos/edit.png"));
                     botonesEditar[i].setFont(fuenteEtiqueta);
+                    botonesEditar[i].setForeground(new Color(255, 255, 255));
+                    botonesEditar[i].setBackground(new Color(41, 128, 185));
+                    botonesEditar[i].setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15)); 
+                    botonesEditar[i].setPreferredSize(new Dimension(80, 30));
                     final int index = i;
                     botonesEditar[i].addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
                             if (botonesEditar[index].isSelected()) {
                                 botonesEditar[index].setText("Cancelar");
-                                valoresOriginales[index] = campos[index].getText(); // Guardar el valor original
+                                valoresOriginales[index] = campos[index].getText(); 
                                 campos[index].setEditable(true);
                             } else {
                                 botonesEditar[index].setText("Editar");
-                                campos[index].setText(valoresOriginales[index]); // Restaurar el valor original
+                                campos[index].setText(valoresOriginales[index]);
                                 campos[index].setEditable(false);
                             }
                         }
@@ -159,7 +175,7 @@ public class pantallaUsuario extends JFrame {
         JTextField numCreditos = new JTextField();
         numCreditos.setEditable(false);
         numCreditos.setPreferredSize(campoDimension);
-        JLabel numCreditosLabel = new JLabel("Número de créditos actuales:");
+        JLabel numCreditosLabel = new JLabel("Número de creditos actuales:");
         
         int creditosActuales = obtenerCreditosActuales();
         
@@ -167,9 +183,11 @@ public class pantallaUsuario extends JFrame {
 
         JTextField comprarCreditos = new JTextField();
         comprarCreditos.setPreferredSize(campoDimension);
-        JLabel comprarCreditosLabel = new JLabel("�Quieres comprar m�s cr�dito?");
+        JLabel comprarCreditosLabel = new JLabel("Quieres comprar mas creditos?");
 
-        JButton botonComprarCreditos = new JButton("Comprar cr�ditos");
+        JButton botonComprarCreditos = new JButton("Comprar creditos");
+        botonComprarCreditos.setForeground(new Color(255, 255, 255));
+        botonComprarCreditos.setBackground(new Color(100, 149, 237));
 
         botonComprarCreditos.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -181,13 +199,16 @@ public class pantallaUsuario extends JFrame {
 
         // Boton de gaurdarcambios
         JButton botonGuardarCambios = new JButton("Guardar cambios");
+        botonGuardarCambios.setFont(fuenteEtiqueta);
+        botonGuardarCambios.setForeground(new Color(255, 255, 255));
+        botonGuardarCambios.setBackground(new Color(41, 128, 185));
+        
         botonGuardarCambios.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    // Crear una nueva conexi�n para esta operaci�n
                 	Connection conexion = book4u.obtenerConexion();
                     
-                    for (int i = 0; i < 5; i++) {
+                    for (int i = 0; i < 6; i++) {
                         if (campos[i].isEditable()) {
                             String nuevoValor = campos[i].getText();
                             String consulta = "UPDATE cliente SET ";
@@ -207,12 +228,16 @@ public class pantallaUsuario extends JFrame {
                                 case 4:
                                     consulta += "contrasenya = ?";
                                     break;
+                                case 5:
+                                    consulta += "correo = ?";
+                                    break;
                             }
-                            consulta += " WHERE nombre = ?"; 
+                            consulta += " WHERE nombre = ? OR correo = ?"; 
                             
                             PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
                             preparedStatement.setString(1, nuevoValor);
                             preparedStatement.setString(2, nombreUsuario);
+                            preparedStatement.setString(3, nombreUsuario);
                             preparedStatement.executeUpdate();
                             preparedStatement.close();
 
@@ -230,14 +255,19 @@ public class pantallaUsuario extends JFrame {
         });
 
         JPanel panelIzquierdo = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panelIzquierdo.setBackground(new Color(162, 217, 206));
         panelIzquierdo.add(numCreditosLabel);
         panelIzquierdo.add(numCreditos);
         panelIzquierdo.add(comprarCreditosLabel);
         panelIzquierdo.add(botonComprarCreditos);
 
         panelGuardarCambios.add(panelIzquierdo, BorderLayout.WEST);
+        
+        Dimension Panel = new Dimension(100, 80); 
 
         JPanel panelBotonGuardarCambios = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        panelBotonGuardarCambios.setPreferredSize(Panel);
+        panelBotonGuardarCambios.setBackground(new Color(255, 255, 255));
         panelBotonGuardarCambios.add(botonGuardarCambios);
         panelGuardarCambios.add(panelBotonGuardarCambios, BorderLayout.SOUTH);
 
@@ -250,9 +280,10 @@ public class pantallaUsuario extends JFrame {
 	  
 	  private int obtenerCreditosActuales() {
 		    try {
-		        String consulta = "SELECT creditos FROM cliente WHERE nombre = ?";
+		        String consulta = "SELECT creditos FROM cliente WHERE nombre = ? OR correo = ?";
 		        PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
 		        preparedStatement.setString(1, nombreUsuario);
+		        preparedStatement.setString(2, nombreUsuario);
 
 		        ResultSet resultSet = preparedStatement.executeQuery();
 

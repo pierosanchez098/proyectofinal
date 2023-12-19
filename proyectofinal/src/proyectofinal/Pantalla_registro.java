@@ -91,39 +91,35 @@ public class Pantalla_registro extends JFrame {
 
              
                 try {
+                    if (existeUsuario(nombre, correo)) {
+                        JOptionPane.showMessageDialog(null, "El nombre o correo ya existen en la base de datos", "Error de Registro", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
 
-                	String sql = "INSERT INTO cliente (id_cliente, nombre, apellidos, dni, domicilio, telefono, correo, contrasenya) VALUES (mi_secuencia.NEXTVAL, ?, ?, ?, ?, ?, ?, ?)";
+                    String sql = "INSERT INTO cliente (id_cliente, nombre, apellidos, dni, domicilio, telefono, correo, contrasenya) VALUES (mi_secuencia.NEXTVAL, ?, ?, ?, ?, ?, ?, ?)";
 
-                    PreparedStatement preparedStatement = conexion.prepareStatement(sql);
-                    preparedStatement.setString(1, nombre);
-                    preparedStatement.setString(2, apellidos);
-                    preparedStatement.setString(3, dni);
-                    preparedStatement.setString(4, domicilio);
-                    preparedStatement.setInt(5, telefono);
-                    preparedStatement.setString(6, correo);
-                    preparedStatement.setString(7, contrasena);
+                    try (PreparedStatement preparedStatement = conexion.prepareStatement(sql)) {
+                        preparedStatement.setString(1, nombre);
+                        preparedStatement.setString(2, apellidos);
+                        preparedStatement.setString(3, dni);
+                        preparedStatement.setString(4, domicilio);
+                        preparedStatement.setInt(5, telefono);
+                        preparedStatement.setString(6, correo);
+                        preparedStatement.setString(7, contrasena);
 
-                    int filasAfectadas = preparedStatement.executeUpdate();
+                        int filasAfectadas = preparedStatement.executeUpdate();
 
-                    if (filasAfectadas > 0) {
-                        JOptionPane.showMessageDialog(null, "Usuario registrado exitosamente", "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
-                        dispose();
-
-                        new Pantalla_login(conexion);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Error al registrar", "Error", JOptionPane.ERROR_MESSAGE);
+                        if (filasAfectadas > 0) {
+                            JOptionPane.showMessageDialog(null, "Usuario registrado exitosamente", "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
+                            dispose();
+                            new Pantalla_login(conexion);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Error al registrar", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Error al registrar: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                } finally {
-                    try {
-                        if (conexion != null) {
-                            conexion.close();
-                        }
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
-                    }
                 }
             }
         });
@@ -184,5 +180,24 @@ public class Pantalla_registro extends JFrame {
         int x = (pantalla.width - getWidth()) / 2;
         int y = (pantalla.height - getHeight()) / 2;
         setLocation(x, y);
+        
+        
+        
+    }
+    
+    private boolean existeUsuario(String nombre, String correo) throws SQLException {
+        String sql = "SELECT COUNT(*) AS count FROM cliente WHERE nombre = ? OR correo = ?";
+        try (PreparedStatement preparedStatement = conexion.prepareStatement(sql)) {
+            preparedStatement.setString(1, nombre);
+            preparedStatement.setString(2, correo);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    int count = resultSet.getInt("count");
+                    return count > 0;
+                }
+            }
+        }
+        return false;
     }
 }

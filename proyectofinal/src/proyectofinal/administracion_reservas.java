@@ -57,7 +57,7 @@ public class administracion_reservas extends JFrame {
             }
         });
 
-        JLabel labelTexto = new JLabel("Administraci�n de reservas");
+        JLabel labelTexto = new JLabel("Administracion de reservas");
         labelTexto.setFont(new Font(labelTexto.getFont().getName(), Font.BOLD, 30));
         labelTexto.setHorizontalAlignment(SwingConstants.CENTER);
         barraMenu.add(labelTexto, BorderLayout.CENTER);
@@ -67,7 +67,7 @@ public class administracion_reservas extends JFrame {
         panelInferior.setLayout(new BoxLayout(panelInferior, BoxLayout.Y_AXIS));
         panelInferior.setBackground(new Color(255, 255, 255, 255));
         
-        JLabel textoCentrado = new JLabel("�Qu� deseas hacer?");
+        JLabel textoCentrado = new JLabel("Que deseas hacer?");
         textoCentrado.setFont(new Font("Arial", Font.BOLD, 20));
         textoCentrado.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelInferior.add(Box.createVerticalStrut(20));  

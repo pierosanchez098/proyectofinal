@@ -78,7 +78,7 @@ public class nuevareservaPantalla extends JFrame {
                 nombreLabel.setFont(fuentePersonalizada);
                 infoPanel.add(nombreLabel);
                 infoPanel.add(CrearLabel("Tipo de Estancia: " + tipoEstancia));
-                infoPanel.add(CrearLabel("Precio por Dia: " + precioDia + "euros"));
+                infoPanel.add(CrearLabel("Precio por Dia: " + precioDia + " euros"));
                 infoPanel.add(CrearLabel("Valoracion: " + valoracion + " estrellas"));
                 infoPanel.add(CrearLabel("Ubicacion: " + ubicacion));
                 infoPanel.add(CrearLabel("Disponibilidad: " + disponibilidad));
@@ -234,9 +234,10 @@ public class nuevareservaPantalla extends JFrame {
 
     private int obtenerIdClienteDesdeUsuario(String nombreUsuario) {
         try {
-            String consulta = "SELECT id_cliente FROM cliente WHERE nombre = ?";
+            String consulta = "SELECT id_cliente FROM cliente WHERE nombre = ? OR correo = ?";
             PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
             preparedStatement.setString(1, nombreUsuario);
+            preparedStatement.setString(2, nombreUsuario);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
