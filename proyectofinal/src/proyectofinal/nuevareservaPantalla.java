@@ -82,7 +82,7 @@ public class nuevareservaPantalla extends JFrame {
                 infoPanel.add(CrearLabel("Valoracion: " + valoracion + " estrellas"));
                 infoPanel.add(CrearLabel("Ubicacion: " + ubicacion));
                 infoPanel.add(CrearLabel("Disponibilidad: " + disponibilidad));
-                infoPanel.add(CrearLabel("Creditos para reservar (1 persona): " + precioCreditos + " créditos"));
+                infoPanel.add(CrearLabel("Creditos para reservar (1 persona): " + precioCreditos + " creditos"));
 
                 // A�adir la imagen al panel
                 JLabel imagenLabel = new JLabel();

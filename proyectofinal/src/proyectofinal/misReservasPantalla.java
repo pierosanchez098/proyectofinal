@@ -182,7 +182,7 @@ private void mostrarReservas(int idCliente, JPanel panel) {
             disponibilidadPanel.setBackground(new Color(255,255,255,255));
 
             int precioCreditos = obtenerPrecioCreditos(idReserva);
-            disponibilidadPanel.add(crearLabel("Precio de reserva: " + precioCreditos + " créditos"));
+            disponibilidadPanel.add(crearLabel("Precio de reserva: " + precioCreditos + " creditos"));
             
             Font fuenteEtiqueta = new Font("Arial", Font.PLAIN, 16);
 
@@ -313,7 +313,7 @@ private void cancelarReserva(int idReserva) {
     } catch (SQLException ex) {
         ex.printStackTrace();
         JOptionPane.showMessageDialog(
-            null, "Error al cancelar la reserva. Por favor, int�ntelo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE
+            null, "Error al cancelar la reserva. Por favor, intentelo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE
         );
     }
 }
