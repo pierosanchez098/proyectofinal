@@ -103,7 +103,7 @@ public class historico extends JFrame {
 	        reservasPanel.setLayout(new BoxLayout(reservasPanel, BoxLayout.Y_AXIS));
 	        reservasPanel.setBackground(new Color(247, 220, 111));
 
-	        JLabel encabezadoReservas = new JLabel("Creditos gastados y equivalencia:");
+	        JLabel encabezadoReservas = new JLabel("BookCoins gastados y equivalencia:");
 	        encabezadoReservas.setFont(new Font("Arial", Font.BOLD, 22));
 	        encabezadoReservas.setForeground(new Color (0,0,0));
 	        reservasPanel.add(encabezadoReservas);
@@ -156,7 +156,7 @@ public class historico extends JFrame {
 	            disponibilidadPanel.setBackground(new Color(255,255,255,255));
 
 	            int precioCreditos = preciocreditosTotal;
-	            disponibilidadPanel.add(crearLabel("Precio de reserva: " + precioCreditos + " creditos"));
+	            disponibilidadPanel.add(crearLabel("Precio de reserva: " + precioCreditos + " BookCoins"));
 	            
 	            int precioEquivalente = precioCreditos * 10;
 	            disponibilidadPanel.add(crearLabel("Precio equivalente (dinero real): " + precioEquivalente + " euros"));

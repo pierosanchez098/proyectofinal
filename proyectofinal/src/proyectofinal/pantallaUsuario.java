@@ -175,7 +175,7 @@ public class pantallaUsuario extends JFrame {
         JTextField numCreditos = new JTextField();
         numCreditos.setEditable(false);
         numCreditos.setPreferredSize(campoDimension);
-        JLabel numCreditosLabel = new JLabel("Numero de creditos actuales:");
+        JLabel numCreditosLabel = new JLabel("Numero de BookCoins actuales:");
         
         int creditosActuales = obtenerCreditosActuales();
         
@@ -183,9 +183,9 @@ public class pantallaUsuario extends JFrame {
 
         JTextField comprarCreditos = new JTextField();
         comprarCreditos.setPreferredSize(campoDimension);
-        JLabel comprarCreditosLabel = new JLabel("Quieres comprar mas creditos?");
+        JLabel comprarCreditosLabel = new JLabel("Quieres comprar mas BookCoins?");
 
-        JButton botonComprarCreditos = new JButton("Comprar creditos");
+        JButton botonComprarCreditos = new JButton("Comprar Bookcoins");
         botonComprarCreditos.setForeground(new Color(255, 255, 255));
         botonComprarCreditos.setBackground(new Color(100, 149, 237));
 

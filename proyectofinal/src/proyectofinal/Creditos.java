@@ -44,9 +44,9 @@ public class Creditos extends JFrame {
         btnNewButton.setBounds(260, 26, 150, 21); 
         getContentPane().add(btnNewButton);
 
-        JLabel lblNewLabel = new JLabel("Valor: 10€ = 1 crédito");
+        JLabel lblNewLabel = new JLabel("Valor: 10 euros = 1 BookCoin");
         lblNewLabel.setFont(new Font("Arial", Font.PLAIN, 13));
-        lblNewLabel.setBounds(268, 72, 160, 27);
+        lblNewLabel.setBounds(268, 72, 300, 27);
         getContentPane().add(lblNewLabel);
 
         JLabel lblNewLabel_1 = new JLabel("");
@@ -161,9 +161,9 @@ public class Creditos extends JFrame {
             int filasAfectadasCliente = preparedStatementCliente.executeUpdate();
 
             if (filasAfectadasCreditos > 0 && filasAfectadasCliente > 0) {
-                JOptionPane.showMessageDialog(this, "Pago registrado y créditos actualizados exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Pago registrado y BookCoins actualizados exitosamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this, "Error al registrar el pago o actualizar los créditos", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Error al registrar el pago o actualizar los creditos (BookCoins)", "Error", JOptionPane.ERROR_MESSAGE);
             }
 
             preparedStatementCreditos.close();

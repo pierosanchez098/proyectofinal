@@ -182,7 +182,7 @@ private void mostrarReservas(int idCliente, JPanel panel) {
             disponibilidadPanel.setBackground(new Color(255,255,255,255));
 
             int precioCreditos = obtenerPrecioCreditos(idReserva);
-            disponibilidadPanel.add(crearLabel("Precio de reserva: " + precioCreditos + " creditos"));
+            disponibilidadPanel.add(crearLabel("Precio de reserva: " + precioCreditos + " BookCoins"));
             
             Font fuenteEtiqueta = new Font("Arial", Font.PLAIN, 16);
 

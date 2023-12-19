@@ -57,7 +57,7 @@ panel1.add(Texto1, BorderLayout.CENTER);
 
 
 JLabel Texto2 = new JLabel();
-Texto2.setText("Nro de creditos:");
+Texto2.setText("Nro de BookCoins:");
 Texto2.setBounds(670, 45, 110, 20);
 Texto2.setForeground(Color.white);
 Texto2.setOpaque(true);

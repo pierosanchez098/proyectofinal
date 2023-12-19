@@ -76,6 +76,15 @@ public class Pantalla_login extends JFrame {
         panelLimon.add(panelRegistro);
 
         background.add(panelLimon);
+        
+        
+        JLabel terminosCondicionesLabel = new JLabel("Al iniciar sesion estas aceptando los terminos y cookies del sitio");
+        terminosCondicionesLabel.setBounds(10, 50, 300, 70);
+        terminosCondicionesLabel.setForeground(Color.BLACK); 
+        terminosCondicionesLabel.setFont(new Font("Arial", Font.PLAIN, 10)); 
+        background.add(terminosCondicionesLabel, BorderLayout.SOUTH);
+        
+        
         BotonEntrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -138,4 +147,7 @@ public class Pantalla_login extends JFrame {
             return false;
         }
     }
+    
+    
+    
 }
