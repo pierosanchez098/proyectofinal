@@ -58,7 +58,7 @@ panel1.add(Texto1, BorderLayout.CENTER);
 
 JLabel Texto2 = new JLabel();
 Texto2.setText("Nro de BookCoins:");
-Texto2.setBounds(670, 45, 110, 20);
+Texto2.setBounds(670, 45, 132, 20);
 Texto2.setForeground(Color.white);
 Texto2.setOpaque(true);
 Texto2.setBackground(new Color(15,82,15,255));
@@ -144,7 +144,7 @@ panel1.add(nomUsusario);
 int creditosActuales = obtenerCreditosActuales();
 
 //Mostrar el número actual de créditos en el JTextField
-numCredit.setText(" " + String.valueOf(creditosActuales));
+numCredit.setText("           " + String.valueOf(creditosActuales));
 
 
 

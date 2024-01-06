@@ -113,6 +113,11 @@ public class Creditos extends JFrame {
         pagar.setBounds(50, 390, 100, 21);
         getContentPane().add(pagar);
         
+        JLabel imagenLabel = new JLabel();
+        imagenLabel.setIcon(new ImageIcon("imagenes/Coinbook.png"));
+        imagenLabel.setBounds(500, 50, 990, 990);
+        getContentPane().add(imagenLabel);
+        
 
         // Agregar ActionListener al botón "Pagar"
         pagar.addActionListener(new ActionListener() {

@@ -3,6 +3,8 @@ package proyectofinal;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
+import java.util.concurrent.TimeUnit;
+
 import javax.swing.*;
 import com.toedter.calendar.JDateChooser;
 
@@ -53,7 +55,7 @@ public class nuevareservaPantalla extends JFrame {
         panelInferior.setBackground(new Color(255, 255, 255, 255));
 
         try {
-            String consulta = "SELECT id_estancia, nombre, tipo_estancia, precioxdia, valoracion, ubicacion, disponibilidad, precio_creditos, imagen FROM estancia";
+            String consulta = "SELECT id_estancia, nombre, tipo_estancia, precioxdia, valoracion, ubicacion, disponibilidad, precio_creditos, npersonas, imagen FROM estancia";
             PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -65,6 +67,7 @@ public class nuevareservaPantalla extends JFrame {
                 String valoracion = resultSet.getString("valoracion");
                 String ubicacion = resultSet.getString("ubicacion");
                 String disponibilidad = resultSet.getString("disponibilidad");
+                int numeroPersonasMax = resultSet.getInt("npersonas");
                 String imagenPath = resultSet.getString("imagen");
                 int precioCreditos = resultSet.getInt("precio_creditos");
 
@@ -82,6 +85,7 @@ public class nuevareservaPantalla extends JFrame {
                 infoPanel.add(CrearLabel("Valoracion: " + valoracion + " estrellas"));
                 infoPanel.add(CrearLabel("Ubicacion: " + ubicacion));
                 infoPanel.add(CrearLabel("Disponibilidad: " + disponibilidad));
+                infoPanel.add(CrearLabel("Nro. de personas maximo: " + numeroPersonasMax));
                 infoPanel.add(CrearLabel("Creditos para reservar (1 persona): " + precioCreditos + " BookCoins"));
 
                 // A�adir la imagen al panel
@@ -134,19 +138,30 @@ public class nuevareservaPantalla extends JFrame {
                                 try {
                                     int numeroPersonas = Integer.parseInt(inputPersonas);
                                     int idCliente = obtenerIdClienteDesdeUsuario(nombreUsuario);
+                                    
+                                    if (numeroPersonas > numeroPersonasMax) {
+                                        JOptionPane.showMessageDialog(null, "El número de personas ingresado es mayor al máximo permitido para esta estancia.", "Error", JOptionPane.ERROR_MESSAGE);
+                                        return;  
+                                    }
 
                                     if (!existeCliente(idCliente)) {
                                         JOptionPane.showMessageDialog(null, "El cliente no existe. Por favor, seleccione un cliente valido.", "Error", JOptionPane.ERROR_MESSAGE);
                                     } else {
-                                        double precioEstancia = precioDia; 
-                                        double precioTotal = precioEstancia * numeroPersonas;
+                                        int precioEstancia = precioDia; 
+                                     // Calcular el número de días entre la fecha de inicio y la fecha de fin
+                                        long diferenciaDias = fechaFin.getTime() - fechaInicio.getTime();
+                                        int diasReserva = (int) TimeUnit.DAYS.convert(diferenciaDias, TimeUnit.MILLISECONDS);
+                                        
+                                        // Calcular el precio total
+                                        double precioTotal = precioEstancia * numeroPersonas * diasReserva;
+                                        
                                         int creditospreciototal = precioCreditos * numeroPersonas;
                                         
                                         int creditosDisponibles = obtenerCreditosActuales(idCliente);
 
                                         if (creditosDisponibles >= creditospreciototal) {
 
-                                        String insertReserva = "INSERT INTO reserva (id_reserva, id_cliente, id_estancia, fechai, fechaf, pagado, preciototal, personas, direccion, nombre, precio_creditostotal, creditos_estancia, estado, imagen) VALUES (secureserva.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                                        String insertReserva = "INSERT INTO reserva (id_reserva, id_cliente, id_estancia, fechai, fechaf, pagado, preciototal, personas, direccion, nombre, precio_creditostotal, creditos_estancia, estado, precio_estancia, imagen) VALUES (secureserva.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                                         PreparedStatement preparedStatement1 = conexion.prepareStatement(insertReserva);
                                         preparedStatement1.setInt(1, idCliente);
                                         preparedStatement1.setInt(2, idEstanciaActual); 
@@ -160,13 +175,14 @@ public class nuevareservaPantalla extends JFrame {
                                         preparedStatement1.setInt(10, creditospreciototal);
                                         preparedStatement1.setInt(11, precioCreditos);
                                         preparedStatement1.setString(12, "reservado");
-                                        preparedStatement1.setString(13, imagenPath);
+                                        preparedStatement1.setInt(13, precioEstancia);
+                                        preparedStatement1.setString(14, imagenPath);
 
                                         preparedStatement1.executeUpdate();
                                         
                                         preparedStatement1.close();
 
-                                        String insertHistorico = "INSERT INTO historico (id_reserva, id_cliente, id_estancia, fechai, fechaf, pagado, preciototal, personas, direccion, nombre, precio_creditostotal, creditos_estancia, estado, imagen) VALUES (secuhistorico.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                                        String insertHistorico = "INSERT INTO historico (id_reserva, id_cliente, id_estancia, fechai, fechaf, pagado, preciototal, personas, direccion, nombre, precio_creditostotal, creditos_estancia, estado, precio_estancia, imagen) VALUES (secuhistorico.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                                         PreparedStatement preparedStatementHistorico = conexion.prepareStatement(insertHistorico);
                                         preparedStatementHistorico.setInt(1, idCliente);
                                         preparedStatementHistorico.setInt(2, idEstanciaActual);
@@ -180,7 +196,8 @@ public class nuevareservaPantalla extends JFrame {
                                         preparedStatementHistorico.setInt(10, creditospreciototal);
                                         preparedStatementHistorico.setInt(11, precioCreditos);
                                         preparedStatementHistorico.setString(12, "reservado");
-                                        preparedStatementHistorico.setString(13, imagenPath);
+                                        preparedStatementHistorico.setInt(13, precioEstancia);
+                                        preparedStatementHistorico.setString(14, imagenPath);
 
                                         preparedStatementHistorico.executeUpdate();
                                         preparedStatementHistorico.close();
@@ -208,6 +225,7 @@ public class nuevareservaPantalla extends JFrame {
                                 }
                                 
                             }
+                            
                         }
                     }
                 });

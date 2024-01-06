@@ -25,6 +25,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
@@ -115,7 +116,7 @@ private int obtenerIdCliente(String nombreUsuario) {
 
 private void mostrarReservas(int idCliente, JPanel panel) {
     try {
-        String consultaReservas = "SELECT id_reserva, nombre, direccion, preciototal, personas, fechai, fechaf, imagen FROM reserva WHERE id_cliente = ? AND estado = 'reservado'";
+        String consultaReservas = "SELECT id_reserva, nombre, direccion, preciototal, personas, fechai, fechaf, precio_estancia, imagen FROM reserva WHERE id_cliente = ? AND estado = 'reservado'";
         PreparedStatement preparedStatementReservas = conexion.prepareStatement(consultaReservas);
         preparedStatementReservas.setInt(1, idCliente);
 
@@ -154,7 +155,7 @@ private void mostrarReservas(int idCliente, JPanel panel) {
             infoPanel.add(nombreEstanciaLabel);
 
             infoPanel.add(crearLabel("Direccion: " + direccion));
-            infoPanel.add(crearLabel("Precio Total: " + precioTotal));
+            infoPanel.add(crearLabel("Precio Total: " + precioTotal + " euros"));
             infoPanel.add(crearLabel("Personas: " + personas));
             infoPanel.add(crearLabel("Fecha Inicio: " + fechaInicio));
             infoPanel.add(crearLabel("Fecha Fin: " + fechaFin));
@@ -264,6 +265,8 @@ private void mostrarReservas(int idCliente, JPanel panel) {
     panel.revalidate();
     panel.repaint();
 }
+
+
 
 private boolean verificarDisponibilidad(int idReserva) {
     try {
@@ -440,89 +443,236 @@ private int obtenerCreditosEstancia(int idReserva) {
     return -1;
 }
 
-private void modificarFechaInicio(int idReserva, Date nuevaFecha) {
+private void modificarFechaInicio(int idReserva, Date nuevaFechaInicio) {
     try {
-    	
-    	java.sql.Date sqlNuevaFecha = new java.sql.Date(nuevaFecha.getTime());
-        String updateQuery = "UPDATE reserva SET fechai = ? WHERE id_reserva = ?";
-        PreparedStatement preparedStatement = conexion.prepareStatement(updateQuery);
-        preparedStatement.setDate(1, sqlNuevaFecha);
-        preparedStatement.setInt(2, idReserva);
-        
-        int filasAfectadas = preparedStatement.executeUpdate();
+        Date fechaFinActual = obtenerFechaFinReserva(idReserva);
 
-        if (filasAfectadas > 0) {
-            JOptionPane.showMessageDialog(null, "Fecha modificada correctamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(null, "No se pudo modificar la fecha", "Error", JOptionPane.ERROR_MESSAGE);
+        long nuevaDiferencia = fechaFinActual.getTime() - nuevaFechaInicio.getTime();
+
+        // Calcular el nuevo número de días
+        int nuevosDiasReserva = (int) TimeUnit.DAYS.convert(nuevaDiferencia, TimeUnit.MILLISECONDS);
+
+        // Obtener la cantidad de personas y precio de estancia actual
+        int numeroPersonas = obtenerNumeroPersonasReserva(idReserva);
+        int precioEstancia = obtenerPrecioEstanciaReserva(idReserva);
+
+        // Calcular el nuevo precio total
+        int nuevoPrecioTotal = precioEstancia * numeroPersonas * nuevosDiasReserva;
+
+        // Actualizar la fecha de inicio en la tabla de reservas
+        java.sql.Date sqlNuevaFechaInicio = new java.sql.Date(nuevaFechaInicio.getTime());
+        String updateQuery = "UPDATE reserva SET fechai = ?, preciototal = ? WHERE id_reserva = ?";
+        try (PreparedStatement preparedStatement = conexion.prepareStatement(updateQuery)) {
+            preparedStatement.setDate(1, sqlNuevaFechaInicio);
+            preparedStatement.setDouble(2, nuevoPrecioTotal);
+            preparedStatement.setInt(3, idReserva);
+
+            int filasAfectadas = preparedStatement.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                JOptionPane.showMessageDialog(null, "Fecha de inicio modificada correctamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo modificar la fecha de inicio", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+}
+
+private void modificarFechaInicioHistorico(int idReserva, Date nuevaFechaInicio) {
+    try {
+        Date fechaFinActual = obtenerFechaFinReserva(idReserva);
+
+        long nuevaDiferencia = fechaFinActual.getTime() - nuevaFechaInicio.getTime();
+
+        // Calcular el nuevo número de días
+        int nuevosDiasReserva = (int) TimeUnit.DAYS.convert(nuevaDiferencia, TimeUnit.MILLISECONDS);
+
+        // Obtener la cantidad de personas y precio de estancia actual
+        int numeroPersonas = obtenerNumeroPersonasReserva(idReserva);
+        int precioEstancia = obtenerPrecioEstanciaReserva(idReserva);
+
+        // Calcular el nuevo precio total
+        int nuevoPrecioTotal = precioEstancia * numeroPersonas * nuevosDiasReserva;
+
+        // Actualizar la fecha de inicio en la tabla de reservas
+        java.sql.Date sqlNuevaFechaInicio = new java.sql.Date(nuevaFechaInicio.getTime());
+        String updateQuery = "UPDATE historico SET fechai = ?, preciototal = ? WHERE id_reserva = ?";
+        try (PreparedStatement preparedStatementHistorico = conexion.prepareStatement(updateQuery)) {
+            preparedStatementHistorico.setDate(1, sqlNuevaFechaInicio);
+            preparedStatementHistorico.setDouble(2, nuevoPrecioTotal);
+            preparedStatementHistorico.setInt(3, idReserva);
+
+            preparedStatementHistorico.executeUpdate();
+            preparedStatementHistorico.close();
+
+        }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    
+
+    }
+
+private void modificarFechaFin(int idReserva, Date nuevaFechaFin) {
+    try {
+        Date fechaInicioActual = obtenerFechaInicioReserva(idReserva);
+
+        long nuevaDiferencia = fechaInicioActual.getTime() - nuevaFechaFin.getTime();
+
+        // Calcular el nuevo número de días
+        int nuevosDiasReserva = (int) TimeUnit.DAYS.convert(nuevaDiferencia, TimeUnit.MILLISECONDS);
+
+
+        int numeroPersonas = obtenerNumeroPersonasReserva(idReserva);
+        int precioEstancia = obtenerPrecioEstanciaReserva(idReserva);
+
+
+        int nuevoPrecioTotal = precioEstancia * numeroPersonas * nuevosDiasReserva;
+
+
+        java.sql.Date sqlNuevaFechaFin = new java.sql.Date(nuevaFechaFin.getTime());
+        String updateQuery = "UPDATE reserva SET fechaf = ?, preciototal = ? WHERE id_reserva = ?";
+        try (PreparedStatement preparedStatement = conexion.prepareStatement(updateQuery)) {
+            preparedStatement.setDate(1, sqlNuevaFechaFin);
+            preparedStatement.setDouble(2, nuevoPrecioTotal);
+            preparedStatement.setInt(3, idReserva);
+
+            int filasAfectadas = preparedStatement.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                JOptionPane.showMessageDialog(null, "Fecha de fin modificada correctamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo modificar la fecha de inicio", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+}
+
+private void modificarFechaFinHistorico(int idReserva, Date nuevaFechaFin) {
+    try {
+        Date fechaInicioActual = obtenerFechaInicioReserva(idReserva);
+
+        long nuevaDiferencia = fechaInicioActual.getTime() - nuevaFechaFin.getTime();
+
+        // Calcular el nuevo número de días
+        int nuevosDiasReserva = (int) TimeUnit.DAYS.convert(nuevaDiferencia, TimeUnit.MILLISECONDS);
+
+
+        int numeroPersonas = obtenerNumeroPersonasReserva(idReserva);
+        int precioEstancia = obtenerPrecioEstanciaReserva(idReserva);
+
+
+        int nuevoPrecioTotal = precioEstancia * numeroPersonas * nuevosDiasReserva;
+
+
+        java.sql.Date sqlNuevaFechaFin = new java.sql.Date(nuevaFechaFin.getTime());
+        String updateQuery = "UPDATE historico SET fechaf = ?, preciototal = ? WHERE id_reserva = ?";
+        try (PreparedStatement preparedStatementHistorico = conexion.prepareStatement(updateQuery)) {
+            preparedStatementHistorico.setDate(1, sqlNuevaFechaFin);
+            preparedStatementHistorico.setDouble(2, nuevoPrecioTotal);
+            preparedStatementHistorico.setInt(3, idReserva);
+
+           preparedStatementHistorico.executeUpdate();
+           preparedStatementHistorico.close();
+
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+}
+
+
+
+
+private Date obtenerFechaFinReserva(int idReserva) {
+    try {
+        String consulta = "SELECT fechaf FROM reserva WHERE id_reserva = ?";
+        PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+        preparedStatement.setInt(1, idReserva);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        if (resultSet.next()) {
+            return resultSet.getDate("fechaf");
         }
 
+        resultSet.close();
         preparedStatement.close();
-        
-        
-    } catch (SQLException ex) {
-        ex.printStackTrace();
-        
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+
+    return null;  
 }
 
-private void modificarFechaInicioHistorico(int idReserva, Date nuevaFecha) {
+private Date obtenerFechaInicioReserva(int idReserva) {
     try {
-    	
-    	java.sql.Date sqlNuevaFecha = new java.sql.Date(nuevaFecha.getTime());
-        String updatehistorico = "UPDATE historico SET fechai = ? WHERE id_reserva = ?";
-        PreparedStatement preparedStatementHistorico = conexion.prepareStatement(updatehistorico);
-        preparedStatementHistorico.setDate(1, sqlNuevaFecha);
-        preparedStatementHistorico.setInt(2, idReserva);
-        
-        preparedStatementHistorico.executeUpdate();
-        preparedStatementHistorico.close();
-        
-    } catch (SQLException ex) {
-        ex.printStackTrace();
-    }
-}
+        String consulta = "SELECT fechai FROM reserva WHERE id_reserva = ?";
+        PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+        preparedStatement.setInt(1, idReserva);
 
-private void modificarFechaFin(int idReserva, Date nuevaFecha) {
-    try {
-    	java.sql.Date sqlNuevaFecha = new java.sql.Date(nuevaFecha.getTime());
-        String updateQuery = "UPDATE reserva SET fechaf = ? WHERE id_reserva = ?";
-        PreparedStatement preparedStatement = conexion.prepareStatement(updateQuery);
-        preparedStatement.setDate(1, sqlNuevaFecha);
-        preparedStatement.setInt(2, idReserva);
-        
-        int filasAfectadas = preparedStatement.executeUpdate();
+        ResultSet resultSet = preparedStatement.executeQuery();
 
-        if (filasAfectadas > 0) {
-            JOptionPane.showMessageDialog(null, "Fecha modificada correctamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(null, "No se pudo modificar la fecha", "Error", JOptionPane.ERROR_MESSAGE);
+        if (resultSet.next()) {
+            return resultSet.getDate("fechai");
         }
 
+        resultSet.close();
         preparedStatement.close();
-        
-        
-    } catch (SQLException ex) {
-        ex.printStackTrace();
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+
+    return null;  
 }
 
-private void modificarFechaFinHistorico(int idReserva, Date nuevaFecha) {
+
+private int obtenerNumeroPersonasReserva(int idReserva) {
     try {
-    	java.sql.Date sqlNuevaFecha = new java.sql.Date(nuevaFecha.getTime());
-        
-    	String updatehistorico = "UPDATE historico SET fechaf = ? WHERE id_reserva = ?";
-        PreparedStatement preparedStatementHistorico = conexion.prepareStatement(updatehistorico);
-        preparedStatementHistorico.setDate(1, sqlNuevaFecha);
-        preparedStatementHistorico.setInt(2, idReserva);
-        
-        preparedStatementHistorico.executeUpdate();
-        preparedStatementHistorico.close();
-        
-    } catch (SQLException ex) {
-        ex.printStackTrace();
+        String consulta = "SELECT personas FROM reserva WHERE id_reserva = ?";
+        PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+        preparedStatement.setInt(1, idReserva);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        if (resultSet.next()) {
+            return resultSet.getInt("personas");
+        }
+
+        resultSet.close();
+        preparedStatement.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+
+    return -1;  
 }
+
+private int obtenerPrecioEstanciaReserva(int idReserva) {
+    try {
+        String consulta = "SELECT precio_estancia FROM reserva WHERE id_reserva = ?";
+        PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+        preparedStatement.setInt(1, idReserva);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        if (resultSet.next()) {
+            return resultSet.getInt("precio_estancia");
+        }
+
+        resultSet.close();
+        preparedStatement.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return -1;
+}
+
 
 
 private JLabel crearLabel(String text) {

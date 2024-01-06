@@ -130,7 +130,7 @@ public class historico extends JFrame {
 	            infoPanel.add(nombreEstanciaLabel);
 
 	            infoPanel.add(crearLabel("Direccion: " + direccion));
-	            infoPanel.add(crearLabel("Precio Total: " + precioTotal));
+	            infoPanel.add(crearLabel("Precio Total: " + precioTotal + " euros"));
 	            infoPanel.add(crearLabel("Personas: " + personas));
 	            infoPanel.add(crearLabel("Fecha Inicio: " + fechaInicio));
 	            infoPanel.add(crearLabel("Fecha Fin: " + fechaFin));
